@@ -13,13 +13,10 @@ self.draw = function(dt) {
     self.tableC.fillStyle = " #b3b3b3";
     self.tableC.fillRect(0, 0, self.$table.width(), self.$table.height())
 
-    // for (let x = 0; x < self.tableSize; x++) {
-    //     for (let y = 0; y < self.tableSize; y++) {
-    //         self.tableC.drawImage(self.img, 0 + (self.img_width * x), 0 + (self.img_height * y), self.img_width, self.img_height);
-    //     }
-    // }
+    self.tableC.drawImage(self.csempe.img, self.csempe.x, self.csempe.y, self.csempe.width, self.csempe.height);
 
-    self.tableC.drawImage(self.img, self.img_x, self.img_y, self.img_width, self.img_height);
+
+    // self.tableC.drawImage(self.img, self.img_x, self.img_y, self.img_width, self.img_height);
 }
 
 self.update = function(dt) {
@@ -29,16 +26,17 @@ self.update = function(dt) {
     // self.img_x += 1;
 
     // dt hazsnálatával
-    self.img_x += 1 * dt;
+    // self.img_x += 1 * dt;
 }
 
 $(() => {
     // Folyamatos frissítés
+    let perfectTimePerFrame = (1000 / 60);
     let lastUpdate = Date.now();
     setInterval(tick, 0);
     function tick() {
         let now = Date.now();
-        let dt = (now - lastUpdate) / (1000 / 60);
+        let dt = (now - lastUpdate) / perfectTimePerFrame;
         lastUpdate = now;
 
         self.update(dt);
@@ -58,10 +56,16 @@ $(() => {
     self.tableSize = 8;
 
     // Egy csempe
-    self.img = new Image;
-    self.img.src = "./img/Apple.png";
-    self.img_width = 50;
-    self.img_height = self.img_width / 2;
-    self.img_x = 0;
-    self.img_y = 0;
+    self.csempe = new Tile("./img/Apple.png", 50, 0, 0);
 })
+
+class Tile {
+    constructor(src, size, x, y) {
+        this.img = new Image
+        this.img.src = src;
+        this.width = size;
+        this.height = size / 2;
+        this.x = x;
+        this.y = y;
+    }
+}
