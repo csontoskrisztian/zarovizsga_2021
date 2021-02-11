@@ -10,10 +10,14 @@ self.draw = function(dt) {
     self.tableC.clearRect(0, 0, self.$table.width, self.$table.height);
 
     // Háttér
-    self.tableC.fillStyle = " #b3b3b3";
+    self.tableC.fillStyle = "#b3b3b3";
     self.tableC.fillRect(0, 0, self.$table.width(), self.$table.height())
 
-    self.tableC.drawImage(self.csempe.img, self.csempe.x, self.csempe.y, self.csempe.width, self.csempe.height);
+    self.tiles.forEach(oszlop => {
+        oszlop.forEach(tile => {
+            self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+        })
+    });
 
 
     // self.tableC.drawImage(self.img, self.img_x, self.img_y, self.img_width, self.img_height);
@@ -55,8 +59,19 @@ $(() => {
     // Hányszor hanyas csempékből álljon
     self.tableSize = 8;
 
-    // Egy csempe
-    self.csempe = new Tile("./img/Apple.png", 50, 0, 0);
+    // Felhasználható képek
+    let fruits = ["Apple", "Avocado", "Banana", "Blackberry", "Cherry"];
+
+    // Tiles tömb létrehozása és feltöltése random csempékkel
+    self.tiles = [];
+    for (let i = 0; i < self.tableSize; i++) {
+        self.tiles[i] = [];
+        for (let j = 0; j < self.tableSize; j++) {
+            // Egy csempe
+            let csempe = new Tile("./img/" + fruits[RandomNumber(0, fruits.length - 1)] + ".png", 50, 0 + (50 * j), 0 + (25 * i));
+            self.tiles[i][j] = csempe;
+        }
+    }
 })
 
 class Tile {
@@ -68,4 +83,8 @@ class Tile {
         this.x = x;
         this.y = y;
     }
+}
+
+function RandomNumber(min, max) {
+    return Math.floor(Math.random() * max) + min;
 }
