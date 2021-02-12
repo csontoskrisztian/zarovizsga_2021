@@ -3,7 +3,7 @@ let self = new Object;
 
 // Draw függvény, amit 10 mp-ként hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
-self.draw = function(dt) {
+self.draw = function (dt) {
     // console.log(dt);
 
     // Canvas letisztítása minden rajzolás előtt
@@ -15,7 +15,22 @@ self.draw = function(dt) {
 
     self.tiles.forEach(oszlop => {
         oszlop.forEach(tile => {
-            self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height );
+            if (tile.selected) {
+                // Rajzolja meg a képet
+                self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+                
+                // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
+                self.tableC.globalCompositeOperation = "multiply";
+                
+                // Kiválasztás színe és felrajzolása
+                self.tableC.fillStyle = "#b3b3b3";
+                self.tableC.fillRect(tile.x, tile.y, tile.width, tile.height);
+
+                // Visszaállítás
+                self.tableC.globalCompositeOperation = "source-over";
+            } else {
+                self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+            }
         })
     });
 
@@ -23,7 +38,7 @@ self.draw = function(dt) {
     // self.tableC.drawImage(self.img, self.img_x, self.img_y, self.img_width, self.img_height);
 }
 
-self.update = function(dt) {
+self.update = function (dt) {
     // console.log(dt);
 
     // dt hazsnálata nélkül
@@ -43,7 +58,7 @@ $(() => {
     self.cursorY = 0;
     // Mozgásra változik
     self.$table.mousemove((e) => {
-        let parentOffset = e.currentTarget.getBoundingClientRect(); 
+        let parentOffset = e.currentTarget.getBoundingClientRect();
         self.cursorX = e.pageX - parentOffset.x;
         self.cursorY = e.pageY - parentOffset.y;
     });
@@ -54,6 +69,7 @@ $(() => {
                 // console.log(self.cursorX, self.cursorY);
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
                     console.log(tile.type);
+                    tile.selected = !tile.selected;
                 };
             });
         });
@@ -83,12 +99,13 @@ $(() => {
 
 
     // Folyamatos frissítés
-    let perfectTimePerFrame = (1000 / 60);
+    let perfectFramePerSec = (60 / 1000);
     let lastUpdate = Date.now();
     setInterval(tick, 0);
+
     function tick() {
         let now = Date.now();
-        let dt = (now - lastUpdate) / perfectTimePerFrame;
+        let dt = (now - lastUpdate) / perfectFramePerSec;
         lastUpdate = now;
 
         self.update(dt);
@@ -107,12 +124,13 @@ class Tile {
         this.height = size;
         this.x = x;
         this.y = y;
+        this.selected = false;
     }
 
     isPositionMacthing(x, y) {
         if (
             x >= this.x && x <= this.x + this.width &&
-            y >= this.y && y <= this.y + this.height 
+            y >= this.y && y <= this.y + this.height
         ) {
             return true;
         } else {
