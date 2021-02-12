@@ -49,7 +49,14 @@ $(() => {
     });
     // Kattintásra kiíródik
     self.$table.click((e) => {
-        console.log(self.cursorX, self.cursorY);
+        self.tiles.forEach(oszlop => {
+            oszlop.forEach(tile => {
+                // console.log(self.cursorX, self.cursorY);
+                if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
+                    console.log(tile.type);
+                };
+            });
+        });
     });
 
     // Canvas 2d contectus
@@ -67,7 +74,8 @@ $(() => {
         self.tiles[i] = [];
         for (let j = 0; j < self.tableSize; j++) {
             // Egy csempe
-            let csempe = new Tile("./img/" + fruits[RandomNumber(0, fruits.length - 1)] + ".png", 50, 0 + (50 * j), 0 + (50 * i));
+            let randomGyumolcs = fruits[RandomNumber(0, fruits.length - 1)];
+            let csempe = new Tile(randomGyumolcs, "./img/" + randomGyumolcs + ".png", 50, 0 + (50 * j), 0 + (50 * i));
             self.tiles[i][j] = csempe;
         }
     }
@@ -89,8 +97,9 @@ $(() => {
 });
 
 class Tile {
-    constructor(src, size, x, y) {
-        this.img = new Image
+    constructor(type, src, size, x, y) {
+        this.type = type;
+        this.img = new Image;
         this.img.src = src;
         this.img.width = size;
         this.img.height = size;
@@ -98,6 +107,17 @@ class Tile {
         this.height = size;
         this.x = x;
         this.y = y;
+    }
+
+    isPositionMacthing(x, y) {
+        if (
+            x >= this.x && x <= this.x + this.width &&
+            y >= this.y && y <= this.y + this.height 
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
