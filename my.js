@@ -15,7 +15,7 @@ self.draw = function(dt) {
 
     self.tiles.forEach(oszlop => {
         oszlop.forEach(tile => {
-            self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+            self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height );
         })
     });
 
@@ -31,27 +31,12 @@ self.update = function(dt) {
 
     // dt hazsnálatával
     // self.img_x += 1 * dt;
+    // console.log(self.cursorX, self.cursorY);
 }
 
 $(() => {
-    // Folyamatos frissítés
-    let perfectTimePerFrame = (1000 / 60);
-    let lastUpdate = Date.now();
-    setInterval(tick, 0);
-    function tick() {
-        let now = Date.now();
-        let dt = (now - lastUpdate) / perfectTimePerFrame;
-        lastUpdate = now;
-
-        self.update(dt);
-        self.draw(dt);
-    };
-
-
     // Canvas
     self.$table = $("#Table");
-    self.$table.width(400);
-    self.$table.height(400);
 
     // Canvas 2d contectus
     self.tableC = self.$table[0].getContext('2d');
@@ -68,18 +53,45 @@ $(() => {
         self.tiles[i] = [];
         for (let j = 0; j < self.tableSize; j++) {
             // Egy csempe
-            let csempe = new Tile("./img/" + fruits[RandomNumber(0, fruits.length - 1)] + ".png", 50, 0 + (50 * j), 0 + (25 * i));
+            let csempe = new Tile("./img/" + fruits[RandomNumber(0, fruits.length - 1)] + ".png", 50, 0 + (50 * j), 0 + (50 * i));
             self.tiles[i][j] = csempe;
         }
     }
-})
+    self.cursorX = 0;
+    self.cursorY = 0;
+    self.$table.mousemove((e) => {
+        let parentOffset = e.currentTarget.getBoundingClientRect(); 
+        self.cursorX = e.pageX - parentOffset.x;
+        self.cursorY = e.pageY - parentOffset.y;
+    });
+    self.$table.click((e) => {
+        console.log(self.cursorX, self.cursorY);
+    });
+
+
+
+    // Folyamatos frissítés
+    let perfectTimePerFrame = (1000 / 60);
+    let lastUpdate = Date.now();
+    setInterval(tick, 0);
+    function tick() {
+        let now = Date.now();
+        let dt = (now - lastUpdate) / perfectTimePerFrame;
+        lastUpdate = now;
+
+        self.update(dt);
+        self.draw(dt);
+    };
+});
 
 class Tile {
     constructor(src, size, x, y) {
         this.img = new Image
         this.img.src = src;
+        this.img.width = size;
+        this.img.height = size;
         this.width = size;
-        this.height = size / 2;
+        this.height = size;
         this.x = x;
         this.y = y;
     }
