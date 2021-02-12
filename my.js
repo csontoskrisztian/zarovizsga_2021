@@ -33,20 +33,12 @@ self.draw = function (dt) {
             }
         })
     });
-
-
-    // self.tableC.drawImage(self.img, self.img_x, self.img_y, self.img_width, self.img_height);
 }
 
 self.update = function (dt) {
     // console.log(dt);
 
-    // dt hazsnálata nélkül
-    // self.img_x += 1;
-
-    // dt hazsnálatával
-    // self.img_x += 1 * dt;
-    // console.log(self.cursorX, self.cursorY);
+    
 }
 
 $(() => {
@@ -66,7 +58,6 @@ $(() => {
     self.$table.click((e) => {
         self.tiles.forEach(oszlop => {
             oszlop.forEach(tile => {
-                // console.log(self.cursorX, self.cursorY);
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
                     console.log(tile.type);
                     tile.selected = !tile.selected;
