@@ -74,7 +74,7 @@ $(() => {
         self.tiles[i] = [];
         for (let j = 0; j < self.tableSize; j++) {
             // Egy csempe
-            let randomGyumolcs = fruits[RandomNumber(0, fruits.length - 1)];
+            let randomGyumolcs = fruits[RandomNumber(0, fruits.length)];
             let csempe = new Tile(randomGyumolcs, "./img/" + randomGyumolcs + ".png", 50, 0 + (50 * j), 0 + (50 * i));
             self.tiles[i][j] = csempe;
         }
