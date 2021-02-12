@@ -38,6 +38,20 @@ $(() => {
     // Canvas
     self.$table = $("#Table");
 
+    // x y pozíció
+    self.cursorX = 0;
+    self.cursorY = 0;
+    // Mozgásra változik
+    self.$table.mousemove((e) => {
+        let parentOffset = e.currentTarget.getBoundingClientRect(); 
+        self.cursorX = e.pageX - parentOffset.x;
+        self.cursorY = e.pageY - parentOffset.y;
+    });
+    // Kattintásra kiíródik
+    self.$table.click((e) => {
+        console.log(self.cursorX, self.cursorY);
+    });
+
     // Canvas 2d contectus
     self.tableC = self.$table[0].getContext('2d');
 
@@ -57,16 +71,6 @@ $(() => {
             self.tiles[i][j] = csempe;
         }
     }
-    self.cursorX = 0;
-    self.cursorY = 0;
-    self.$table.mousemove((e) => {
-        let parentOffset = e.currentTarget.getBoundingClientRect(); 
-        self.cursorX = e.pageX - parentOffset.x;
-        self.cursorY = e.pageY - parentOffset.y;
-    });
-    self.$table.click((e) => {
-        console.log(self.cursorX, self.cursorY);
-    });
 
 
 
