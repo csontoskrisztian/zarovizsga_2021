@@ -37,8 +37,6 @@ self.draw = function (dt) {
 
 self.update = function (dt) {
     // console.log(dt);
-
-    
 }
 
 $(() => {
@@ -65,7 +63,7 @@ $(() => {
                         self.selectedTile_1 = tile;
                     } else if (self.selectedTile_1 == tile) {
                         self.selectedTile_1 = null;
-                    } else if (self.selectedTile_2 == null) {
+                    } else if (self.selectedTile_2 == null && self.selectedTile_1.areNeighboursWith(tile)) {
                         self.selectedTile_2 = tile;
                     } else if (self.selectedTile_2 == tile) {
                         self.selectedTile_2 = null;
@@ -94,7 +92,7 @@ $(() => {
         for (let j = 0; j < self.tableSize; j++) {
             // Egy csempe
             let randomGyumolcs = fruits[RandomNumber(0, fruits.length)];
-            let csempe = new Tile(randomGyumolcs, "./img/" + randomGyumolcs + ".png", 50, 0 + (50 * j), 0 + (50 * i));
+            let csempe = new Tile(randomGyumolcs, "./img/" + randomGyumolcs + ".png", 50, j, i);
             self.tiles[i][j] = csempe;
         }
     }
@@ -118,7 +116,7 @@ $(() => {
 });
 
 class Tile {
-    constructor(type, src, size, x, y) {
+    constructor(type, src, size, col, row) {
         this.type = type;
         this.img = new Image;
         this.img.src = src;
@@ -126,8 +124,10 @@ class Tile {
         this.img.height = size;
         this.width = size;
         this.height = size;
-        this.x = x;
-        this.y = y;
+        this.x = col * this.width;
+        this.y = row * this.height;
+        this.col = col;
+        this.row = row;
     }
 
     isPositionMacthing(x, y) {
@@ -140,9 +140,22 @@ class Tile {
             return false;
         }
     }
+
+    areNeighboursWith(tile) {
+        if (
+            // Ha egy oszlopban vannak, de különböző sorban
+            this.col == tile.col && (this.row == tile.row + 1 || this.row == tile.row - 1) ||
+    
+            // Ha egy sorban vannak, de különböző oszlopban
+            this.row == tile.row && (this.col == tile.col + 1 || this.col == tile.col - 1)
+        ) {
+            return true;
+        }
+    
+        return false;
+    }
 }
 
 function RandomNumber(min, max) {
     return Math.floor(Math.random() * max) + min;
 }
-
