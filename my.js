@@ -15,13 +15,13 @@ self.draw = function (dt) {
 
     self.tiles.forEach(oszlop => {
         oszlop.forEach(tile => {
-            if (tile.selected) {
+            if (tile == self.selectedTile_1 || tile == self.selectedTile_2) {
                 // Rajzolja meg a képet
                 self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
-                
+
                 // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
                 self.tableC.globalCompositeOperation = "multiply";
-                
+
                 // Kiválasztás színe és felrajzolása
                 self.tableC.fillStyle = "#b3b3b3";
                 self.tableC.fillRect(tile.x, tile.y, tile.width, tile.height);
@@ -56,11 +56,23 @@ $(() => {
     });
     // Kattintásra kiíródik
     self.$table.click((e) => {
-        self.tiles.forEach(oszlop => {
-            oszlop.forEach(tile => {
+        self.tiles.forEach((oszlop, i) => {
+            oszlop.forEach((tile, j) => {
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
                     console.log(tile.type);
-                    tile.selected = !tile.selected;
+
+                    if (self.selectedTile_1 == null) {
+                        self.selectedTile_1 = tile;
+                    } else if (self.selectedTile_1 == tile) {
+                        self.selectedTile_1 = null;
+                    } else if (self.selectedTile_2 == null) {
+                        self.selectedTile_2 = tile;
+                    } else if (self.selectedTile_2 == tile) {
+                        self.selectedTile_2 = null;
+                    }
+
+                    console.log(self.selectedTile_1);
+                    console.log(self.selectedTile_2);
                 };
             });
         });
@@ -87,7 +99,8 @@ $(() => {
         }
     }
 
-
+    self.selectedTile_1 = null;
+    self.selectedTile_2 = null;
 
     // Folyamatos frissítés
     let perfectFramePerSec = (60 / 1000);
@@ -115,7 +128,6 @@ class Tile {
         this.height = size;
         this.x = x;
         this.y = y;
-        this.selected = false;
     }
 
     isPositionMacthing(x, y) {
@@ -133,3 +145,4 @@ class Tile {
 function RandomNumber(min, max) {
     return Math.floor(Math.random() * max) + min;
 }
+
