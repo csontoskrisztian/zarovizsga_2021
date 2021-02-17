@@ -1,5 +1,5 @@
 
-- [ ] Tile pozíciójának folyamatos újraszámolása
+- [x] Tile pozíciójának folyamatos újraszámolása
 - [ ] csere animáció
 - [ ] ismétlődés nélküli véletlen generátor
 - [ ] párok felismerése

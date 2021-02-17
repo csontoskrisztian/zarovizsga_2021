@@ -1,7 +1,7 @@
 // Az objektum, amiben tárolunk mindent, hogy bárhonnan hozzáférhessünk bármihez
 let self = new Object;
 
-// Draw függvény, amit 10 mp-ként hívogatunk, így akár animációkat is csinálhatunk
+// Draw függvény, amit 1folyamatosan hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
 self.draw = function (dt) {
     // console.log(dt);
@@ -15,21 +15,22 @@ self.draw = function (dt) {
 
     self.tiles.forEach(oszlop => {
         oszlop.forEach(tile => {
+            // Ellenőrzés: Ha a tile ki van választva
             if (tile == self.selectedTile_1 || tile == self.selectedTile_2) {
                 // Rajzolja meg a képet
-                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.width, tile.height);
+                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
 
                 // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
                 self.tableC.globalCompositeOperation = "multiply";
 
                 // Kiválasztás színe és felrajzolása
                 self.tableC.fillStyle = "#b3b3b3";
-                self.tableC.fillRect(tile.getX(), tile.getY(), tile.width, tile.height);
+                self.tableC.fillRect(tile.getX(), tile.getY(), tile.size, tile.size);
 
                 // Visszaállítás
                 self.tableC.globalCompositeOperation = "source-over";
             } else {
-                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.width, tile.height);
+                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
             }
         })
     });
@@ -38,10 +39,11 @@ self.draw = function (dt) {
 self.update = function (dt) {
     // console.log(dt);
 
+    // Ha 2 tile ki van jelölve, akkor cserélje meg őket
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
-        console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
-        console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-        console.log("Csere!")
+        // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
+        // console.log("Csere!")
 
         // Adatok eltárolása
         let tile_1_col = self.selectedTile_1.col, 
@@ -75,11 +77,11 @@ self.update = function (dt) {
         self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
         // console.log(self.tiles[tile_2_row][tile_2_col]);
 
-        console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
-        console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
+        // console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
+        // console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
 
-        console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
-        console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
+        // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
 
         self.selectedTile_1 = null;
         self.selectedTile_2 = null;
@@ -94,13 +96,13 @@ $(() => {
     // x y pozíció
     self.cursorX = 0;
     self.cursorY = 0;
-    // Mozgásra változik
+    // Az egér relatív pozíciója
     self.$table.mousemove((e) => {
         let parentOffset = e.currentTarget.getBoundingClientRect();
         self.cursorX = e.pageX - parentOffset.x;
         self.cursorY = e.pageY - parentOffset.y;
     });
-    // Kattintásra kiíródik
+    // Egy tile kijelölése
     self.$table.click((e) => {
         self.tiles.forEach((oszlop, i) => {
             oszlop.forEach((tile, j) => {
@@ -108,17 +110,21 @@ $(() => {
                     // console.log(tile.type);
 
                     if (self.selectedTile_1 == null) {
+                        // Ha nincs semmi kijelölve, jelölje ki
                         self.selectedTile_1 = tile;
                     } else if (self.selectedTile_1 == tile) {
+                        // Ha ki van már jelölve, szüntesse meg
                         self.selectedTile_1 = null;
                     } else if (self.selectedTile_2 == null && self.selectedTile_1.areNeighboursWith(tile)) {
+                        // Ha szomszédok az első kijelöléssel, akkor jelölje ki
                         self.selectedTile_2 = tile;
-                    } else if (self.selectedTile_2 == tile) {
-                        self.selectedTile_2 = null;
+                    } else {
+                        // Ha nincs az első kijelölése közvetlen közelében, akkor legyen ez az első kijelölés
+                        self.selectedTile_1 = tile;
                     }
 
-                    console.log("Tile 1", self.selectedTile_1);
-                    console.log("Tile 2", self.selectedTile_2);
+                    // console.log("Tile 1", self.selectedTile_1);
+                    // console.log("Tile 2", self.selectedTile_2);
                 };
             });
         });
@@ -170,23 +176,22 @@ class Tile {
         this.img.src = src;
         this.img.width = size;
         this.img.height = size;
-        this.width = size;
-        this.height = size;
+        this.size = size;
         this.col = col;
         this.row = row;
     }
 
     getX() {
-        return this.col * this.width;
+        return this.col * this.size;
     };
     getY() {
-        return this.row * this.height;
+        return this.row * this.size;
     };
 
     isPositionMacthing(x, y) {
         if (
-            x >= this.getX() && x <= this.getX() + this.width &&
-            y >= this.getY() && y <= this.getY() + this.height
+            x >= this.getX() && x <= this.getX() + this.size &&
+            y >= this.getY() && y <= this.getY() + this.size
         ) {
             return true;
         } else {
