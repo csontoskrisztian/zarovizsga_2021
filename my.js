@@ -17,19 +17,19 @@ self.draw = function (dt) {
         oszlop.forEach(tile => {
             if (tile == self.selectedTile_1 || tile == self.selectedTile_2) {
                 // Rajzolja meg a képet
-                self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.width, tile.height);
 
                 // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
                 self.tableC.globalCompositeOperation = "multiply";
 
                 // Kiválasztás színe és felrajzolása
                 self.tableC.fillStyle = "#b3b3b3";
-                self.tableC.fillRect(tile.x, tile.y, tile.width, tile.height);
+                self.tableC.fillRect(tile.getX(), tile.getY(), tile.width, tile.height);
 
                 // Visszaállítás
                 self.tableC.globalCompositeOperation = "source-over";
             } else {
-                self.tableC.drawImage(tile.img, tile.x, tile.y, tile.width, tile.height);
+                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.width, tile.height);
             }
         })
     });
@@ -39,30 +39,47 @@ self.update = function (dt) {
     // console.log(dt);
 
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
+        console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
         console.log("Csere!")
 
-        // Csempék eltárolása
-        let tile_1 = new Object;
-        Object.assign(tile_1, self.selectedTile_1);
-        let tile_2 = new Object;
-        Object.assign(tile_2, self.selectedTile_2);
+        // Adatok eltárolása
+        let tile_1_col = self.selectedTile_1.col, 
+            tile_1_row = self.selectedTile_1.row;
+        let tile_2_col = self.selectedTile_2.col, 
+            tile_2_row = self.selectedTile_2.row;
 
         // Adatbeli felcserélés
-        self.selectedTile_1.col = tile_2.col;
-        self.selectedTile_1.row = tile_2.row;
-        self.selectedTile_1.x = self.selectedTile_1.col * self.selectedTile_1.width;
-        self.selectedTile_1.y = self.selectedTile_1.row * self.selectedTile_1.height;
-        self.selectedTile_2.col = tile_1.col;
-        self.selectedTile_2.row = tile_1.row;
-        self.selectedTile_2.x = self.selectedTile_2.col * self.selectedTile_2.width;
-        self.selectedTile_2.y = self.selectedTile_2.row * self.selectedTile_2.height;
+        // console.log("Tile 1")
+        // console.log(self.selectedTile_1.col, tile_2_col);
+        self.selectedTile_1.col = tile_2_col;
+        // console.log(self.selectedTile_1.col);
+        // console.log(self.selectedTile_1.row, tile_2_row);
+        self.selectedTile_1.row = tile_2_row;
+        // console.log(self.selectedTile_1.row);
+
+        // console.log("Tile 2")
+        // console.log(self.selectedTile_2.col, tile_1_col);
+        self.selectedTile_2.col = tile_1_col;
+        // console.log(self.selectedTile_2.col);
+        // console.log(self.selectedTile_2.row, tile_1_row);
+        self.selectedTile_2.row = tile_1_row;
+        // console.log(self.selectedTile_2.row);
 
         // Fizikai felcserélés
-        self.tiles[self.selectedTile_1.row][self.selectedTile_1.col] = self.selectedTile_1;
-        self.tiles[self.selectedTile_2.row][self.selectedTile_2.col] = self.selectedTile_2;
+        // console.log(self.tiles[tile_1_row][tile_1_col]);
+        self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
+        // console.log(self.tiles[tile_1_row][tile_1_col]);
+        // console.log("---");
+        // console.log(self.tiles[tile_2_row][tile_2_col]);
+        self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
+        // console.log(self.tiles[tile_2_row][tile_2_col]);
 
-        console.log(self.tiles[self.selectedTile_1.row][self.selectedTile_1.col]);
-        console.log(self.tiles[self.selectedTile_2.row][self.selectedTile_2.col]);
+        console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
+        console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
+
+        console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
 
         self.selectedTile_1 = null;
         self.selectedTile_2 = null;
@@ -100,8 +117,8 @@ $(() => {
                         self.selectedTile_2 = null;
                     }
 
-                    console.log(self.selectedTile_1);
-                    console.log(self.selectedTile_2);
+                    console.log("Tile 1", self.selectedTile_1);
+                    console.log("Tile 2", self.selectedTile_2);
                 };
             });
         });
@@ -155,16 +172,21 @@ class Tile {
         this.img.height = size;
         this.width = size;
         this.height = size;
-        this.x = col * this.width;
-        this.y = row * this.height;
         this.col = col;
         this.row = row;
     }
 
+    getX() {
+        return this.col * this.width;
+    };
+    getY() {
+        return this.row * this.height;
+    };
+
     isPositionMacthing(x, y) {
         if (
-            x >= this.x && x <= this.x + this.width &&
-            y >= this.y && y <= this.y + this.height
+            x >= this.getX() && x <= this.getX() + this.width &&
+            y >= this.getY() && y <= this.getY() + this.height
         ) {
             return true;
         } else {
@@ -176,13 +198,13 @@ class Tile {
         if (
             // Ha egy oszlopban vannak, de különböző sorban
             this.col == tile.col && (this.row == tile.row + 1 || this.row == tile.row - 1) ||
-    
+
             // Ha egy sorban vannak, de különböző oszlopban
             this.row == tile.row && (this.col == tile.col + 1 || this.col == tile.col - 1)
         ) {
             return true;
         }
-    
+
         return false;
     }
 }
