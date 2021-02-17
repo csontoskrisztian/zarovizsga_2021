@@ -37,6 +37,37 @@ self.draw = function (dt) {
 
 self.update = function (dt) {
     // console.log(dt);
+
+    if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
+        console.log("Csere!")
+
+        // Csempék eltárolása
+        let tile_1 = new Object;
+        Object.assign(tile_1, self.selectedTile_1);
+        let tile_2 = new Object;
+        Object.assign(tile_2, self.selectedTile_2);
+
+        // Adatbeli felcserélés
+        self.selectedTile_1.col = tile_2.col;
+        self.selectedTile_1.row = tile_2.row;
+        self.selectedTile_1.x = self.selectedTile_1.col * self.selectedTile_1.width;
+        self.selectedTile_1.y = self.selectedTile_1.row * self.selectedTile_1.height;
+        self.selectedTile_2.col = tile_1.col;
+        self.selectedTile_2.row = tile_1.row;
+        self.selectedTile_2.x = self.selectedTile_2.col * self.selectedTile_2.width;
+        self.selectedTile_2.y = self.selectedTile_2.row * self.selectedTile_2.height;
+
+        // Fizikai felcserélés
+        self.tiles[self.selectedTile_1.row][self.selectedTile_1.col] = self.selectedTile_1;
+        self.tiles[self.selectedTile_2.row][self.selectedTile_2.col] = self.selectedTile_2;
+
+        console.log(self.tiles[self.selectedTile_1.row][self.selectedTile_1.col]);
+        console.log(self.tiles[self.selectedTile_2.row][self.selectedTile_2.col]);
+
+        self.selectedTile_1 = null;
+        self.selectedTile_2 = null;
+
+    }
 }
 
 $(() => {
@@ -57,7 +88,7 @@ $(() => {
         self.tiles.forEach((oszlop, i) => {
             oszlop.forEach((tile, j) => {
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
-                    console.log(tile.type);
+                    // console.log(tile.type);
 
                     if (self.selectedTile_1 == null) {
                         self.selectedTile_1 = tile;
