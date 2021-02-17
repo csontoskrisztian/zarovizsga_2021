@@ -1,9 +1,16 @@
 
 - [x] Tile pozíciójának folyamatos újraszámolása
-- [ ] csere animáció
-- [ ] ismétlődés nélküli véletlen generátor
+- [x] ismétlődés nélküli véletlen generátor
 - [ ] párok felismerése
 - [ ] lehetséges párok felismerése
 - [ ] párok törlése
 - [ ] üres helyek feltöltése
-- [ ] animációk
+- [ ] animációk (külön osztály?)
+- boostok:
+    - [ ] 4 pár -> sor/oszlop törlő
+    - [ ] 5 pár -> robbanás
+    - [ ] 5< pár -> egész tábla törlése
+- [ ] pont számítás (1 tile = 1 pont)
+- [ ] időzítő
+- [ ] 2 lépés / kör (3< pár -> +1 lépés)
+- 2 személyessé tétel (??????????)
