@@ -300,18 +300,16 @@ function MatchFounder(array) {
         let firstToLast;
         let secondToLast;
         for (let x = 0; x < array[y].length; x++) {
-            if (x > 0) {
+            if (x > 1) {
                 // Előtte lévő
                 firstToLast = x - 1;
-                if (x > 1) {
-                    // Kettővel előtte
-                    secondToLast = x - 2;
+                // Kettővel előtte
+                secondToLast = x - 2;
 
-                    if (array[y][secondToLast].type == array[y][firstToLast].type && array[y][firstToLast].type == array[y][x].type) {
-                        foundMatches["inRow"].push(array[y][secondToLast]);
-                        foundMatches["inRow"].push(array[y][firstToLast]);
-                        foundMatches["inRow"].push(array[y][x]);
-                    }
+                if (array[y][secondToLast].type == array[y][firstToLast].type && array[y][firstToLast].type == array[y][x].type) {
+                    foundMatches["inRow"].push(array[y][secondToLast]);
+                    foundMatches["inRow"].push(array[y][firstToLast]);
+                    foundMatches["inRow"].push(array[y][x]);
                 }
             }
         };
@@ -322,18 +320,16 @@ function MatchFounder(array) {
         let firstToLast;
         let secondToLast;
         for (let y = 0; y < array.length; y++) {
-            if (y > 0) {
+            if (y > 1) {
                 // Fölötte lévő
                 firstToLast = y - 1;
-                if (y > 1) {
-                    // Kettővel fölötte lévő
-                    secondToLast = y - 2;
+                // Kettővel fölötte lévő
+                secondToLast = y - 2;
 
-                    if (array[secondToLast][x].type == array[firstToLast][x].type && array[firstToLast][x].type == array[y][x].type) {
-                        foundMatches["inCol"].push(array[secondToLast][x]);
-                        foundMatches["inCol"].push(array[firstToLast][x]);
-                        foundMatches["inCol"].push(array[y][x]);
-                    }
+                if (array[secondToLast][x].type == array[firstToLast][x].type && array[firstToLast][x].type == array[y][x].type) {
+                    foundMatches["inCol"].push(array[secondToLast][x]);
+                    foundMatches["inCol"].push(array[firstToLast][x]);
+                    foundMatches["inCol"].push(array[y][x]);
                 }
             }
         };
