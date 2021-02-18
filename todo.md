@@ -1,9 +1,10 @@
 
 - [x] Tile pozíciójának folyamatos újraszámolása
 - [x] ismétlődés nélküli véletlen generátor
-- [ ] párok felismerése
+- [x] párok felismerése
 - [ ] lehetséges párok felismerése
-- [ ] párok törlése
+- [x] párok törlése
+- [x] Zuhanás
 - [ ] üres helyek feltöltése
 - [ ] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - boostok:
