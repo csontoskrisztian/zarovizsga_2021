@@ -13,24 +13,29 @@ self.draw = function (dt) {
     self.tableC.fillStyle = "#b3b3b3";
     self.tableC.fillRect(0, 0, self.$table.width(), self.$table.height())
 
-    self.tiles.forEach(oszlop => {
-        oszlop.forEach(tile => {
-            // Ellenőrzés: Ha a tile ki van választva
-            if (tile == self.selectedTile_1 || tile == self.selectedTile_2) {
-                // Rajzolja meg a képet
-                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
+    self.tiles.forEach(sor => {
+        sor.forEach(tile => {
+            // Csak akkor rajzoljuk fel, ha látható
+            if (tile.visible) {
 
-                // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
-                self.tableC.globalCompositeOperation = "multiply";
+                // Ellenőrzés: Ha a tile ki van választva
+                if (tile == self.selectedTile_1 || tile == self.selectedTile_2) {
+                    // Rajzolja meg a képet
+                    self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
 
-                // Kiválasztás színe és felrajzolása
-                self.tableC.fillStyle = "#b3b3b3";
-                self.tableC.fillRect(tile.getX(), tile.getY(), tile.size, tile.size);
+                    // Összetett operátor típusa = duplikálás (felső pixel színe * alsó pixel színe)
+                    self.tableC.globalCompositeOperation = "multiply";
 
-                // Visszaállítás
-                self.tableC.globalCompositeOperation = "source-over";
-            } else {
-                self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
+                    // Kiválasztás színe és felrajzolása
+                    self.tableC.fillStyle = "#b3b3b3";
+                    self.tableC.fillRect(tile.getX(), tile.getY(), tile.size, tile.size);
+
+                    // Visszaállítás
+                    self.tableC.globalCompositeOperation = "source-over";
+                } else {
+                    self.tableC.drawImage(tile.img, tile.getX(), tile.getY(), tile.size, tile.size);
+                }
+
             }
         })
     });
@@ -43,12 +48,12 @@ self.update = function (dt) {
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
         // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
         // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-        // console.log("Csere!")
+        console.log("Csere!")
 
         // Adatok eltárolása
-        let tile_1_col = self.selectedTile_1.col, 
+        let tile_1_col = self.selectedTile_1.col,
             tile_1_row = self.selectedTile_1.row;
-        let tile_2_col = self.selectedTile_2.col, 
+        let tile_2_col = self.selectedTile_2.col,
             tile_2_row = self.selectedTile_2.row;
 
         // Adatbeli felcserélés
@@ -83,9 +88,39 @@ self.update = function (dt) {
         // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
         // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
 
+        // 
+        var matches = MatchFounder(self.tiles);
+
+        // console.log(matches);
+        // return;
+
+        if (matches["inRow"].length > 0 || matches["inCol"].length > 0) {
+            console.log("Párok törlése!")
+
+            // Láthatatlanná teszük
+            matches["inRow"].forEach(tile => {
+                tile.visible = false;
+            });
+            matches["inCol"].forEach(tile => {
+                tile.visible = false;
+            });
+        } else {
+            console.log("Csere vissza!")
+            // Visszacseréljük, mert nincsenek párok
+
+            self.selectedTile_1.col = tile_1_col;
+            self.selectedTile_1.row = tile_1_row;
+            self.selectedTile_2.col = tile_2_col;
+            self.selectedTile_2.row = tile_2_row;
+
+            self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
+            self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
+        }
+
+
+        // Megszüntetjük a kijelölést
         self.selectedTile_1 = null;
         self.selectedTile_2 = null;
-
     }
 }
 
@@ -104,8 +139,8 @@ $(() => {
     });
     // Egy tile kijelölése
     self.$table.click((e) => {
-        self.tiles.forEach((oszlop, i) => {
-            oszlop.forEach((tile, j) => {
+        self.tiles.forEach(sor => {
+            sor.forEach(tile => {
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
                     // console.log(tile.type);
 
@@ -168,6 +203,7 @@ class Tile {
         this.size = size;
         this.col = col;
         this.row = row;
+        this.visible = true;
     }
 
     getX() {
@@ -246,10 +282,62 @@ function RandomTilesGenerator(array, size) {
                 (firstLastTileType_X == secondLastTileType_X && secondLastTileType_X == currentTileType) ||
                 // Ha az előző kettő y tengelyen ugyan olyan
                 (firstLastTileType_Y == secondLastTileType_Y && secondLastTileType_Y == currentTileType)
-                );
+            );
 
             let csempe = new Tile(currentTileType, "./img/" + currentTileType + ".png", 50, x, y);
             array[y][x] = csempe;
         }
     }
+}
+
+function MatchFounder(array) {
+    let foundMatches = [];
+    foundMatches["inRow"] = [];
+    foundMatches["inCol"] = [];
+
+    // Párok soronként (x tengely)
+    for (let y = 0; y < array.length; y++) {
+        let firstToLast;
+        let secondToLast;
+        for (let x = 0; x < array[y].length; x++) {
+            if (x > 0) {
+                // Előtte lévő
+                firstToLast = x - 1;
+                if (x > 1) {
+                    // Kettővel előtte
+                    secondToLast = x - 2;
+
+                    if (array[y][secondToLast].type == array[y][firstToLast].type && array[y][firstToLast].type == array[y][x].type) {
+                        foundMatches["inRow"].push(array[y][secondToLast]);
+                        foundMatches["inRow"].push(array[y][firstToLast]);
+                        foundMatches["inRow"].push(array[y][x]);
+                    }
+                }
+            }
+        };
+    };
+
+    // Párok oszloponként (y tengely)
+    for (let x = 0; x < array[0].length; x++) {
+        let firstToLast;
+        let secondToLast;
+        for (let y = 0; y < array.length; y++) {
+            if (y > 0) {
+                // Fölötte lévő
+                firstToLast = y - 1;
+                if (y > 1) {
+                    // Kettővel fölötte lévő
+                    secondToLast = y - 2;
+
+                    if (array[secondToLast][x].type == array[firstToLast][x].type && array[firstToLast][x].type == array[y][x].type) {
+                        foundMatches["inCol"].push(array[secondToLast][x]);
+                        foundMatches["inCol"].push(array[firstToLast][x]);
+                        foundMatches["inCol"].push(array[y][x]);
+                    }
+                }
+            }
+        };
+    };
+
+    return foundMatches;
 }

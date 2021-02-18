@@ -5,7 +5,7 @@
 - [ ] lehetséges párok felismerése
 - [ ] párok törlése
 - [ ] üres helyek feltöltése
-- [ ] animációk (külön osztály?)
+- [ ] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - boostok:
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
