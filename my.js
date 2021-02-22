@@ -3,9 +3,7 @@ let self = new Object;
 
 // Draw függvény, amit folyamatosan hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
-self.draw = function (dt) {
-    // console.log(dt);
-
+self.draw = function () {
     // Canvas letisztítása minden rajzolás előtt
     self.tableC.clearRect(0, 0, self.$table.width, self.$table.height);
 
@@ -44,7 +42,27 @@ self.draw = function (dt) {
 self.update = function (dt) {
     // console.log(dt);
 
+    self.Animations.forEach((animation, index) => {
+        if(Math.floor(animation.target[animation.property]) != animation.value) {
+            // Tényleg 5mp telt el?
+            animation.time += dt / self.Animations.length;
 
+            // SEBESSÉG kiszámolása: v = s/t -> értek/idő
+            animation.target[animation.property] += (animation.value / animation.duration) * dt;
+        } else {
+            animation.target[animation.property] = Math.round(animation.target[animation.property]);
+            animation.time = Math.round(animation.time);
+
+            console.log("Idő: "+animation.time+" mp");
+            console.log("Érték: "+animation.target[animation.property]);
+
+            let promise = animation.promise;
+
+            self.Animations.splice(index, 1);
+
+            promise();
+        }
+    });
 }
 
 $(() => {
@@ -60,8 +78,10 @@ $(() => {
         self.cursorX = e.pageX - parentOffset.x;
         self.cursorY = e.pageY - parentOffset.y;
     });
-    // Egy tile kijelölése
     self.$table.click((e) => {
+        if (self.Animations.length > 0) return;
+        
+        // Egy tile kijelölése
         self.tiles.forEach(sor => {
             sor.forEach(tile => {
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
@@ -213,17 +233,16 @@ $(() => {
     self.selectedTile_2 = null;
 
     // Folyamatos frissítés
-    let perfectFramePerSec = (60 / 1000);
     let lastUpdate = Date.now();
     setInterval(tick, 0);
 
     function tick() {
         let now = Date.now();
-        let dt = (now - lastUpdate) / perfectFramePerSec;
+        let dt = (now - lastUpdate) / 1000;
         lastUpdate = now;
 
         self.update(dt);
-        self.draw(dt);
+        self.draw();
     };
 });
 
@@ -270,6 +289,18 @@ class Tile {
         }
 
         return false;
+    }
+}
+
+class Animation {
+    constructor(target, property, value, duration, promise=function(){}) {
+        this.target = target;
+        this.property = property;
+        this.value = value;
+        this.duration = duration;
+        this.promise = promise;
+
+        this.time = 0;
     }
 }
 
