@@ -47,18 +47,22 @@ self.update = function (dt) {
     self.Animations.forEach((animation, index) => {
         if(Math.floor(animation.target[animation.property]) != animation.value) {
             // Tényleg 5mp telt el?
-            self.animationTest += dt / self.Animations.length;
+            animation.time += dt / self.Animations.length;
 
             // SEBESSÉG kiszámolása: v = s/t -> értek/idő
-            animation.target[animation.property] += (animation.value / animation.time) * dt;
+            animation.target[animation.property] += (animation.value / animation.duration) * dt;
         } else {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
-            self.animationTest = Math.round(self.animationTest);
+            animation.time = Math.round(animation.time);
 
-            console.log("Idő: "+self.animationTest+" mp");
+            console.log("Idő: "+animation.time+" mp");
             console.log("Érték: "+animation.target[animation.property]);
 
+            let promise = animation.promise;
+
             self.Animations.splice(index, 1);
+
+            promise();
         }
     });
 }
@@ -231,9 +235,9 @@ $(() => {
     self.tiles.push([new Tile("Apple", "./img/Apple.png", 50, 0, 0)]);
 
     // Szeretnénk ha az almánk a 3. oszlopba kerülne 1mp alatt
-    self.Animations.push(new Animation(self.tiles[0][0], "col", 2, 5));
-    self.Animations.push(new Animation(self.tiles[0][0], "row", 2, 5));
-    self.animationTest = 0;
+    self.Animations.push(new Animation(self.tiles[0][0], "col", 2, 5, function() {
+        self.Animations.push(new Animation(self.tiles[0][0], "row", 6, 1));
+    }));
 
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
@@ -299,11 +303,14 @@ class Tile {
 }
 
 class Animation {
-    constructor(target, property, value, time) {
+    constructor(target, property, value, duration, promise=function(){}) {
         this.target = target;
         this.property = property;
         this.value = value;
-        this.time = time;
+        this.duration = duration;
+        this.promise = promise;
+
+        this.time = 0;
     }
 }
 
