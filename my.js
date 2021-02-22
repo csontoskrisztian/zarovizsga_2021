@@ -44,15 +44,21 @@ self.draw = function () {
 self.update = function (dt) {
     // console.log(dt);
 
-    self.Animations.forEach(animation => {
+    self.Animations.forEach((animation, index) => {
         if(Math.floor(animation.target[animation.property]) != animation.value) {
             // Tényleg 5mp telt el?
-            self.animationTest += dt;
-            console.log("Idő: "+self.animationTest);
+            self.animationTest += dt / self.Animations.length;
 
             // SEBESSÉG kiszámolása: v = s/t -> értek/idő
             animation.target[animation.property] += (animation.value / animation.time) * dt;
+        } else {
+            animation.target[animation.property] = Math.round(animation.target[animation.property]);
+            self.animationTest = Math.round(self.animationTest);
+
+            console.log("Idő: "+self.animationTest+" mp");
             console.log("Érték: "+animation.target[animation.property]);
+
+            self.Animations.splice(index, 1);
         }
     });
 }
@@ -224,6 +230,7 @@ $(() => {
 
     // Szeretnénk ha az almánk a 3. oszlopba kerülne 1mp alatt
     self.Animations.push(new Animation(self.tiles[0][0], "col", 2, 5));
+    self.Animations.push(new Animation(self.tiles[0][0], "row", 2, 5));
     self.animationTest = 0;
 
     self.selectedTile_1 = null;
