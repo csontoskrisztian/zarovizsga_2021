@@ -47,7 +47,7 @@ self.update = function (dt) {
     self.Animations.forEach((animation, index) => {
         if(Math.floor(animation.target[animation.property]) != animation.value) {
             // Tényleg 5mp telt el?
-            animation.time += dt / self.Animations.length;
+            animation.time += dt;
 
             // SEBESSÉG kiszámolása: v = s/t -> értek/idő
             animation.target[animation.property] += (animation.value / animation.duration) * dt;
@@ -234,10 +234,11 @@ $(() => {
     // RandomTilesGenerator(self.tiles, self.tableSize)
     self.tiles.push([new Tile("Apple", "./img/Apple.png", 50, 0, 0)]);
 
-    // Szeretnénk ha az almánk a 3. oszlopba kerülne 1mp alatt
-    self.Animations.push(new Animation(self.tiles[0][0], "col", 2, 5, function() {
+    // Szeretnénk ha az almánk a 4. oszlopba kerülne 1mp alatt
+    self.Animations.push(new Animation(self.tiles[0][0], "col", 3, 5, function() {
         self.Animations.push(new Animation(self.tiles[0][0], "row", 6, 1));
     }));
+    self.Animations.push(new Animation(self.tiles[0][0], "row", 2, 5));
 
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
