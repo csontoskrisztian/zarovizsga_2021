@@ -78,6 +78,8 @@ $(() => {
     });
     // Egy tile kijelölése
     self.$table.click((e) => {
+        if (self.Animations.length > 0) return;
+
         self.tiles.forEach(sor => {
             sor.forEach(tile => {
                 if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
