@@ -3,7 +3,7 @@ let self = new Object;
 
 // Draw függvény, amit folyamatosan hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
-self.draw = function (dt) {
+self.draw = function () {
     // console.log(dt);
 
     // Canvas letisztítása minden rajzolás előtt
@@ -44,7 +44,17 @@ self.draw = function (dt) {
 self.update = function (dt) {
     // console.log(dt);
 
+    self.Animations.forEach(animation => {
+        if(Math.floor(animation.target[animation.property]) != animation.value) {
+            // Tényleg 5mp telt el?
+            self.animationTest += dt;
+            console.log("Idő: "+self.animationTest);
 
+            // SEBESSÉG kiszámolása: v = s/t -> értek/idő
+            animation.target[animation.property] += (animation.value / animation.time) * dt;
+            console.log("Érték: "+animation.target[animation.property]);
+        }
+    });
 }
 
 $(() => {
@@ -199,6 +209,8 @@ $(() => {
         }
     });
 
+    self.Animations = [];
+
     // Canvas 2d contectus
     self.tableC = self.$table[0].getContext('2d');
 
@@ -207,23 +219,27 @@ $(() => {
 
     // Tiles tömb létrehozása és feltöltése random csempékkel
     self.tiles = [];
-    RandomTilesGenerator(self.tiles, self.tableSize)
+    // RandomTilesGenerator(self.tiles, self.tableSize)
+    self.tiles.push([new Tile("Apple", "./img/Apple.png", 50, 0, 0)]);
+
+    // Szeretnénk ha az almánk a 3. oszlopba kerülne 1mp alatt
+    self.Animations.push(new Animation(self.tiles[0][0], "col", 2, 5));
+    self.animationTest = 0;
 
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
 
     // Folyamatos frissítés
-    let perfectFramePerSec = (60 / 1000);
     let lastUpdate = Date.now();
     setInterval(tick, 0);
 
     function tick() {
         let now = Date.now();
-        let dt = (now - lastUpdate) / perfectFramePerSec;
+        let dt = (now - lastUpdate) / 1000;
         lastUpdate = now;
 
         self.update(dt);
-        self.draw(dt);
+        self.draw();
     };
 });
 
@@ -270,6 +286,15 @@ class Tile {
         }
 
         return false;
+    }
+}
+
+class Animation {
+    constructor(target, property, value, time) {
+        this.target = target;
+        this.property = property;
+        this.value = value;
+        this.time = time;
     }
 }
 

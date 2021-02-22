@@ -7,6 +7,7 @@
 - [x] Zuhanás
 - [ ] üres helyek feltöltése
 - [ ] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
+- [ ] perfectFramePerSec kivétele
 - boostok:
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
