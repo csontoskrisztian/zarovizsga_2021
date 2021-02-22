@@ -6,7 +6,8 @@
 - [x] párok törlése
 - [x] Zuhanás
 - [ ] üres helyek feltöltése
-- [ ] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
+- [x] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
+- [ ] animációk beszúrása (csere, csere-vissza, zuhanás)
 - boostok:
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
