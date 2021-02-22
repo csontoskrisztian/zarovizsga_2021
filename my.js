@@ -232,6 +232,9 @@ $(() => {
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
 
+    // Animációkat tartalmazó tömb
+    self.Animations = [];
+
     // Folyamatos frissítés
     let lastUpdate = Date.now();
     setInterval(tick, 0);
