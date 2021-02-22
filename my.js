@@ -45,7 +45,7 @@ self.update = function (dt) {
     self.Animations.forEach((animation, index) => {
         if(Math.floor(animation.target[animation.property]) != animation.value) {
             // Tényleg 5mp telt el?
-            animation.time += dt / self.Animations.length;
+            animation.time += dt;
 
             // SEBESSÉG kiszámolása: v = s/t -> értek/idő
             animation.target[animation.property] += (animation.value / animation.duration) * dt;
