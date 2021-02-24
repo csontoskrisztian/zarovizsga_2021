@@ -1,6 +1,10 @@
 // Az objektum, amiben tárolunk mindent, hogy bárhonnan hozzáférhessünk bármihez
 let self = new Object;
 
+function teszt() {
+
+}
+
 // Draw függvény, amit folyamatosan hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
 self.draw = function () {
@@ -9,7 +13,7 @@ self.draw = function () {
 
     // Háttér
     self.tableC.fillStyle = "#b3b3b3";
-    self.tableC.fillRect(0, 0, self.$table.width(), self.$table.height())
+    self.tableC.fillRect(0, 0, self.$table.width, self.$table.height)
 
     self.tiles.forEach(sor => {
         sor.forEach(tile => {
@@ -43,7 +47,7 @@ self.update = function (dt) {
     // console.log(dt);
 
     self.Animations.forEach((animation, index) => {
-        if(Math.floor(animation.target[animation.property]) != animation.value) {
+        if (Math.floor(animation.target[animation.property]) != animation.value) {
             // Tényleg 5mp telt el?
             animation.time += dt;
 
@@ -53,8 +57,8 @@ self.update = function (dt) {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
             animation.time = Math.round(animation.time);
 
-            console.log("Idő: "+animation.time+" mp");
-            console.log("Érték: "+animation.target[animation.property]);
+            console.log("Idő: " + animation.time + " mp");
+            console.log("Érték: " + animation.target[animation.property]);
 
             let promise = animation.promise;
 
@@ -65,162 +69,40 @@ self.update = function (dt) {
     });
 }
 
-$(() => {
+self.load = function() {
+    // Animációkat tartalmazó tömb
+    self.Animations = [];
+
+    // Kattintásra lefutó függvények tömbje
+    self.OnClickListeners = [];
+
     // Canvas
-    self.$table = $("#Table");
+    self.$table = document.getElementById("Table");
 
     // x y pozíció
     self.cursorX = 0;
     self.cursorY = 0;
     // Az egér relatív pozíciója
-    self.$table.mousemove((e) => {
+    self.$table.onmousemove = function(e) {
         let parentOffset = e.currentTarget.getBoundingClientRect();
         self.cursorX = e.pageX - parentOffset.x;
         self.cursorY = e.pageY - parentOffset.y;
-    });
-    self.$table.click((e) => {
+    }
+
+    self.$table.onclick = function() {
+        // Ha animáció játszodik le, akkor le van tíltva az input
         if (self.Animations.length > 0) return;
-        
-        // Egy tile kijelölése
-        self.tiles.forEach(sor => {
-            sor.forEach(tile => {
-                if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
-                    // console.log(tile.type);
 
-                    if (self.selectedTile_1 == null) {
-                        // Ha nincs semmi kijelölve, jelölje ki
-                        self.selectedTile_1 = tile;
-                    } else if (self.selectedTile_1 == tile) {
-                        // Ha ki van már jelölve, szüntesse meg
-                        self.selectedTile_1 = null;
-                    } else if (self.selectedTile_2 == null && self.selectedTile_1.areNeighboursWith(tile)) {
-                        // Ha szomszédok az első kijelöléssel, akkor jelölje ki
-                        self.selectedTile_2 = tile;
-                    } else {
-                        // Ha nincs az első kijelölése közvetlen közelében, akkor legyen ez az első kijelölés
-                        self.selectedTile_1 = tile;
-                    }
-
-                    // console.log("Tile 1", self.selectedTile_1);
-                    // console.log("Tile 2", self.selectedTile_2);
-                };
-            });
+        // console.log("Kattintás!");
+        // console.log(self.OnClickListeners);
+    
+        self.OnClickListeners.forEach(element => {
+            element();
         });
-
-        // Ha 2 tile ki van jelölve, akkor cserélje meg őket
-        if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
-            // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
-            // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-            console.log("Csere!")
-
-            // Adatok eltárolása
-            let tile_1_col = self.selectedTile_1.col,
-                tile_1_row = self.selectedTile_1.row;
-            let tile_2_col = self.selectedTile_2.col,
-                tile_2_row = self.selectedTile_2.row;
-
-            // Adatbeli felcserélés
-            // console.log("Tile 1")
-            // console.log(self.selectedTile_1.col, tile_2_col);
-            self.selectedTile_1.col = tile_2_col;
-            // console.log(self.selectedTile_1.col);
-            // console.log(self.selectedTile_1.row, tile_2_row);
-            self.selectedTile_1.row = tile_2_row;
-            // console.log(self.selectedTile_1.row);
-
-            // console.log("Tile 2")
-            // console.log(self.selectedTile_2.col, tile_1_col);
-            self.selectedTile_2.col = tile_1_col;
-            // console.log(self.selectedTile_2.col);
-            // console.log(self.selectedTile_2.row, tile_1_row);
-            self.selectedTile_2.row = tile_1_row;
-            // console.log(self.selectedTile_2.row);
-
-            // Fizikai felcserélés
-            // console.log(self.tiles[tile_1_row][tile_1_col]);
-            self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
-            // console.log(self.tiles[tile_1_row][tile_1_col]);
-            // console.log("---");
-            // console.log(self.tiles[tile_2_row][tile_2_col]);
-            self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
-            // console.log(self.tiles[tile_2_row][tile_2_col]);
-
-            // console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
-            // console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
-
-            // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
-            // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-
-            // Talált párok
-            let matches = MatchFounder(self.tiles);
-
-            // console.log(matches);
-            // return;
-
-            if (matches["inRow"].length > 0 || matches["inCol"].length > 0) {
-                console.log("Párok törlése!")
-
-                // Láthatatlanná teszük a párokat
-                matches["inRow"].forEach(tile => {
-                    tile.visible = false;
-                });
-                matches["inCol"].forEach(tile => {
-                    tile.visible = false;
-                });
-
-                console.log("Leesés!")
-                for (let y = self.tiles.length - 1; y >= 0; y--) {
-                    for (let x = 0; x < self.tiles[y].length; x++) {
-                        if ((matches["inRow"].includes(self.tiles[y][x]) || matches["inCol"].includes(self.tiles[y][x])) && y - 1 != -1) {
-                            let emptyTile = self.tiles[y][x];
-                            let hitTile;
-                            let counter = 1;
-                            // Megkeressük a legelső felette lévő csempét, ami nem láthatatlan
-                            while ((!self.tiles[y - counter][x].visible) && y - counter > 0) {
-                                counter++;
-                            };
-                            hitTile = self.tiles[y - counter][x];
-
-                            // console.log("emptyTile:", y, x, "->", "hitTile:", y - counter, x);
-
-                            // Kicseréljük vele
-                            tile_1_col = emptyTile.col;
-                            tile_1_row = emptyTile.row;
-                            tile_2_col = hitTile.col;
-                            tile_2_row = hitTile.row;
-
-                            hitTile.col = tile_1_col;
-                            hitTile.row = tile_1_row;
-                            emptyTile.col = tile_2_col;
-                            emptyTile.row = tile_2_row;
-
-                            self.tiles[tile_1_row][tile_1_col] = hitTile;
-                            self.tiles[tile_2_row][tile_2_col] = emptyTile;
-                        }
-                    }
-                }
-            } else {
-                console.log("Csere vissza!")
-                // Visszacseréljük, mert nincsenek párok
-
-                self.selectedTile_1.col = tile_1_col;
-                self.selectedTile_1.row = tile_1_row;
-                self.selectedTile_2.col = tile_2_col;
-                self.selectedTile_2.row = tile_2_row;
-
-                self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
-                self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
-            }
-
-
-            // Megszüntetjük a kijelölést
-            self.selectedTile_1 = null;
-            self.selectedTile_2 = null;
-        }
-    });
+    }
 
     // Canvas 2d contectus
-    self.tableC = self.$table[0].getContext('2d');
+    self.tableC = self.$table.getContext('2d');
 
     // Hányszor hanyas csempékből álljon
     self.tableSize = 8;
@@ -232,8 +114,11 @@ $(() => {
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
 
-    // Animációkat tartalmazó tömb
-    self.Animations = [];
+    // Kattintásra kijelölünk
+    self.OnClickListeners.push(SelectTile);
+    // Majd megnézzük miket jelöltünk ki eddig
+    self.OnClickListeners.push(CheckSelectedTiles);
+
 
     // Folyamatos frissítés
     let lastUpdate = Date.now();
@@ -247,7 +132,7 @@ $(() => {
         self.update(dt);
         self.draw();
     };
-});
+}
 
 class Tile {
     constructor(type, src, size, col, row) {
@@ -296,7 +181,7 @@ class Tile {
 }
 
 class Animation {
-    constructor(target, property, value, duration, promise=function(){}) {
+    constructor(target, property, value, duration, promise = function () {}) {
         this.target = target;
         this.property = property;
         this.value = value;
@@ -405,3 +290,165 @@ function MatchFounder(array) {
 
     return foundMatches;
 }
+
+function SelectTile() {
+    // Egy tile kijelölése
+    let breakForEach = false;
+    self.tiles.forEach(sor => {
+        sor.forEach(tile => {
+            if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
+                // console.log(tile.type);
+
+                if (self.selectedTile_1 == null) {
+                    // Ha nincs semmi kijelölve, jelölje ki
+                    self.selectedTile_1 = tile;
+
+                    breakForEach = true;
+                } else if (self.selectedTile_1 == tile) {
+                    // Ha ki van már jelölve, szüntesse meg
+                    self.selectedTile_1 = null;
+
+                    breakForEach = true;
+                } else if (self.selectedTile_2 == null && self.selectedTile_1.areNeighboursWith(tile)) {
+                    // Ha szomszédok az első kijelöléssel, akkor jelölje ki
+                    self.selectedTile_2 = tile;
+
+                    breakForEach = true;
+                } else {
+                    // Ha nincs az első kijelölése közvetlen közelében, akkor legyen ez az első kijelölés
+                    self.selectedTile_1 = tile;
+
+                    breakForEach = true;
+                }
+
+                // console.log("Tile 1", self.selectedTile_1);
+                // console.log("Tile 2", self.selectedTile_2);
+
+                if (breakForEach) {
+                    return;
+                };
+            };
+        });
+    });
+}
+
+function CheckSelectedTiles() {
+    // Ha 2 tile ki van jelölve, akkor cserélje meg őket
+    if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
+        // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
+        console.log("Csere!")
+
+        // Adatok eltárolása
+        let tile_1_col = self.selectedTile_1.col,
+            tile_1_row = self.selectedTile_1.row;
+        let tile_2_col = self.selectedTile_2.col,
+            tile_2_row = self.selectedTile_2.row;
+
+        // Adatbeli felcserélés
+        // console.log("Tile 1")
+        // console.log(self.selectedTile_1.col, tile_2_col);
+        self.selectedTile_1.col = tile_2_col;
+        // console.log(self.selectedTile_1.col);
+        // console.log(self.selectedTile_1.row, tile_2_row);
+        self.selectedTile_1.row = tile_2_row;
+        // console.log(self.selectedTile_1.row);
+
+        // console.log("Tile 2")
+        // console.log(self.selectedTile_2.col, tile_1_col);
+        self.selectedTile_2.col = tile_1_col;
+        // console.log(self.selectedTile_2.col);
+        // console.log(self.selectedTile_2.row, tile_1_row);
+        self.selectedTile_2.row = tile_1_row;
+        // console.log(self.selectedTile_2.row);
+
+        // Fizikai felcserélés
+        // console.log(self.tiles[tile_1_row][tile_1_col]);
+        self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
+        // console.log(self.tiles[tile_1_row][tile_1_col]);
+        // console.log("---");
+        // console.log(self.tiles[tile_2_row][tile_2_col]);
+        self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
+        // console.log(self.tiles[tile_2_row][tile_2_col]);
+
+        // console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
+        // console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
+
+        // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+        // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
+
+        // Talált párok
+        let matches = MatchFounder(self.tiles);
+
+        // console.log(matches);
+        // return;
+
+        if (matches["inRow"].length > 0 || matches["inCol"].length > 0) {
+            console.log("Párok törlése!")
+
+            // Láthatatlanná teszük a párokat
+            matches["inRow"].forEach(tile => {
+                tile.visible = false;
+            });
+            matches["inCol"].forEach(tile => {
+                tile.visible = false;
+            });
+
+            Falldown(matches);
+        } else {
+            console.log("Csere vissza!")
+            // Visszacseréljük, mert nincsenek párok
+
+            self.selectedTile_1.col = tile_1_col;
+            self.selectedTile_1.row = tile_1_row;
+            self.selectedTile_2.col = tile_2_col;
+            self.selectedTile_2.row = tile_2_row;
+
+            self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
+            self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
+        }
+
+
+        // Megszüntetjük a kijelölést
+        self.selectedTile_1 = null;
+        self.selectedTile_2 = null;
+    }
+}
+
+function Falldown(matches) {
+    console.log("Leesés!")
+    for (let y = self.tiles.length - 1; y >= 0; y--) {
+        for (let x = 0; x < self.tiles[y].length; x++) {
+            if ((matches["inRow"].includes(self.tiles[y][x]) || matches["inCol"].includes(self.tiles[y][x])) && y - 1 != -1) {
+                let emptyTile = self.tiles[y][x];
+                let hitTile;
+                let counter = 1;
+                // Megkeressük a legelső felette lévő csempét, ami nem láthatatlan
+                while ((!self.tiles[y - counter][x].visible) && y - counter > 0) {
+                    counter++;
+                };
+                hitTile = self.tiles[y - counter][x];
+
+                // console.log("emptyTile:", y, x, "->", "hitTile:", y - counter, x);
+
+                // Kicseréljük vele
+                tile_1_col = emptyTile.col;
+                tile_1_row = emptyTile.row;
+                tile_2_col = hitTile.col;
+                tile_2_row = hitTile.row;
+
+                hitTile.col = tile_1_col;
+                hitTile.row = tile_1_row;
+                emptyTile.col = tile_2_col;
+                emptyTile.row = tile_2_row;
+
+                self.tiles[tile_1_row][tile_1_col] = hitTile;
+                self.tiles[tile_2_row][tile_2_col] = emptyTile;
+            }
+        }
+    }
+}
+
+
+// Mikor betöltődik az ablak, induljon el a játék betöltése
+window.onload = self.load;
