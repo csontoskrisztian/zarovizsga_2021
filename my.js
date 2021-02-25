@@ -1,9 +1,7 @@
 // Az objektum, amiben tárolunk mindent, hogy bárhonnan hozzáférhessünk bármihez
 let self = new Object;
 
-function teszt() {
 
-}
 
 // Draw függvény, amit folyamatosan hívogatunk, így akár animációkat is csinálhatunk
 // És nem kell aggódni, ha egy kép pár tized mp-el lassabban tölt be, mint ahogy felrajzolnánk
@@ -47,15 +45,21 @@ self.update = function (dt) {
     // console.log(dt);
 
     self.Animations.forEach((animation, index) => {
-        if (Math.floor(animation.target[animation.property]) != animation.value) {
-            // Tényleg 5mp telt el?
-            animation.time += dt;
-
+        // Tényleg 5mp telt el?
+        animation.time += dt;
+        if (animation.target[animation.property] < animation.value && Math.round(animation.target[animation.property] - 0.49) != animation.value) {
             // SEBESSÉG kiszámolása: v = s/t -> értek/idő
+            // console.log("Összeadás: ", animation.target[animation.property]);
             animation.target[animation.property] += (animation.value / animation.duration) * dt;
+            // console.log(animation.target[animation.property]);
+        } else if (animation.target[animation.property] > animation.value && Math.round(animation.target[animation.property] + 0.49) != animation.value) {
+            // SEBESSÉG kiszámolása: v = s/t -> értek/idő
+            // console.log("Kivonás: ", animation.target[animation.property]);
+            animation.target[animation.property] -= (animation.value / animation.duration) * dt;
+            // console.log(animation.target[animation.property]);
         } else {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
-            animation.time = Math.round(animation.time);
+            animation.time = Math.round((animation.time + Number.EPSILON) * 1000) / 1000;
 
             console.log("Idő: " + animation.time + " mp");
             console.log("Érték: " + animation.target[animation.property]);
@@ -69,7 +73,7 @@ self.update = function (dt) {
     });
 }
 
-self.load = function() {
+self.load = function () {
     // Animációkat tartalmazó tömb
     self.Animations = [];
 
@@ -83,19 +87,19 @@ self.load = function() {
     self.cursorX = 0;
     self.cursorY = 0;
     // Az egér relatív pozíciója
-    self.$table.onmousemove = function(e) {
+    self.$table.onmousemove = function (e) {
         let parentOffset = e.currentTarget.getBoundingClientRect();
         self.cursorX = e.pageX - parentOffset.x;
         self.cursorY = e.pageY - parentOffset.y;
     }
 
-    self.$table.onclick = function() {
+    self.$table.onclick = function () {
         // Ha animáció játszodik le, akkor le van tíltva az input
         if (self.Animations.length > 0) return;
 
         // console.log("Kattintás!");
         // console.log(self.OnClickListeners);
-    
+
         self.OnClickListeners.forEach(element => {
             element();
         });
@@ -118,7 +122,6 @@ self.load = function() {
     self.OnClickListeners.push(SelectTile);
     // Majd megnézzük miket jelöltünk ki eddig
     self.OnClickListeners.push(CheckSelectedTiles);
-
 
     // Folyamatos frissítés
     let lastUpdate = Date.now();
@@ -345,73 +348,82 @@ function CheckSelectedTiles() {
         let tile_2_col = self.selectedTile_2.col,
             tile_2_row = self.selectedTile_2.row;
 
-        // Adatbeli felcserélés
-        // console.log("Tile 1")
-        // console.log(self.selectedTile_1.col, tile_2_col);
-        self.selectedTile_1.col = tile_2_col;
-        // console.log(self.selectedTile_1.col);
-        // console.log(self.selectedTile_1.row, tile_2_row);
-        self.selectedTile_1.row = tile_2_row;
-        // console.log(self.selectedTile_1.row);
 
-        // console.log("Tile 2")
-        // console.log(self.selectedTile_2.col, tile_1_col);
-        self.selectedTile_2.col = tile_1_col;
-        // console.log(self.selectedTile_2.col);
-        // console.log(self.selectedTile_2.row, tile_1_row);
-        self.selectedTile_2.row = tile_1_row;
-        // console.log(self.selectedTile_2.row);
 
-        // Fizikai felcserélés
-        // console.log(self.tiles[tile_1_row][tile_1_col]);
-        self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
-        // console.log(self.tiles[tile_1_row][tile_1_col]);
-        // console.log("---");
-        // console.log(self.tiles[tile_2_row][tile_2_col]);
-        self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
-        // console.log(self.tiles[tile_2_row][tile_2_col]);
-
-        // console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
-        // console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
-
-        // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
-        // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-
-        // Talált párok
-        let matches = MatchFounder(self.tiles);
-
-        // console.log(matches);
-        // return;
-
-        if (matches["inRow"].length > 0 || matches["inCol"].length > 0) {
-            console.log("Párok törlése!")
-
-            // Láthatatlanná teszük a párokat
-            matches["inRow"].forEach(tile => {
-                tile.visible = false;
-            });
-            matches["inCol"].forEach(tile => {
-                tile.visible = false;
-            });
-
-            Falldown(matches);
-        } else {
-            console.log("Csere vissza!")
-            // Visszacseréljük, mert nincsenek párok
-
-            self.selectedTile_1.col = tile_1_col;
-            self.selectedTile_1.row = tile_1_row;
-            self.selectedTile_2.col = tile_2_col;
-            self.selectedTile_2.row = tile_2_row;
-
-            self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
-            self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
+        // Animációk (A két kiválasztott tile helyet cserél)
+        let animation_time = 1;
+        if (tile_1_col == tile_2_col) {
+            self.Animations.push(
+                new Animation(self.selectedTile_1, "row", tile_2_row, animation_time),
+                new Animation(self.selectedTile_2, "row", tile_1_row, animation_time)
+            );
+            // console.log(self.selectedTile_1);
+            // console.log(self.selectedTile_2);
+            // console.log(tile_1_col, tile_1_row);
+            // console.log(tile_2_col, tile_2_row);
+        } else if (tile_1_row == tile_2_row) {
+            self.Animations.push(
+                new Animation(self.selectedTile_1, "col", tile_2_col, animation_time),
+                new Animation(self.selectedTile_2, "col", tile_1_col, animation_time)
+            );
+            // console.log(self.selectedTile_1);
+            // console.log(self.selectedTile_2);
+            // console.log(tile_1_col, tile_1_row);
+            // console.log(tile_2_col, tile_2_row);
         }
 
+        function afterMoveAnimation() {
+            // Array pozíciók felcserélés
+            // console.log(self.tiles[tile_1_row][tile_1_col]);
+            self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
+            // console.log(self.tiles[tile_1_row][tile_1_col]);
+            // console.log("---");
+            // console.log(self.tiles[tile_2_row][tile_2_col]);
+            self.tiles[tile_2_row][tile_2_col] = self.selectedTile_1;
+            // console.log(self.tiles[tile_2_row][tile_2_col]);
 
-        // Megszüntetjük a kijelölést
-        self.selectedTile_1 = null;
-        self.selectedTile_2 = null;
+            // console.log("Tile 1", self.tiles[tile_1_row][tile_1_col]);
+            // console.log("Tile 2", self.tiles[tile_2_row][tile_2_col]);
+
+            // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
+            // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
+
+            // Talált párok
+            let matches = MatchFounder(self.tiles);
+
+            // console.log(matches);
+            // return;
+
+            if (matches["inRow"].length > 0 || matches["inCol"].length > 0) {
+                console.log("Párok törlése!")
+
+                // Láthatatlanná teszük a párokat
+                matches["inRow"].forEach(tile => {
+                    tile.visible = false;
+                });
+                matches["inCol"].forEach(tile => {
+                    tile.visible = false;
+                });
+
+                Falldown(matches);
+            } else {
+                console.log("Csere vissza!")
+                // Visszacseréljük, mert nincsenek párok
+
+                self.selectedTile_1.col = tile_1_col;
+                self.selectedTile_1.row = tile_1_row;
+                self.selectedTile_2.col = tile_2_col;
+                self.selectedTile_2.row = tile_2_row;
+
+                self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
+                self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
+            }
+
+
+            // Megszüntetjük a kijelölést
+            self.selectedTile_1 = null;
+            self.selectedTile_2 = null;
+        }
     }
 }
 

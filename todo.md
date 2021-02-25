@@ -8,6 +8,7 @@
 - [ ] üres helyek feltöltése
 - [x] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - [ ] animációk beszúrása (csere, csere-vissza, zuhanás)
+    - Animcáió kivonás -> RENGETEG PROBLÉMA
 - boostok:
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
