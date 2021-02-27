@@ -47,15 +47,18 @@ self.update = function (dt) {
     self.Animations.forEach((animation, index) => {
         // Tényleg 5mp telt el?
         animation.time += dt;
+        
+        // SEBESSÉG kiszámolása: v = s/t -> távolság/idő, és mivel csak a szomszédos elemek mozdíthatóak, aetért a távolság mindig 1
+        let formula = (1 / animation.duration) * dt;
+
+
         if (animation.target[animation.property] < animation.value && Math.round(animation.target[animation.property] - 0.49) != animation.value) {
-            // SEBESSÉG kiszámolása: v = s/t -> értek/idő
             // console.log("Összeadás: ", animation.target[animation.property]);
-            animation.target[animation.property] += (animation.value / animation.duration) * dt;
+            animation.target[animation.property] += formula;
             // console.log(animation.target[animation.property]);
         } else if (animation.target[animation.property] > animation.value && Math.round(animation.target[animation.property] + 0.49) != animation.value) {
-            // SEBESSÉG kiszámolása: v = s/t -> értek/idő
             // console.log("Kivonás: ", animation.target[animation.property]);
-            animation.target[animation.property] -= (animation.value / animation.duration) * dt;
+            animation.target[animation.property] -= formula;
             // console.log(animation.target[animation.property]);
         } else {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
@@ -125,7 +128,7 @@ self.load = function () {
 
     // Folyamatos frissítés
     let lastUpdate = Date.now();
-    setInterval(tick, 0);
+    let interval = setInterval(tick, 0);
 
     function tick() {
         let now = Date.now();
@@ -351,7 +354,7 @@ function CheckSelectedTiles() {
 
 
         // Animációk (A két kiválasztott tile helyet cserél)
-        let animation_time = 1;
+        let animation_time = 0.35;
         if (tile_1_col == tile_2_col) {
             self.Animations.push(
                 new Animation(self.selectedTile_1, "row", tile_2_row, animation_time),
