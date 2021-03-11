@@ -18,3 +18,18 @@
   - Ha párban lévő elemek száma nagyobb, mint 3, akkor a játékos kap egy extra kört
 - Ha letelt az 5 kör, akkor az nyer, akinek a legtöbb pontja van
 - A két játékos pontszám különbsége alapján a nyertes feljebb, míg a vesztes lejjebb megy a ranglétrán
+
+## Adatbázis:
+### Felhasználók tábla:
+    - ID
+    - Felhasználónév
+    - Jelszó
+    - Pontszam
+ 
+### Játszma_*RandomGeneráltID* tábla:
+    - X
+    - Y
+    - Tipus
+
+### Források tábla:
+    - ???
