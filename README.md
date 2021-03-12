@@ -24,12 +24,25 @@
     - ID
     - Felhasználónév
     - Jelszó
-    - Pontszam
+    - Barátok: [játékos1_id, játékos2_id]
  
 ### Játszma_*RandomGeneráltID* tábla:
     - X
     - Y
-    - Tipus
+    - csempe_id
+    - JátszmaId
 
-### Források tábla:
-    - ???
+### Játszmák
+    - JátszmaId
+    - Játékos1_id
+    - Játékos2_id
+    - Játékos1_pont: +1
+    - Játékos2_pont: 0
+    - Állapot: folyamatban, vége
+    - Játékidő
+    - Maxidő
+    - Nehézség
+
+### Csempék tábla:
+    - csempe_id
+    - csempe_ikon
