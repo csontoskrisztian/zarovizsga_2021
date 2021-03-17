@@ -23,3 +23,6 @@ CREATE TABLE match3.jatszmak (
   PRIMARY KEY (id)
 );
 
+-- Tervek
+
+-- Teszt játékosok
