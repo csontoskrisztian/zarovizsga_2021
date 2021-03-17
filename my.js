@@ -49,17 +49,14 @@ self.update = function (dt) {
         animation.time += dt;
         
         // SEBESSÉG kiszámolása: v = s/t -> távolság/idő, és mivel csak a szomszédos elemek mozdíthatóak, aetért a távolság mindig 1
-        let formula = (1 / animation.duration) * dt;
+        let formula = (animation.distance / animation.duration) * dt;
+        // console.log("Formula: "+formula);
 
 
-        if (animation.target[animation.property] < animation.value && Math.round(animation.target[animation.property] - 0.49) != animation.value) {
-            // console.log("Összeadás: ", animation.target[animation.property]);
-            animation.target[animation.property] += formula;
-            // console.log(animation.target[animation.property]);
-        } else if (animation.target[animation.property] > animation.value && Math.round(animation.target[animation.property] + 0.49) != animation.value) {
-            // console.log("Kivonás: ", animation.target[animation.property]);
+        if (Math.round(animation.target[animation.property] - 0.49) != animation.value ||
+            Math.round(animation.target[animation.property] + 0.49) != animation.value) {
             animation.target[animation.property] -= formula;
-            // console.log(animation.target[animation.property]);
+            // console.log("Property: "+animation.target[animation.property]);
         } else {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
             animation.time = Math.round((animation.time + Number.EPSILON) * 1000) / 1000;
@@ -191,6 +188,7 @@ class Animation {
         this.target = target;
         this.property = property;
         this.value = value;
+        this.distance = this.target[this.property] - this.value;
         this.duration = duration;
         this.promise = promise;
 
