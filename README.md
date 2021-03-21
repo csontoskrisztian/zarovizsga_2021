@@ -43,7 +43,7 @@
     - Állapot: 1 (folyamatban), 0 (vége)
     - Játékidő
     - Maxidő
-    - Nehézség
+    - Nehézség: 1 (könnyű), 2 (normál), 3 (nehéz)
 
 ### Csempék tábla:
     - csempe_id
