@@ -29,11 +29,10 @@
     - Játékos1_id
     - Játékos2_id
  
-### Játszma_*RandomGeneráltID* tábla:
+### Játszma_*JátszmaID* tábla:
     - X
     - Y
     - csempe_id
-    - JátszmaId
 
 ### Játszmák
     - JátszmaId
