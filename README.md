@@ -25,6 +25,10 @@
     - Felhasználónév
     - Jelszó
     - Barátok: [játékos1_id, játékos2_id]
+
+### Barátok tábla:
+    - Játékos1_id
+    - Játékos2_id
  
 ### Játszma_*RandomGeneráltID* tábla:
     - X
