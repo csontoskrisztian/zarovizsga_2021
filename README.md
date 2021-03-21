@@ -40,7 +40,7 @@
     - Játékos2_id
     - Játékos1_pont: +1
     - Játékos2_pont: 0
-    - Állapot: folyamatban, vége
+    - Állapot: 1 (folyamatban), 0 (vége)
     - Játékidő
     - Maxidő
     - Nehézség
