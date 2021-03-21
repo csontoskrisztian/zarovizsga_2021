@@ -20,7 +20,7 @@
 - A két játékos pontszám különbsége alapján a nyertes feljebb, míg a vesztes lejjebb megy a ranglétrán
 
 ## Adatbázis:
-### Felhasználók tábla:
+### Játékosok tábla:
     - ID
     - Felhasználónév
     - Jelszó
