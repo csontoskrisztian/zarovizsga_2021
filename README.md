@@ -24,7 +24,6 @@
     - ID
     - Felhasználónév
     - Jelszó
-    - Barátok: [játékos1_id, játékos2_id]
 
 ### Barátok tábla:
     - Játékos1_id
