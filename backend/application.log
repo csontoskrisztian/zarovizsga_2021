@@ -1,0 +1,17 @@
+[ERROR] connectin error: Unknown database 'autoberlesx'
+[ERROR] query error: 
+[ERROR] query error: Query was empty
+[ERROR] query error: Query was empty
+[ERROR] query error: Unknown column 'autoId' in 'field list'
+[ERROR] query error: Unknown column 'autoId' in 'field list'
+[ERROR] query error: Unknown column 'autoId' in 'field list'
+[ERROR] query error: Unknown column 'autoId' in 'field list'
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '%?%' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '%?%' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
+[ERROR] query error: Table 'match3.users' doesn't exist
