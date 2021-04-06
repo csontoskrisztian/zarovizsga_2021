@@ -13,6 +13,7 @@ class SendDataJson
     private $columns;
     private $loginAccessLevel;
     private $loginUserName;
+    private $loginId;
 
     public function __construct(array $params, string $status, string $title = "", array $rows = [], array $columns = [])
     {
@@ -27,6 +28,7 @@ class SendDataJson
             "params" => $this->params,
             "loginAccessLevel" => $this->loginAccessLevel,
             "loginUserName" => $this->loginUserName,
+            "loginId" => $this->loginId,
             "status" => $this->status,
             "title" => $this->title,
             "columns" => $this->columns,
@@ -42,6 +44,7 @@ class SendDataJson
     {
         $status = 0;
         $user = "";
+        $id = 0;
         if (isset($_SESSION["user"])) {
             $userName = $_SESSION["user"];
             $sql = "SELECT * FROM jatekosok
@@ -57,6 +60,7 @@ class SendDataJson
                 if ($record != null && $userName == $record["felhasznalonev"]) {
                     //email, password ok
                     $status = 1;
+                    $id = $record["id"];
                     $user = $record["felhasznalonev"];
                 } else {
                     //nincs ilyen email, vagy nem jó a jelszó
@@ -67,6 +71,7 @@ class SendDataJson
         $this->loginAccessLevel = $status;
         // $this->loginUserName = $user;
         $this->loginUserName = $_SESSION["user"];
+        $this->loginId = $id;
     }
 
 

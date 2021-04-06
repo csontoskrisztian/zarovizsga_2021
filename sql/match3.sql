@@ -69,20 +69,57 @@ CREATE TABLE match3.csempek (
   # jatekosok
   INSERT INTO jatekosok (felhasznalonev, jelszo)
     VALUES 
-    ('teszt1', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S'),
-    ('teszt2', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK');
+    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S'),
+    ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
+    ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
+    ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
+    ('JGabor', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
+    ('Ardect', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
+    ('Cintia', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK');
 
   # baratok
   INSERT INTO baratok (jatekos1_id, jatekos2_id)
-    VALUE
-    (1, 2);
+    VALUES
+    (1,3),
+    (1,5),
+    (1,7),
+    (2,7),
+    (3,2),
+    (3,4),
+    (3,5),
+    (3,6),
+    (3,7),
+    (4,5),
+    (4,6);
+
+  # Dublikáció a barátok között
+  INSERT INTO baratok (jatekos1_id, jatekos2_id)
+    VALUE (3, 1);
 
   # jatszmak
   INSERT INTO jatszmak (jatekos1_id, jatekos2_id, jatekos1_pont, jatekos2_pont, allapot, jatekido, maxido, nehezseg)
-    VALUES (1, 2,	800,	500,	0,	240,	240,	1),
-           (2,	1,	300,	100,	0,	240,	240,	3),
-           (2,	1,	400,	300,	0,	240,	240,	2),
-           (1,	2,	1200,	700,	0,	240,	240,	1);
+    VALUES
+    (1,2,800,500,0,240,240,1),
+    (1,7,300,100,0,240,240,3),
+    (1,3,400,300,0,240,240,2),
+    (1,6,1200,700,0,240,240,1),
+    (1,4,1000,1100,0,240,240,2),
+    (1,2,1300,1300,0,240,240,3),
+    (1,7,100,600,0,240,240,1),
+    (1,4,900,1000,0,240,240,1),
+    (1,5,200,100,0,240,240,1),
+    (1,3,500,800,0,240,240,3),
+    (3,7,800,300,0,240,240,2),
+    (3,5,1100,1000,0,240,240,2),
+    (3,1,300,1000,0,240,240,3),
+    (3,1,600,200,0,240,240,1),
+    (3,2,600,1300,0,240,240,2),
+    (3,5,1500,500,0,240,240,2),
+    (5,7,1000,800,0,240,240,1),
+    (7,2,700,1100,0,240,240,2),
+    (2,7,1000,1200,0,240,240,1),
+    (5,6,500,1400,0,240,240,1);
+
           
 
   
@@ -96,12 +133,27 @@ CREATE TABLE match3.csempek (
   SELECT * FROM jatszmak;
 
   # Játékos keresés
-  SELECT id, felhasznalonev FROM jatekosok WHERE felhasznalonev LIKE '';
+  SET @id = 7;
+  SELECT id, felhasznalonev FROM jatekosok
+    WHERE felhasznalonev LIKE '%%'
+      AND id != @id 
+      AND id NOT IN (SELECT j.id FROM baratok b
+                      INNER JOIN jatekosok j ON j.id = b.jatekos2_id
+                      WHERE b.jatekos1_id = @id
+                    UNION
+                    SELECT j.id FROM baratok b
+                      INNER JOIN jatekosok j ON j.id = b.jatekos1_id
+                      WHERE b.jatekos2_id = @id);
+  
 
   # Barátok
-  SELECT j.felhasznalonev FROM baratok b
+  SELECT j.id, j.felhasznalonev FROM baratok b
     INNER JOIN jatekosok j ON j.id = b.jatekos2_id
-    WHERE b.jatekos1_id = 1 OR b.jatekos2_id = 1;
+    WHERE b.jatekos1_id = 7
+  UNION
+  SELECT j.id, j.felhasznalonev FROM baratok b
+    INNER JOIN jatekosok j ON j.id = b.jatekos1_id
+    WHERE b.jatekos2_id = 7;
 
   # Rangsor Pontszam
   SET @jatekos := 2;

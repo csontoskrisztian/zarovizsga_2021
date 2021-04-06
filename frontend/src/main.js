@@ -34,5 +34,6 @@ new Vue({
     data: {
         loginAccessLevel: 0,
         loginUserName: null,
+        loginId: 0,
     },
 }).$mount('#app')

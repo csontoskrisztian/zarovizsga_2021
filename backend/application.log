@@ -15,3 +15,86 @@
 [ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
 [ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '?'%'' at line 1
 [ERROR] query error: Table 'match3.users' doesn't exist
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'HERE b.jatekos1_id = ?
+                                       UNION
+          ' at line 6
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT id, felhasznalonev FROM jatekosok
+                        WHERE felhaszn' at line 1

@@ -69,6 +69,7 @@ export default {
           this.rows = this.resData.rows;
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
+          this.$root.$data.loginId = this.resData.loginId;
         });
     },
     login() {
@@ -87,8 +88,11 @@ export default {
           this.rows = this.resData.rows;
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
+          this.$root.$data.loginId = this.resData.loginId;
 
-          if (this.loginAccessLevel == 0) {
+          // console.log(res.data);
+
+          if (this.$root.$data.loginAccessLevel == 0) {
             alert("Helytelen felhasználónév vagy jelszó!");
           } else {
             this.$router.push("/");

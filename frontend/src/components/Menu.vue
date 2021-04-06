@@ -20,7 +20,7 @@
               class="nav-link active"
               aria-current="page"
               to="/profil/"
-              >Profil</router-link
+              >{{loginUserName}}</router-link
             >
           </li>
 
@@ -53,9 +53,14 @@
             </ul>
           </li>
 
+          <!-- Játszmáim -->
+          <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
+            <router-link class="nav-link" to="/jatszmak/">Játszmáim</router-link>
+          </li>
+
           <!-- Játék -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
-            <router-link class="nav-link" to="/jatek/">Jatek</router-link>
+            <router-link class="nav-link" to="/jatek/">Játék</router-link>
           </li>
         </ul>
 
@@ -118,6 +123,7 @@ export default {
           this.rows = this.resData.rows;
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
+          this.$root.$data.loginId = this.resData.loginId;
         });
     },
     logout() {
@@ -135,6 +141,7 @@ export default {
 
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
+          this.$root.$data.loginId = this.resData.loginId;
 
           if (this.$router.history.current.path != "/") this.$router.push("/");
         });

@@ -3,7 +3,7 @@
 /*
     query=baratokInsert
     jatekos1_id=1
-    jatekos1_id=1
+    jatekos2_id=1
 */
 namespace queries;
 
