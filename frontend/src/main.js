@@ -36,4 +36,12 @@ new Vue({
         loginUserName: null,
         loginId: 0,
     },
+    created() {
+        router.beforeEach((to, from, next) => {
+            if (to.name !== 'bejelentkezes' && to.name != 'home' && this.loginAccessLevel == 0) next({
+                name: 'bejelentkezes'
+            })
+            else next()
+        })
+    }
 }).$mount('#app')
