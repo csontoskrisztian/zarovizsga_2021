@@ -145,7 +145,7 @@ export default {
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
 
-          if (this.$router.history.current.path != "/") this.$router.push("/");
+          if (this.$route.name != "bejelentkezes") this.$router.push({ name: "bejelentkezes" });
         });
     },
   },
