@@ -3,6 +3,7 @@ import Home from "../components/routes/Home.vue";
 import Profil from "../components/routes/Profil.vue";
 import BaratokLista from "../components/routes/BaratokLista.vue";
 import BaratokKereses from "../components/routes/BaratokKereses.vue";
+import Jatszmak from "../components/routes/Jatszmak.vue";
 import Jatek from "../components/routes/Jatek.vue";
 import Bejelentkezes from "../components/routes/Bejelentkezes.vue"
 
@@ -36,6 +37,11 @@ const routes = [
         name: "baratokKereses",
         path: "/baratok/kereses",
         component: BaratokKereses
+    },
+    {
+        name: "jatszmak",
+        path: "/jatszmak/",
+        component: Jatszmak
     },
     {
         name: "jatek",
