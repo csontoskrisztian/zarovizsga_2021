@@ -84,6 +84,7 @@
 
 <script>
 const axios = require("axios").default;
+axios.defaults.withCredentials = true;
 
 export default {
   name: "Menu",
@@ -121,6 +122,7 @@ export default {
           this.title = this.resData.title;
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
+          
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;

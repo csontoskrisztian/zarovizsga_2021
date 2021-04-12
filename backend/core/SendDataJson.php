@@ -81,15 +81,15 @@ class SendDataJson
         header('Access-Control-Allow-Origin: *');
 
         //cors
-        // header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-        // header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, HEAD, OPTIONS');
-        // header("Access-Control-Allow-Headers: X-Requested-With");
+        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, HEAD, OPTIONS');
+        header("Access-Control-Allow-Headers: X-Requested-With");
 
-        // header('Access-Control-Allow-Credentials: true');
-        // header('Access-Control-Max-Age: 86400');    // cache for 1 day
+        header('Access-Control-Allow-Credentials: true');
+        header('Access-Control-Max-Age: 86400');    // cache for 1 day
 
         //--------
-        // $this->cors();
+        $this->cors();
 
         header('Content-type: application/json; charset=utf-8');
         ob_clean();
@@ -134,6 +134,6 @@ class SendDataJson
             exit(0);
         }
 
-        // echo "You have CORS!";
+        echo "You have CORS!";
     }
 }
