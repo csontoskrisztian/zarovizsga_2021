@@ -119,9 +119,6 @@ CREATE TABLE match3.csempek (
     (7,2,700,1100,0,240,240,2),
     (2,7,1000,1200,0,240,240,1),
     (5,6,500,1400,0,240,240,1);
-
-          
-
   
 
 
@@ -131,6 +128,7 @@ CREATE TABLE match3.csempek (
   SELECT * FROM jatekosok;
   SELECT * FROM baratok;
   SELECT * FROM jatszmak;
+  SELECT * FROM jatszma_0;
 
   # Játékos keresés
   SET @id = 7;
