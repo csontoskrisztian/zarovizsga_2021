@@ -46,18 +46,18 @@ class SendDataJson
         $user = "";
         $id = 0;
         if (isset($_SESSION["user"])) {
-            $userName = $_SESSION["user"];
+            $userId = $_SESSION["user"];
             $sql = "SELECT * FROM jatekosok
-                WHERE felhasznalonev = ?";
+                WHERE id = ?";
             $connection = (new \core\Connect())->connect();
             if ($statement = mysqli_prepare($connection, $sql)) {
-                mysqli_stmt_bind_param($statement, "s", $userName);
+                mysqli_stmt_bind_param($statement, "i", $userId);
                 mysqli_stmt_execute($statement);
                 $result = mysqli_stmt_get_result($statement);
                 $record = mysqli_fetch_assoc($result);
 
 
-                if ($record != null && $userName == $record["felhasznalonev"]) {
+                if ($record != null && $userId == $record["id"]) {
                     //email, password ok
                     $status = 1;
                     $id = $record["id"];
@@ -69,8 +69,8 @@ class SendDataJson
             }
         }
         $this->loginAccessLevel = $status;
-        // $this->loginUserName = $user;
-        $this->loginUserName = $_SESSION["user"];
+        $this->loginUserName = $user;
+        // $this->loginUserName = $_SESSION["user"];
         $this->loginId = $id;
     }
 

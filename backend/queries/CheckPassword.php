@@ -2,15 +2,14 @@
 //POST
 //login()
 /*
-query=loginUser
-email=admin@ab.hu
-password=admin
+query=checkPassword
+id=1
+password=jelszo
 */
-
 
 namespace queries;
 
-class LoginUser {
+class CheckPassword {
     protected $params;
     protected $status;
     protected $title;
@@ -23,16 +22,16 @@ class LoginUser {
 
     public function __construct($params){
         $this->params = $params;
-        $this->title = "Login";
+        $this->title = "Check Password";
         $this->sql = "SELECT * FROM jatekosok
-                WHERE felhasznalonev = ?";
-        $this->typesString = "s";
-        $this->paramVariables = [$params["felhasznalonev"]];
+                WHERE id = ?";
+        $this->typesString = "i";
+        $this->paramVariables = [$params["id"]];
         $this->password = $params["jelszo"];
         $this->columns = [];
     }
 
-    public function login(){
+    public function check(){
         $connection = (new \core\Connect())->connect();
 
         if ($connection) {
@@ -46,16 +45,12 @@ class LoginUser {
                 // print_r($record);
                 // die;
                 if ($record != null && password_verify($this->password, $record["jelszo"])) {
-                    //felhasznalonev, password ok
-                    $_SESSION["user"] = $record["id"];
+                    //password ok
                     $this->status = "Ok";
                 }else{
-                    //nincs ilyen felhasznalonev, vagy nem jó a jelszó
-                    $this->status = "Ok nincs ilyen jelszó vagy felhasználónév";
-                    unset($_SESSION["user"]);
+                    //nem jó a jelszó
+                    $this->status = "helytelen jelszó";
                 }
-
-
                 $this->rows = [];
             }else{
                 logMessage("ERROR","query error: ".mysqli_error($connection)); 

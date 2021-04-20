@@ -1,17 +1,121 @@
 <template>
   <div class="w3-text-theme p-5">
-    <img src="../../assets/logo.png" alt="" />
+    <img src="@/assets/logo.png" alt="" />
     <div class="profile">
       <h2>{{ loginUserName }}</h2>
       <p v-for="(column, key, index) in columns" :key="index">
         {{ column }}: {{ rows[index][key] }} pont
       </p>
     </div>
+
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary ms-5"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      @click="onClickShowModal"
+    >
+      Profil szerkesztése
+    </button>
+    <button type="button" class="btn btn-danger ms-5">Profil törlése</button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Profil szerkesztése
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form class="row needs-validation" novalidate>
+              <div class="row p-2">
+                <label for="felhasznalonev" class="col-5 col-form-label"
+                  >Új Felhasználónév:</label
+                >
+                <div class="col-5">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="felhasznalonev"
+                    v-model="ujfelhasznalonev"
+                  />
+                </div>
+              </div>
+              <div class="row p-2">
+                <label for="jelszo" class="col-5 col-form-label"
+                  >Új Jelszó:</label
+                >
+                <div class="col-5">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="jelszo"
+                    v-model="ujjelszo"
+                  />
+                </div>
+              </div>
+
+              <hr class="my-2" />
+
+              <div class="row p-2">
+                <label for="jJelszo" class="col-5 col-form-label"
+                  >Jelenlegi Jelszó:</label
+                >
+                <div class="col-5">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="jJelszo"
+                    v-model="jelenlegiJelszo"
+                    required
+                  />
+                  <div class="alert alert-danger invalid-feedback">
+                    Kérlek add meg a jelenlegi jelszavadat!
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Mégse
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click.prevent="onClickSave"
+            >
+              Változtatások mentése
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 const axios = require("axios").default;
+const bootstrap = require("bootstrap");
 
 export default {
   name: "profil",
@@ -19,13 +123,25 @@ export default {
     return {
       resData: [],
       queryGet: "jatekosPontszam",
+      queryUpdateFelhasznalonev: "jatekosFelhasznalonevUpdate",
+      queryUpdateJelszo: "jatekosJelszoUpdate",
+      queryCheckJelszo: "checkPassword",
       title: "",
       columns: {},
       rows: [],
+      form: null,
+      modal: null,
+      ujfelhasznalonev: "",
+      ujjelszo: "",
+      jelenlegiJelszo: "",
     };
   },
   created() {
     this.getUser();
+  },
+  mounted() {
+    this.form = document.querySelector(".needs-validation");
+    this.modal = new bootstrap.Modal(document.getElementById("exampleModal"));
   },
   computed: {
     loginAccessLevel() {
@@ -39,6 +155,34 @@ export default {
     },
   },
   methods: {
+    onClickShowModal() {
+      this.form.classList.remove("was-validated");
+      this.ujfelhasznalonev = "";
+      this.ujjelszo = "";
+      this.jelenlegiJelszo = "";
+    },
+    onClickSave() {
+      this.checkPassword();
+    },
+    handleValidation(status) {
+      if (status == "Ok" && this.form.checkValidity()) {
+        //jó kitöltöttség
+        this.form.classList.add("was-validated");
+        let jJelszo = document.querySelector("#jJelszo");
+        jJelszo.classList.add("is-valid");
+
+        if (this.ujfelhasznalonev != "") this.updateFelhasznalonev();
+        if (this.ujjelszo != "") this.updateJelszo();
+
+        this.getUser();
+
+        this.modal.hide();
+      } else {
+        console.log("Helytelen jelszó");
+        let jJelszo = document.querySelector("#jJelszo");
+        jJelszo.classList.add("is-invalid");
+      }
+    },
     getUser() {
       axios
         .get(this.url, {
@@ -76,6 +220,54 @@ export default {
           // console.log(this.resData);
         });
     },
+    updateFelhasznalonev() {
+      let params = {
+        query: this.queryUpdateFelhasznalonev,
+        felhasznalonev: this.ujfelhasznalonev,
+        id: this.loginId,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
+          this.$root.$data.loginUserName = this.ujfelhasznalonev;
+          // this.getUser();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    },
+    updateJelszo() {
+      let params = {
+        query: this.queryUpdateJelszo,
+        jelszo: this.ujjelszo,
+        id: this.loginId,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
+          this.getUser();
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    },
+    checkPassword() {
+      axios
+        .get(this.url, {
+          params: {
+            query: this.queryCheckJelszo,
+            id: this.loginId,
+            jelszo: this.jelenlegiJelszo,
+          },
+        })
+        .then((res) => {
+          this.handleValidation(res.data.status);
+        });
+    },
   },
 };
 </script>
@@ -83,5 +275,6 @@ export default {
 <style>
 .profile {
   display: inline-block;
+  color: black;
 }
 </style>

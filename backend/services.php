@@ -12,6 +12,9 @@ return [
     "jatekosFelhasznalonevUpdate" => function ($params){
         (new \queries\JatekosFelhasznalonevUpdate($params))->render();
     },
+    "jatszmaTabla" => function ($params){
+        (new \queries\JatszmaTabla($params))->render();
+    },
     "jatszmakTabla" => function ($params){
         (new \queries\JatszmakTabla($params))->render();
     },
@@ -53,5 +56,8 @@ return [
     },
     "getUser" => function ($params){
         (new \queries\GetUser($params))->getUser();
+    },
+    "checkPassword" => function ($params){
+        (new \queries\CheckPassword($params))->check();
     }
 ];

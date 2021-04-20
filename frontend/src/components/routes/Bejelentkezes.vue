@@ -91,12 +91,12 @@ export default {
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
 
-          // console.log(res.data);
+          console.log(res.data);
 
           if (this.$root.$data.loginAccessLevel == 0) {
             alert("Helytelen felhasználónév vagy jelszó!");
           } else {
-            this.$router.push("/");
+            this.$router.push({name: "home"});
           }
         });
     },
