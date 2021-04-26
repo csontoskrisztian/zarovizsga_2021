@@ -9,11 +9,16 @@ CREATE DATABASE match3
 CREATE TABLE match3.jatekosok (
   id INT(11) NOT NULL AUTO_INCREMENT,
   felhasznalonev VARCHAR(50) NOT NULL,
-  jelszo VARCHAR(100) NULL,
+  jelszo VARCHAR(100) DEFAULT NULL,
+  email VARCHAR(50) DEFAULT NULL,
+  profilkep VARCHAR(255) DEFAULT 'logo.png',
+  online TINYINT(1) DEFAULT 0,
   PRIMARY KEY (id)
-);
+)
 ALTER TABLE match3.jatekosok 
-  ADD UNIQUE INDEX felhasznalonev(felhasznalonev);
+  ADD UNIQUE INDEX felhasznalonev(felhasznalonev)
+ALTER TABLE match3.jatekosok 
+  ADD UNIQUE INDEX email(email);
 
 # barátok
 CREATE TABLE match3.baratok (
@@ -67,15 +72,15 @@ CREATE TABLE match3.csempek (
   DELETE FROM csempek;
 
   # jatekosok
-  INSERT INTO jatekosok (felhasznalonev, jelszo)
+  INSERT INTO jatekosok (felhasznalonev, jelszo, email)
     VALUES 
-    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S'),
-    ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
-    ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
-    ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
-    ('JGabor', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
-    ('Ardect', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK'),
-    ('Cintia', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK');
+    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S', 'lysander13@example.com'),
+    ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Mario_1105@example.com'),
+    ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'pillebogar@example.com'),
+    ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ambuss@example.com'),
+    ('JGabor', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'JGabor@example.com'),
+    ('Ardect', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ardect@example.com'),
+    ('Cintia', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Cintia@example.com');
 
   # baratok
   INSERT INTO baratok (jatekos1_id, jatekos2_id)
