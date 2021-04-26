@@ -6,6 +6,9 @@ return [
     "jatszmaUpdate" => function ($params){
         (new \queries\JatszmaUpdate($params))->render();
     },
+    "jatekosOnlineUpdate" => function ($params){
+        (new \queries\JatekosOnlineUpdate($params))->render();
+    },
     "jatekosJelszoUpdate" => function ($params){
         (new \queries\JatekosJelszoUpdate($params))->render();
     },

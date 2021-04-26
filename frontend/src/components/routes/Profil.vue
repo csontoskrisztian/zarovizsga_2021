@@ -1,8 +1,10 @@
 <template>
   <div class="w3-text-theme p-5">
-    <img src="@/assets/logo.png" alt="" />
+    <img :src="require(`@/assets/profile_pictures/${loginProfilePicture}`)"/>
+    <!-- <img src="@/assets/profile_pictures/logo.png"/> -->
     <div class="profile">
-      <h2>{{ loginUserName }}</h2>
+      <h1>{{ loginUserName }}</h1>
+      <h3>{{ loginEmail }}</h3>
       <p v-for="(column, key, index) in columns" :key="index">
         {{ column }}: {{ rows[index][key] }} pont
       </p>
@@ -153,6 +155,12 @@ export default {
     loginId() {
       return this.$root.$data.loginId;
     },
+    loginProfilePicture() {
+      return this.$root.$data.loginProfilePicture;
+    },
+    loginEmail() {
+      return this.$root.$data.loginEmail;
+    },
   },
   methods: {
     onClickShowModal() {
@@ -199,6 +207,8 @@ export default {
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
 
           this.getRows();
         });

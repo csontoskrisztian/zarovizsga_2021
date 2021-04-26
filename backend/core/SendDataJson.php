@@ -29,6 +29,8 @@ class SendDataJson
             "loginAccessLevel" => $this->loginAccessLevel,
             "loginUserName" => $this->loginUserName,
             "loginId" => $this->loginId,
+            "loginProfilePicture" => $this->loginProfilePicture,
+            "loginEmail" => $this->loginEmail,
             "status" => $this->status,
             "title" => $this->title,
             "columns" => $this->columns,
@@ -43,8 +45,10 @@ class SendDataJson
     public function loginStatus()
     {
         $status = 0;
-        $user = "";
         $id = 0;
+        $user = "";
+        $profilepicture = "";
+        $email = "";
         if (isset($_SESSION["user"])) {
             $userId = $_SESSION["user"];
             $sql = "SELECT * FROM jatekosok
@@ -62,6 +66,8 @@ class SendDataJson
                     $status = 1;
                     $id = $record["id"];
                     $user = $record["felhasznalonev"];
+                    $profilepicture = $record["profilkep"];
+                    $email = $record["email"];
                 } else {
                     //nincs ilyen email, vagy nem jó a jelszó
                     $status = 0;
@@ -72,6 +78,8 @@ class SendDataJson
         $this->loginUserName = $user;
         // $this->loginUserName = $_SESSION["user"];
         $this->loginId = $id;
+        $this->loginProfilePicture = $profilepicture;
+        $this->loginEmail = $email;
     }
 
 

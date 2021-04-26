@@ -8,18 +8,21 @@
       <li
         class="list-group-item d-flex justify-content-between align-items-center"
       >
-        <span class="badge bg-danger rounded-pill" v-if="row.allapot != 1"
+        <span class="badge bg-danger rounded-pill" v-if="row.online == 0"
           >offline</span
         >
-        <span class="badge bg-success rounded-pill" v-if="row.allapot == 1"
+        <span class="badge bg-success rounded-pill" v-if="row.online == 1"
           >online</span
+        >
+        <span class="badge bg-warning rounded-pill" v-if="row.online == 2"
+          >inGame</span
         >
       </li>
       <li
         class="list-group-item d-flex justify-content-between align-items-center flex-fill"
         v-for="(cell, key, indexD) in row"
         :key="indexD"
-        :class="{ 'd-none': indexD == 0 }"
+        :class="{ 'd-none': indexD < 2 }"
       >
         {{ cell }}
       </li>
@@ -29,7 +32,7 @@
         <button
           type="button"
           class="btn btn-outline-success btn-sm my-p-button"
-          :class="{ disabled: row.allapot != 1 }"
+          :class="{ disabled: row.online == 0 }"
         >
           Meghívom játszani
         </button>

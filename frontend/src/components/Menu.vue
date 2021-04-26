@@ -76,6 +76,11 @@
               >Bejelentkezes</router-link
             >
           </li>
+          <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 0 }">
+            <router-link class="nav-link" to="/regisztracio/"
+              >Regisztráció</router-link
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -93,6 +98,7 @@ export default {
       resData: [],
       queryGet: "getUser",
       queryLogout: "logoutUser",
+      queryOnline: "jatekosOnlineUpdate",
       title: "",
       columns: {},
       rows: [],
@@ -107,7 +113,10 @@ export default {
     },
     loginUserName() {
       return this.$root.$data.loginUserName;
-    }
+    },
+    loginId() {
+      return this.$root.$data.loginId;
+    },
   },
   methods: {
     getUser() {
@@ -126,6 +135,8 @@ export default {
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
         });
     },
     logout() {
@@ -141,6 +152,8 @@ export default {
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
 
+          this.setOnline();
+
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
@@ -148,6 +161,22 @@ export default {
           if (this.$route.name != "bejelentkezes") this.$router.push({ name: "bejelentkezes" });
         });
     },
+    setOnline() {
+      let params = {
+        query: this.queryOnline,
+        id: this.loginId,
+        online: 0,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
   },
 };
 </script>

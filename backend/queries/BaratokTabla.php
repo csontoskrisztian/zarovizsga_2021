@@ -9,18 +9,19 @@ class BaratokTabla extends \queries\ParentRekordById
     {
         parent::__construct($params);
         $this->title = "Barátok Listája";
-        $this->sql = "SELECT j.id, j.felhasznalonev FROM baratok b
+        $this->sql = "SELECT j.id, j.online, j.felhasznalonev FROM baratok b
                         INNER JOIN jatekosok j ON j.id = b.jatekos2_id
                         WHERE b.jatekos1_id = ?
                       UNION
-                      SELECT j.id, j.felhasznalonev FROM baratok b
+                      SELECT j.id, j.online, j.felhasznalonev FROM baratok b
                         INNER JOIN jatekosok j ON j.id = b.jatekos1_id
                         WHERE b.jatekos2_id = ?";
         $this->typesString = "ii";
         $this->paramVariables = [$params["id"], $params["id"]];
         $this->columns = [
             "j.id" => "id",
-            "j.felhasznalonev" => "Felhasználónév"
+            "j.felhasznalonev" => "Felhasználónév",
+            "j.online" => "online"
         ];
     }
 }

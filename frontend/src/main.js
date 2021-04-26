@@ -6,6 +6,9 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap-icons/font/bootstrap-icons.css"
 
+const axios = require("axios").default;
+axios.defaults.withCredentials = true;
+
 //route konfiguráció importálása
 import RouteConfig from './config/routes.js'
 
@@ -33,8 +36,10 @@ new Vue({
     render: h => h(App),
     data: {
         loginAccessLevel: 0,
-        loginUserName: null,
         loginId: 0,
+        loginUserName: null,
+        loginProfilePicture: "",
+        loginEmail: "",
     },
     created() {
         router.beforeEach((to, from, next) => {
@@ -42,6 +47,6 @@ new Vue({
                 name: 'bejelentkezes'
             })
             else next()
-        })
-    }
+        });
+    },
 }).$mount('#app')

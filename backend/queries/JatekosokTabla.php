@@ -11,7 +11,10 @@ class JatekosokTabla extends \queries\ParentTabla {
         $this->columns = [
             "id" => "id",
             "felhasznalonev" => "Felhasználónév",
-            "jelszo" => "Jelszó"
+            "jelszo" => "Jelszó",
+            "email" => "E-mail",
+            "profilkep" => "Profilkép",
+            "online" => "online"
         ];
     }
 }

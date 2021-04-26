@@ -9,8 +9,9 @@ class JatekosSearch extends \queries\ParentRekordById
     {
         parent::__construct($params);
         $this->title = "Keresett játékos";
-        $this->sql = "SELECT id, felhasznalonev FROM jatekosok
-                        WHERE felhasznalonev LIKE ? AND id != ? AND id NOT IN (SELECT j.id FROM baratok b
+        $this->sql = "SELECT id, online, felhasznalonev FROM jatekosok
+                        WHERE felhasznalonev LIKE ? AND id != ? AND id NOT IN (
+                    SELECT j.id FROM baratok b
                       INNER JOIN jatekosok j ON j.id = b.jatekos2_id
                       WHERE b.jatekos1_id = ?
                     UNION
@@ -27,6 +28,7 @@ class JatekosSearch extends \queries\ParentRekordById
         $this->columns = [
             "id" => "id",
             "felhasznalonev" => "Felhasználónév",
+            "online" => "online"
         ];
     }
 }

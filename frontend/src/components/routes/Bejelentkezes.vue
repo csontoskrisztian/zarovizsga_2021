@@ -47,6 +47,7 @@ export default {
       resData: [],
       queryGet: "getUser",
       queryLogin: "loginUser",
+      queryOnline: "jatekosOnlineUpdate",
       title: "",
       columns: {},
       rows: [],
@@ -54,6 +55,11 @@ export default {
   },
   created() {
     this.getUser();
+  },
+  computed: {
+    loginId() {
+      return this.$root.$data.loginId;
+    },
   },
   methods: {
     getUser() {
@@ -68,9 +74,12 @@ export default {
           this.title = this.resData.title;
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
+
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
         });
     },
     login() {
@@ -87,17 +96,38 @@ export default {
           this.title = this.resData.title;
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
+
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
 
           console.log(res.data);
 
           if (this.$root.$data.loginAccessLevel == 0) {
             alert("Helytelen felhasználónév vagy jelszó!");
           } else {
+            this.setOnline();
+
             this.$router.push({name: "home"});
           }
+        });
+    },
+    setOnline() {
+      let params = {
+        query: this.queryOnline,
+        id: this.loginId,
+        online: 1,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
         });
     },
   },
