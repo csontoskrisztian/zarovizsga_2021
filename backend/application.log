@@ -98,3 +98,11 @@
           ' at line 6
 [ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'SELECT id, felhasznalonev FROM jatekosok
                         WHERE felhaszn' at line 1
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.felhasznalonev FROM baratok b
+                        INNER JOIN jatekosok j O' at line 5
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.felhasznalonev FROM baratok b
+                        INNER JOIN jatekosok j O' at line 5
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.felhasznalonev FROM baratok b
+                        INNER JOIN jatekosok j O' at line 5
+[ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.felhasznalonev FROM baratok b
+                        INNER JOIN jatekosok j O' at line 5
