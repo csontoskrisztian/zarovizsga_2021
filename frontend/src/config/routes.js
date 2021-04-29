@@ -6,8 +6,8 @@ import BaratokKereses from "../components/routes/BaratokKereses.vue";
 import Jatszmak from "../components/routes/Jatszmak.vue";
 import Jatek from "../components/routes/Jatek.vue";
 import Bejelentkezes from "../components/routes/Bejelentkezes.vue"
+import Regisztracio from "../components/routes/Regisztracio.vue"
 
-import Test from "../components/routes/Test.vue";
 // import AlapadatokAutok from "../components/routes/AlapadatokAutok.vue";
 // import AlapadatokBerlok from "../components/routes/AlapadatokBerlok.vue";
 // import Kolcsonzes from "../components/routes/Kolcsonzes.vue";
@@ -17,8 +17,7 @@ import Test from "../components/routes/Test.vue";
 
 
 //2. route - komponenes hozzárendelés
-const routes = [
-    {
+const routes = [{
         name: "home",
         path: "/",
         component: Home
@@ -54,10 +53,10 @@ const routes = [
         component: Bejelentkezes
     },
     {
-        name: "test",
-        path: "/test/",
-        component: Test
-    }
+        name: "regisztracio",
+        path: "/regisztracio/",
+        component: Regisztracio
+    },
     // {
     //     name: "alapadatokAutok",
     //     path: "/alapadatok/autok/",

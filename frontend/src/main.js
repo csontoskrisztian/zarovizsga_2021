@@ -43,7 +43,7 @@ new Vue({
     },
     created() {
         router.beforeEach((to, from, next) => {
-            if (to.name !== 'bejelentkezes' && to.name != 'home' && this.loginAccessLevel == 0) next({
+            if (to.name !== 'bejelentkezes' && to.name !== 'regisztracio' && to.name != 'home' && this.loginAccessLevel == 0) next({
                 name: 'bejelentkezes'
             })
             else next()

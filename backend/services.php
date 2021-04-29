@@ -62,5 +62,8 @@ return [
     },
     "checkPassword" => function ($params){
         (new \queries\CheckPassword($params))->check();
+    },
+    "checkUsernameEmail" => function ($params){
+        (new \queries\CheckUsernameEmail($params))->check();
     }
 ];

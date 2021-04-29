@@ -1,8 +1,9 @@
 <template>
   <div class="p-5">
-    <form @submit.prevent="login()">
+    <h2>Bejelentkezés</h2>
+    <form @submit.prevent="login">
       <div class="form-group">
-        <label for="exampleInputEmail1">Felhasználónév</label>
+        <label for="felhasznalonevInput">Felhasználónév</label>
         <input
           type="text"
           class="form-control"
@@ -12,7 +13,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Jelszó</label>
+        <label for="jelszoInput">Jelszó</label>
         <input
           type="password"
           class="form-control"
@@ -110,7 +111,7 @@ export default {
           } else {
             this.setOnline();
 
-            this.$router.push({name: "home"});
+            this.$router.push({ name: "home" });
           }
         });
     },

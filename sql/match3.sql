@@ -159,7 +159,7 @@ CREATE TABLE match3.csempek (
     WHERE b.jatekos2_id = 7;
 
   # Rangsor Pontszam
-  SET @jatekos := 1;
+  SET @jatekos = 1;
   SELECT SUM(tbl.pont) as 'Rangsor pontszám' FROM
                       (SELECT (jatekos1_pont - jatekos2_pont) as pont FROM jatszmak
                         WHERE jatekos1_id = @jatekos
@@ -168,15 +168,16 @@ CREATE TABLE match3.csempek (
                         WHERE jatekos2_id = @jatekos) as tbl;
 
   # Legutobbi 10 jatszma
-  SET @jatekos := 1;
-  SELECT id, jatekos1_id, jatekos2_id, jatekos1_pont, jatekos2_pont, jatekido, nehezseg FROM jatszmak
+  SET @jatekos = 1;
+  SELECT * FROM (
+  SELECT jatszmak.id, felhasznalonev as ellenfel, jatekos1_pont as pont, jatekos2_pont as ellenfel_pont, jatekido, nehezseg FROM jatszmak
     INNER JOIN jatekosok ON jatekos2_id = jatekosok.id
     WHERE jatekos1_id = @jatekos
   UNION
-  SELECT id, jatekos1_id, jatekos2_id, jatekos1_pont, jatekos2_pont, jatekido, nehezseg FROM jatszmak
+  SELECT jatszmak.id, felhasznalonev as ellenfel, jatekos2_pont as pont, jatekos1_pont as ellenfel_pont, jatekido, nehezseg FROM jatszmak
     INNER JOIN jatekosok ON jatekos1_id = jatekosok.id
-    WHERE jatekos2_id = @jatekos
-    LIMIT 10;
+    WHERE jatekos2_id = @jatekos) as tabla
+  LIMIT 10;
 
   # Bejelentkezés
     SELECT * FROM jatekosok
@@ -184,7 +185,7 @@ CREATE TABLE match3.csempek (
 
 # Insert
   # Regsztráció
-  INSERT INTO jatekosok (felhasznalonev, jelszo)
+  INSERT INTO jatekosok (email, felhasznalonev, jelszo)
     VALUE ('value1', 'value2');
 
   # Új játszma
