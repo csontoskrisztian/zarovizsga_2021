@@ -1,8 +1,15 @@
 <template>
   <div class="w3-text-theme p-5">
-    <h1>{{title}}</h1>
-    <br>
+    <h1>{{ title }}</h1>
+    <br />
+    <div v-if="rows.length == 0">
+      <p>
+        Sajnos nincsenek barátaid! :c
+        <router-link to="/baratok/kereses/">Kattints ide barátok kereséséhez!</router-link>
+        </p>
+    </div>
     <ListRender
+      v-if="rows.length > 0"
       :mode="'list'"
       :columns="columns"
       :rows="rows"
@@ -18,7 +25,7 @@ import ListRender from "./ListRender.vue";
 
 export default {
   name: "baratokLista",
-  components: {ListRender},
+  components: { ListRender },
   data() {
     return {
       resData: [],
@@ -38,7 +45,7 @@ export default {
     },
     loginId() {
       return this.$root.$data.loginId;
-    }
+    },
   },
   created() {
     this.getUser();
@@ -61,7 +68,7 @@ export default {
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
 
-           this.getRows();
+          this.getRows();
         });
     },
     getRows() {
@@ -69,7 +76,7 @@ export default {
         .get(this.url, {
           params: {
             query: this.queryGet,
-            id: this.loginId
+            id: this.loginId,
           },
         })
         .then((res) => {

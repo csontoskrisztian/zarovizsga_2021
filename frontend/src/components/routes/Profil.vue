@@ -6,7 +6,7 @@
       <h1>{{ loginUserName }}</h1>
       <h3>{{ loginEmail }}</h3>
       <p v-for="(column, key, index) in columns" :key="index">
-        {{ column }}: {{ rows[index][key] }} pont
+        {{ column }}: {{ rows[index][key] ? rows[index][key] : 0 }} pont
       </p>
     </div>
 

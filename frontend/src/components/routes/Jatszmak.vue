@@ -1,7 +1,13 @@
 <template>
   <div class="w3-text-theme p-5">
     <h1>Játszmáim</h1>
-    <table class="table my-table-fit table-sm my-table-text-sm">
+    <div v-if="rows.length == 0">
+      <p>
+        Még nem játszottál egyszer sem! :c
+        <router-link to="/jatek/">Kattints ide hogy elkezdhess egy játékot!</router-link>
+        </p>
+    </div>
+    <table class="table my-table-fit table-sm my-table-text-sm" v-if="rows.length > 0">
       <thead class="table-dark">
         <tr>
           <th
