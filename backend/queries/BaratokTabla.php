@@ -12,7 +12,7 @@ class BaratokTabla extends \queries\ParentRekordById
         $this->sql = "SELECT j.id, j.online, j.felhasznalonev FROM baratok b
                         INNER JOIN jatekosok j ON j.id = b.jatekos2_id
                         WHERE b.jatekos1_id = ?
-                      UNION
+                      UNION ALL
                       SELECT j.id, j.online, j.felhasznalonev FROM baratok b
                         INNER JOIN jatekosok j ON j.id = b.jatekos1_id
                         WHERE b.jatekos2_id = ?";

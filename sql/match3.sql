@@ -135,15 +135,37 @@ CREATE TABLE match3.csempek (
   SELECT * FROM jatszmak;
   SELECT * FROM jatszma_0;
 
+  #Toplista
+  SELECT j.id, j.felhasznalonev, SUM(tbl.pont)  as 'Rangsor pontszám' FROM
+                      (SELECT id, jatekos1_id as jatekos_id,  (jatekos1_pont - jatekos2_pont) as pont FROM jatszmak
+                      UNION ALL
+                      SELECT id, jatekos2_id as jatekos_id, (jatekos2_pont - jatekos1_pont) as pont FROM jatszmak
+                      ) as tbl
+  INNER JOIN jatekosok j ON j.id = tbl.jatekos_id
+  GROUP BY j.id
+  ORDER BY `Rangsor pontszám` DESC
+  LIMIT 3;
+
+  #Bottomlista
+  SELECT j.id, j.felhasznalonev, SUM(tbl.pont)  as 'Rangsor pontszám' FROM
+                      (SELECT id, jatekos1_id as jatekos_id,  (jatekos1_pont - jatekos2_pont) as pont FROM jatszmak
+                      UNION ALL
+                      SELECT id, jatekos2_id as jatekos_id, (jatekos2_pont - jatekos1_pont) as pont FROM jatszmak
+                      ) as tbl
+  INNER JOIN jatekosok j ON j.id = tbl.jatekos_id
+  GROUP BY j.id
+  ORDER BY `Rangsor pontszám` ASC
+  LIMIT 3;
+
   # Játékos keresés
-  SET @id = 7;
+  SET @id = 5;
   SELECT id, felhasznalonev FROM jatekosok
     WHERE felhasznalonev LIKE '%%'
       AND id != @id 
       AND id NOT IN (SELECT j.id FROM baratok b
                       INNER JOIN jatekosok j ON j.id = b.jatekos2_id
                       WHERE b.jatekos1_id = @id
-                    UNION
+                    UNION ALL
                     SELECT j.id FROM baratok b
                       INNER JOIN jatekosok j ON j.id = b.jatekos1_id
                       WHERE b.jatekos2_id = @id);
@@ -153,19 +175,20 @@ CREATE TABLE match3.csempek (
   SELECT j.id, j.felhasznalonev FROM baratok b
     INNER JOIN jatekosok j ON j.id = b.jatekos2_id
     WHERE b.jatekos1_id = 7
-  UNION
+  UNION ALL
   SELECT j.id, j.felhasznalonev FROM baratok b
     INNER JOIN jatekosok j ON j.id = b.jatekos1_id
     WHERE b.jatekos2_id = 7;
 
   # Rangsor Pontszam
-  SET @jatekos = 1;
-  SELECT SUM(tbl.pont) as 'Rangsor pontszám' FROM
-                      (SELECT (jatekos1_pont - jatekos2_pont) as pont FROM jatszmak
-                        WHERE jatekos1_id = @jatekos
-                      UNION
-                      SELECT (jatekos2_pont - jatekos1_pont) as pont FROM jatszmak
-                        WHERE jatekos2_id = @jatekos) as tbl;
+  SET @jatekos = 5;
+  SELECT tbl.jatekos_id, SUM(tbl.pont) as 'Rangsor pontszám' FROM
+                      (SELECT jatekos1_id as jatekos_id, (jatekos1_pont - jatekos2_pont) as pont FROM jatszmak
+                      UNION ALL
+                      SELECT jatekos2_id as jatekos_id, (jatekos2_pont - jatekos1_pont) as pont FROM jatszmak
+                      ) as tbl
+    WHERE tbl.jatekos_id = @jatekos
+    GROUP BY tbl.jatekos_id;
 
   # Legutobbi 10 jatszma
   SET @jatekos = 1;
@@ -173,7 +196,7 @@ CREATE TABLE match3.csempek (
   SELECT jatszmak.id, felhasznalonev as ellenfel, jatekos1_pont as pont, jatekos2_pont as ellenfel_pont, jatekido, nehezseg FROM jatszmak
     INNER JOIN jatekosok ON jatekos2_id = jatekosok.id
     WHERE jatekos1_id = @jatekos
-  UNION
+  UNION ALL
   SELECT jatszmak.id, felhasznalonev as ellenfel, jatekos2_pont as pont, jatekos1_pont as ellenfel_pont, jatekido, nehezseg FROM jatszmak
     INNER JOIN jatekosok ON jatekos1_id = jatekosok.id
     WHERE jatekos2_id = @jatekos) as tabla
@@ -212,11 +235,6 @@ CREATE TABLE match3.csempek (
     jelszo = 'value'
     WHERE id = 'value';
 
-  # Fiók törlés
-  UPDATE jatekosok SET
-    felhasznalonev = 'Törölt felhasználó', jelszo = null
-    WHERE id = 'value';
-
   # Játszma Update
   UPDATE jatszmak SET
     jatekos1_pont = 0,
@@ -231,3 +249,11 @@ CREATE TABLE match3.csempek (
   # Barát törlése
   DELETE FROM baratok
     WHERE jatekos1_id = ? AND jatekos2_id = ?;
+
+  #Fiók törlése
+  DELETE FROM baratok
+    WHERE jatekos1_id = ? OR jatekos2_id = ?;
+
+  UPDATE jatekosok
+    SET felhasznalonev = 'Törölt felhasználó', jelszo = null, email = null, profilkep = 'logo.png', online = 0
+    WHERE id = 'value';

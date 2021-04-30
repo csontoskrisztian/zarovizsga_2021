@@ -14,7 +14,7 @@ class JatekosSearch extends \queries\ParentRekordById
                     SELECT j.id FROM baratok b
                       INNER JOIN jatekosok j ON j.id = b.jatekos2_id
                       WHERE b.jatekos1_id = ?
-                    UNION
+                    UNION ALL
                     SELECT j.id FROM baratok b
                       INNER JOIN jatekosok j ON j.id = b.jatekos1_id
                       WHERE b.jatekos2_id = ?)";
