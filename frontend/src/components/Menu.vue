@@ -17,10 +17,10 @@
           <!-- Profil -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
             <router-link
-              class="nav-link active"
-              aria-current="page"
+              class="nav-link"
+              :class="{ active: this.$route.name == 'profil' }"
               to="/profil/"
-              >{{loginUserName}}</router-link
+              >{{ loginUserName }}</router-link
             >
           </li>
 
@@ -53,31 +53,69 @@
             </ul>
           </li>
 
+          <!-- Toplista -->
+          <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
+            <router-link
+              class="nav-link"
+              :class="{
+                active: this.$route.name == 'toplista',
+              }"
+              to="/toplista/"
+              >Toplista</router-link
+            >
+          </li>
+
           <!-- Játszmáim -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
-            <router-link class="nav-link" to="/jatszmak/">Játszmáim</router-link>
+            <router-link
+              class="nav-link"
+              :class="{
+                active: this.$route.name == 'jatszmaim',
+              }"
+              to="/jatszmak/"
+              >Játszmáim</router-link
+            >
           </li>
 
           <!-- Játék -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
-            <router-link class="nav-link" to="/jatek/">Játék</router-link>
+            <router-link
+              class="nav-link"
+              :class="{
+                active: this.$route.name == 'jatek',
+              }"
+              to="/jatek/"
+              >Játék</router-link
+            >
           </li>
         </ul>
 
         <ul class="nav navbar-nav ms-auto w-100 justify-content-end">
           <!-- Kijelentkezés -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel < 1 }">
-            <a class="nav-link" @click="logout()">Kijelentkezés</a>
+            <button class="nav-link btn btn-white" @click="logout()">
+              Kijelentkezés
+            </button>
           </li>
 
           <!-- Bejelentkezés -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 0 }">
-            <router-link class="nav-link" to="/bejelentkezes/"
+            <router-link
+              class="nav-link"
+              :class="{
+                active: this.$route.name == 'bejelentkezes',
+              }"
+              to="/bejelentkezes/"
               >Bejelentkezes</router-link
             >
           </li>
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 0 }">
-            <router-link class="nav-link" to="/regisztracio/"
+            <router-link
+              class="nav-link"
+              :class="{
+                active: this.$route.name == 'regisztracio',
+              }"
+              to="/regisztracio/"
               >Regisztráció</router-link
             >
           </li>
@@ -131,7 +169,7 @@ export default {
           this.title = this.resData.title;
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
-          
+
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
@@ -158,7 +196,8 @@ export default {
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
 
-          if (this.$route.name != "bejelentkezes") this.$router.push({ name: "bejelentkezes" });
+          if (this.$route.name != "bejelentkezes")
+            this.$router.push({ name: "bejelentkezes" });
         });
     },
     setOnline() {
@@ -176,7 +215,7 @@ export default {
           // handle error
           console.log(error);
         });
-    }
+    },
   },
 };
 </script>

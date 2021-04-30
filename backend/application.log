@@ -106,3 +106,12 @@
                         INNER JOIN jatekosok j O' at line 5
 [ERROR] query error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.felhasznalonev FROM baratok b
                         INNER JOIN jatekosok j O' at line 5
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'
+[ERROR] query error: Unknown column 'Rangsor pontszám' in 'order clause'

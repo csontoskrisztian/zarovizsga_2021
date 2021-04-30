@@ -7,6 +7,7 @@ import Jatszmak from "../components/routes/Jatszmak.vue";
 import Jatek from "../components/routes/Jatek.vue";
 import Bejelentkezes from "../components/routes/Bejelentkezes.vue"
 import Regisztracio from "../components/routes/Regisztracio.vue"
+import Toplista from "../components/routes/Toplista.vue"
 
 // import AlapadatokAutok from "../components/routes/AlapadatokAutok.vue";
 // import AlapadatokBerlok from "../components/routes/AlapadatokBerlok.vue";
@@ -56,6 +57,11 @@ const routes = [{
         name: "regisztracio",
         path: "/regisztracio/",
         component: Regisztracio
+    },
+    {
+        name: "toplista",
+        path: "/toplista/",
+        component: Toplista
     },
     // {
     //     name: "alapadatokAutok",

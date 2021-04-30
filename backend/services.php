@@ -42,6 +42,12 @@ return [
     "jatekosokTabla" => function ($params){
         (new \queries\JatekosokTabla($params))->render();
     },
+    "jatekosokTop" => function ($params){
+        (new \queries\JatekosokTop($params))->render();
+    },
+    "jatekosokBottom" => function ($params){
+        (new \queries\JatekosokBottom($params))->render();
+    },
     "baratokTabla" => function ($params){
         (new \queries\BaratokTabla($params))->render();
     },
