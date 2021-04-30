@@ -1,12 +1,12 @@
 <template>
   <div class="w3-text-theme p-5">
-    <img :src="require(`@/assets/profile_pictures/${loginProfilePicture}`)"/>
+    <img :src="getProfilePicture" alt="">
     <!-- <img src="@/assets/profile_pictures/logo.png"/> -->
     <div class="profile">
       <h1>{{ loginUserName }}</h1>
       <h3>{{ loginEmail }}</h3>
       <p v-for="(column, key, index) in columns" :key="index">
-        {{ column }}: {{ rows[index][key] ? rows[index][key] : 0 }} pont
+        {{ column }}: {{ rows.length > 0 ? rows[index][key] : 0 }} pont
       </p>
     </div>
 
@@ -15,27 +15,32 @@
       type="button"
       class="btn btn-primary ms-5"
       data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
+      data-bs-target="#editModal"
       @click="onClickShowModal"
     >
       Profil szerkesztése
     </button>
-    <button type="button" class="btn btn-danger ms-5">Profil törlése</button>
+    <button
+      type="button"
+      class="btn btn-danger ms-5"
+      data-bs-toggle="modal"
+      data-bs-target="#deleteModal"
+    >
+      Profil törlése
+    </button>
 
     <!-- Modal -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="editModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="editModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Profil szerkesztése
-            </h5>
+            <h5 class="modal-title" id="editModalLabel">Profil szerkesztése</h5>
             <button
               type="button"
               class="btn-close"
@@ -112,6 +117,29 @@
         </div>
       </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Profil törlése</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -132,7 +160,8 @@ export default {
       columns: {},
       rows: [],
       form: null,
-      modal: null,
+      editModal: null,
+      deleteModal: null,
       ujfelhasznalonev: "",
       ujjelszo: "",
       jelenlegiJelszo: "",
@@ -142,8 +171,9 @@ export default {
     this.getUser();
   },
   mounted() {
+    // console.log("mounted");
     this.form = document.querySelector(".needs-validation");
-    this.modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+    this.editModal = new bootstrap.Modal(document.getElementById("editModal"));
   },
   computed: {
     loginAccessLevel() {
@@ -161,6 +191,9 @@ export default {
     loginEmail() {
       return this.$root.$data.loginEmail;
     },
+    getProfilePicture() {
+      return this.loginProfilePicture ? require('@/assets/profile_pictures/' + this.loginProfilePicture) : '';
+    }
   },
   methods: {
     onClickShowModal() {
@@ -184,7 +217,7 @@ export default {
 
         this.getUser();
 
-        this.modal.hide();
+        this.editModal.hide();
       } else {
         console.log("Helytelen jelszó");
         let jJelszo = document.querySelector("#jJelszo");
