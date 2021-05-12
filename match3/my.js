@@ -254,6 +254,9 @@ function Init(self) {
     //     console.log("-----")
     // }
 
+    // Random példányosítás
+    self.r = new Random(); 
+
     // Animációkat tartalmazó tömb
     self.Animations = [];
 
@@ -287,10 +290,12 @@ function Init(self) {
 
     // Hányszor hanyas csempékből álljon
     self.tableSize = 8;
+    // Mekkorák legyenek a csempék
+    self.tileSize = 50;
 
     self.tiles = [];
     // Tiles tömb létrehozása és feltöltése csempékkel az adatbázisból
-    TileFromSourceGenerator(self.tiles, self.data, self.images);
+    TileFromSourceGenerator(self);
     // Tiles tömb létrehozása és feltöltése random csempékkel
     // RandomTilesGenerator(self.tiles, self.tableSize)
 
@@ -314,6 +319,12 @@ function Init(self) {
         Update(self, dt);
         Render(self);
     };
+}
+
+function GetRandomTile(self, x, y) {
+    let rType = self.r.Next(0, self.images.length - 1);
+
+    return new Tile(rType, self.images[rType], self.tileSize, x, y);
 }
 
 function RandomTilesGenerator(array, size) {
@@ -363,9 +374,9 @@ function RandomTilesGenerator(array, size) {
     }
 }
 
-function TileFromSourceGenerator(tiles, data, images) {
-    data.forEach(d => {
-        tiles.push(new Tile(d.csempe_id, images[d.csempe_id], 50, d.X, d.Y));
+function TileFromSourceGenerator(self) {
+    self.data.forEach(d => {
+        self.tiles.push(new Tile(d.csempe_id, self.images[d.csempe_id], self.tileSize, d.X, d.Y));
     });
 }
 
@@ -561,6 +572,14 @@ function AfterMath(self) {
                 tile.visible = false;
             });
         });
+
+        // Megszüntetjük a kijelölést
+        self.selectedTile_1 = null;
+        self.selectedTile_2 = null;
+
+        // Lebegő csempék leesése
+        if (matches.length > 0) Falldown(self);
+
     } else if (self.selectedTile_1 && self.selectedTile_2) {
         console.log("Csere vissza!")
         // Visszacseréljük, mert nincsenek párok
@@ -587,22 +606,18 @@ function AfterMath(self) {
 
         // self.tiles[tile_1_row][tile_1_col] = self.selectedTile_1;
         // self.tiles[tile_2_row][tile_2_col] = self.selectedTile_2;
+
+        // Megszüntetjük a kijelölést
+        self.selectedTile_1 = null;
+        self.selectedTile_2 = null;
+
     } else {
         // Ha nincsenek párok és nincsen semmi sem kijelölve, akkor megkezdjük a feltöltést
-
-    }
-
-    // Megszüntetjük a kijelölést
-    self.selectedTile_1 = null;
-    self.selectedTile_2 = null;
-
-    // Lebegő csempék leesése
-    if (matches.length > 0) {
-        Falldown(self, matches);
+        Refill(self);
     }
 }
 
-function Falldown(self, matches) {
+function Falldown(self) {
     console.log("Leesés!");
 
     for (let y = self.tableSize - 1; y >= 1; y--) {
@@ -637,9 +652,11 @@ function Falldown(self, matches) {
                     upperTile.row -= 0.1;
 
                     // Helycsere
-                    let animation_time = 0.15;
+                    let animation_time = 0.25;
                     self.Animations.push(
-                        new Animation(upperTile, "row", tile_1_row, animation_time, function() {AfterMath(self);})
+                        new Animation(upperTile, "row", tile_1_row, animation_time, function () {
+                            AfterMath(self);
+                        })
                     );
 
                     // Megtaláltuk az első olyan fölötte lévő csempét, ami látható, szóval nem kersünk tovább
@@ -653,4 +670,41 @@ function Falldown(self, matches) {
 
     // while (self.Animations.length > 0) {};
     // AfterMath(self);
+}
+
+function Refill(self) {
+    console.log("Feltöltés!")
+
+    let animation_time = 0.25;
+
+    let negative = -1;
+    for (let y = self.tableSize - 1; y >= 0; y--) {
+        if (self.tiles.find(tile => tile.row == y && !tile.visible)) {
+            negative -= 1;
+            animation_time += 0.1;
+        }
+
+        for (let x = 0; x < self.tableSize; x++) {
+            const currentTile = self.tiles.find(tile => tile.row == y && tile.col == x);
+            // console.log(`currentTile: ${currentTile}`);
+
+            if (currentTile.visible) continue;
+
+            let originalY = currentTile.row;
+            let newY = negative;
+
+
+            // console.log(currentTile, currentTile.row)
+            let rTile = GetRandomTile(self, currentTile.col, newY);
+            let index = self.tiles.indexOf(currentTile);
+            self.tiles[index].row = newY;
+            self.tiles[index] = rTile;
+            // console.log(self.tiles[index]);
+            // console.log(self.tiles[index], currentTile.row)
+            
+            self.Animations.push(
+                new Animation(self.tiles[index], "row", originalY, animation_time)
+            );
+        }
+    }
 }
