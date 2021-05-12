@@ -1,5 +1,5 @@
 export class Match3 {
-    constructor(table, data, images) {
+    constructor(table, data = null, images) {
         this.table = table;
         this.data = data;
         this.images = images;
@@ -255,7 +255,7 @@ function Init(self) {
     // }
 
     // Random példányosítás
-    self.r = new Random(); 
+    self.r = new Random();
 
     // Animációkat tartalmazó tömb
     self.Animations = [];
@@ -668,8 +668,9 @@ function Falldown(self) {
         }
     }
 
-    // while (self.Animations.length > 0) {};
-    // AfterMath(self);
+    // Ha nincs mi leessen, akkor nem indul el az AfterMath függvény sem
+    // Tehát ha nem fut animáció, akkor manuálisan indítjuk el
+    if (self.Animations.length == 0) AfterMath(self);
 }
 
 function Refill(self) {
@@ -701,9 +702,11 @@ function Refill(self) {
             self.tiles[index] = rTile;
             // console.log(self.tiles[index]);
             // console.log(self.tiles[index], currentTile.row)
-            
+
             self.Animations.push(
-                new Animation(self.tiles[index], "row", originalY, animation_time)
+                new Animation(self.tiles[index], "row", originalY, animation_time, function () {
+                    AfterMath(self);
+                })
             );
         }
     }
