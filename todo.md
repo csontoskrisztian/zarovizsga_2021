@@ -20,7 +20,7 @@
 - [ ] 2 személyessé tétel
     - Csak akkor tud a játékos mozogni, ha az ő köre van
     - Tile csere esetén jatszma_id update
-    - A másik játékos pedig reagál a változásra és ez után jatszma_id update az ő részéről
+    - A másik játékos pedig reagál a változásra és ez után jatszma_id delete az ő részéről
 - [ ] Kommunikálás az adatbázissal
 
 # Weboldal: 
@@ -41,10 +41,11 @@
     - jatszma_id create
     - Felhasználó várakoztatás
         - Tábla legenárálása
-        - jatszma_id insert
         - Várakozás a 2. játékosra (timeout 1 perc)
     - Elindul a játék
 - [ ] Csatlakozás meglévő játékhoz
-    - jatszmak get (where jatekos2_id = -1) megkapjuk az id-t
-    - jatszma_id get
-    - Tábla generálás jatszma_id alapján
+    - Keresés (where jatekos2_id = -1) -> Ha nincs ilyen közöljük
+        - Megkapjuk az id-t
+        - jatszmak update (jatekos2_id = felhasználó id)
+        - Tábla generálás seed alapján
+    - Elindul a játék
