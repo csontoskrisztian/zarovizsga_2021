@@ -1,19 +1,50 @@
-
+# Játék:
 - [x] Tile pozíciójának folyamatos újraszámolása
-- [x] ismétlődés nélküli véletlen generátor
-- [x] párok felismerése
-- [ ] lehetséges párok felismerése
-- [x] párok törlése
+- [x] Generálás adatbázisból
+- [ ] Ismétlődés nélküli véletlen generátor
+- [x] Párok felismerése
+- [ ] Lehetséges párok felismerése
+- [x] Párok törlése
 - [x] Zuhanás
-- [ ] üres helyek feltöltése
-- [x] animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
-- [ ] animációk beszúrása (csere, csere-vissza, zuhanás)
-    - Animcáió kivonás -> RENGETEG PROBLÉMA
-- boostok:
+- [x] Üres helyek feltöltése
+- [x] Animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
+- [x] Animációk beszúrása (csere, csere-vissza, zuhanás)
+- Boostok:
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
     - [ ] 5< pár -> egész tábla törlése
-- [ ] pont számítás (1 tile = 1 pont)
-- [ ] időzítő
+- [ ] Pont számítás (1 tile = 1 pont)
+- [ ] Időzítő
 - [ ] 2 lépés / kör (3< pár -> +1 lépés)
-- [ ] 2 személyessé tétel (??????????)
+    - Vagy 1 lépés / kör??
+- [ ] 2 személyessé tétel
+    - Csak akkor tud a játékos mozogni, ha az ő köre van
+    - Tile csere esetén jatszma_id update
+    - A másik játékos pedig reagál a változásra és ez után jatszma_id update az ő részéről
+- [ ] Kommunikálás az adatbázissal
+
+# Weboldal: 
+- [ ] Profil szerkesztése (e-mail, profilkép)
+- [ ] Más profiljának megtekintése
+- [ ] Profil törlése
+- [ ] Auto kijelentkezés
+- [ ] Notifikáció rendszer (????)
+- [ ] Játkos meghívása játékra
+- [ ] Játékos "online" mezőjének átnevezése "allapot"-ra
+    - online
+    - offline
+    - inGame
+- [ ] Ha játékban vagyunk a weboldal figyelmeztessen, ha elakarjuk hagyni az oldalt
+- [ ] Új játék indítás
+    - Adatok begyűjtése
+    - jatszmak insert -> megkapjuk az id-t
+    - jatszma_id create
+    - Felhasználó várakoztatás
+        - Tábla legenárálása
+        - jatszma_id insert
+        - Várakozás a 2. játékosra (timeout 1 perc)
+    - Elindul a játék
+- [ ] Csatlakozás meglévő játékhoz
+    - jatszmak get (where jatekos2_id = -1) megkapjuk az id-t
+    - jatszma_id get
+    - Tábla generálás jatszma_id alapján
