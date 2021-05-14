@@ -27,11 +27,15 @@ CREATE TABLE match3.baratok (
 );
 
 
-# jatszma_0
-CREATE TABLE match3.jatszma_0 (
-  X INT(11) NOT NULL,
-  Y INT(11) NOT NULL,
-  csempe_id INT(11) NOT NULL
+# jatszmaLepesek
+CREATE TABLE match3.jatszmaLepesek (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  jatszmakId INT(11) NOT NULL,
+  selected1_X INT(11) NOT NULL,
+  selected1_Y INT(11) NOT NULL,
+  selected2_X INT(11) NOT NULL,
+  selected2_Y INT(11) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 
@@ -39,23 +43,38 @@ CREATE TABLE match3.jatszma_0 (
 CREATE TABLE match3.jatszmak (
   id INT(11) NOT NULL AUTO_INCREMENT,
   jatekos1_id INT(11) NOT NULL,
-  jatekos2_id INT(11) NOT NULL,
-  jatekos1_pont INT(11) NOT NULL,
-  jatekos2_pont INT(11) NOT NULL,
-  allapot INT(11) NOT NULL,
-  jatekido INT(11) NOT NULL,
+  jatekos2_id INT(11) DEFAULT NULL,
+  jatekos1_pont INT(11) DEFAULT 0,
+  jatekos2_pont INT(11) DEFAULT 0,
+  allapot INT(11) DEFAULT 1,
+  jatekido INT(11) DEFAULT 0,
   maxido INT(11) NOT NULL,
   nehezseg INT(11) NOT NULL,
+  seed INT(11) DEFAULT NULL,
+  kor INT(11) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
+# Összekapcsolás
+    ALTER TABLE match3.baratok 
+  ADD CONSTRAINT FK_baratok_jatekosok_id FOREIGN KEY (jatekos1_id)
+    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-# csempek
-CREATE TABLE match3.csempek (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  ikon VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
-);
+ALTER TABLE match3.baratok 
+  ADD CONSTRAINT FK_baratok_jatekosok_id_2 FOREIGN KEY (jatekos2_id)
+    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+  ALTER TABLE match3.jatszmak 
+  ADD CONSTRAINT FK_jatszmak_jatekosok_id FOREIGN KEY (jatekos1_id)
+    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE match3.jatszmak 
+  ADD CONSTRAINT FK_jatszmak_jatekosok_id2 FOREIGN KEY (jatekos2_id)
+    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+  ALTER TABLE match3.jatszmalepesek 
+  ADD CONSTRAINT FK_jatszmalepesek_jatszmak_id FOREIGN KEY (jatszmakId)
+    REFERENCES match3.jatszmak(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 # Táblák létrehozása --- END ---
@@ -67,9 +86,8 @@ CREATE TABLE match3.csempek (
   # Adatok törlése
   DELETE FROM jatekosok;
   DELETE FROM baratok;
-  DELETE FROM jatszma_0;
   DELETE FROM jatszmak;
-  DELETE FROM csempek;
+  DELETE FROM jatszmaLepesek;
 
   # jatekosok
   INSERT INTO jatekosok (felhasznalonev, jelszo, email)
@@ -133,7 +151,15 @@ CREATE TABLE match3.csempek (
   SELECT * FROM jatekosok;
   SELECT * FROM baratok;
   SELECT * FROM jatszmak;
-  SELECT * FROM jatszma_0;
+  SELECT * FROM jatszmaLepesek;
+
+  # Adott játszma a jatszmak táblában
+  SELECT * FROM jatszmak
+    WHERE id = 1;
+
+  # Futó játszmák, ahol még nincs 2. játékos
+    SELECT * FROM jatszmak
+      WHERE allapot = 1 AND jatekos2_id IS NULL;
 
   #Toplista
   SELECT j.id, j.felhasznalonev, SUM(tbl.pont)  as 'Rangsor pontszám' FROM
@@ -174,11 +200,11 @@ CREATE TABLE match3.csempek (
   # Barátok
   SELECT j.id, j.felhasznalonev FROM baratok b
     INNER JOIN jatekosok j ON j.id = b.jatekos2_id
-    WHERE b.jatekos1_id = 7
-  UNION ALL
+    WHERE b.jatekos1_id = 1
+  UNION
   SELECT j.id, j.felhasznalonev FROM baratok b
     INNER JOIN jatekosok j ON j.id = b.jatekos1_id
-    WHERE b.jatekos2_id = 7;
+    WHERE b.jatekos2_id = 1;
 
   # Rangsor Pontszam
   SET @jatekos = 5;
@@ -211,18 +237,19 @@ CREATE TABLE match3.csempek (
   INSERT INTO jatekosok (email, felhasznalonev, jelszo)
     VALUE ('value1', 'value2');
 
-  # Új játszma
-  INSERT INTO jatszmak (jatekos1_id, jatekos2_id, jatekos1_pont, jatekos2_pont, allapot, jatekido, maxido, nehezseg)
-    VALUE ('value1', 'value2', 0, 0, 1, 0, 'value3', 'value4');
-  CREATE TABLE match3.jatszma_id (
-     X INT(11) NOT NULL,
-     Y INT(11) NOT NULL,
-     csempe_id INT(11) NOT NULL
-  );
-
   # Barátnak jelölés
     INSERT INTO baratok (jatekos1_id, jatekos2_id)
       VALUE (1, 2);
+
+  # Játszmában Lépés
+    INSERT INTO jatszmaLepesek 
+      (jatszmakId, selected1_X, selected1_Y, selected2_X, selected2_Y)
+      VALUES (1, 0, 0, 0, 1);
+
+  # Új játék
+    INSERT INTO jatszmak 
+      (jatekos1_id, maxido, nehezseg, seed)
+      VALUE (1, 300000, 2, 123456);
 
 # Update
   # Felhasználónév változtatás
@@ -253,7 +280,10 @@ CREATE TABLE match3.csempek (
   #Fiók törlése
   DELETE FROM baratok
     WHERE jatekos1_id = ? OR jatekos2_id = ?;
-
   UPDATE jatekosok
     SET felhasznalonev = 'Törölt felhasználó', jelszo = null, email = null, profilkep = 'logo.png', online = 0
     WHERE id = 'value';
+
+  #Játszma törlés jatszmak táblából
+    DELETE FROM jatszmak
+      WHERE id = ?;

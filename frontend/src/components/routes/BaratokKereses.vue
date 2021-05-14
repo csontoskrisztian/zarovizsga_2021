@@ -62,7 +62,7 @@ export default {
           params: {
             query: this.querySearch,
             felhasznalonev: this.kereses,
-            id: this.$root.$data.loginId,
+            id: this.loginId,
           },
         })
         .then((res) => {

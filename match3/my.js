@@ -1,8 +1,9 @@
 export class Match3 {
-    constructor(table, data = null, images) {
+    constructor(table, images, seed) {
         this.table = table;
-        this.data = data;
         this.images = images;
+        console.log(this.images);
+        this.seed = seed;
 
         Init(this);
     }
@@ -245,17 +246,17 @@ function Update(self, dt) {
 }
 
 function Init(self) {
-    // Random seed egyformasági kísérlet
-    // let r1 = new Random(1);
-    // let r2 = new Random(1);
+    // // Random seed egyformasági kísérlet
+    // let r1 = new Random();
+    // let r2 = new Random();
     // for (let i = 0; i < 5; i++) {
-    //     console.log(r1.NextDouble());
-    //     console.log(r2.NextDouble());
+    //     console.log(r1.Next(1, 100));
+    //     console.log(r2.Next(1, 100));
     //     console.log("-----")
     // }
 
     // Random példányosítás
-    self.r = new Random();
+    self.r = new Random(self.seed);
 
     // Animációkat tartalmazó tömb
     self.Animations = [];
@@ -294,10 +295,11 @@ function Init(self) {
     self.tileSize = 50;
 
     self.tiles = [];
-    // Tiles tömb létrehozása és feltöltése csempékkel az adatbázisból
-    TileFromSourceGenerator(self);
     // Tiles tömb létrehozása és feltöltése random csempékkel
-    // RandomTilesGenerator(self.tiles, self.tableSize)
+    // console.log("Majd itt jön a random tábla generálás!");
+    RandomTilesGenerator(self)
+
+    console.log(self.tiles);
 
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
@@ -327,10 +329,7 @@ function GetRandomTile(self, x, y) {
     return new Tile(rType, self.images[rType], self.tileSize, x, y);
 }
 
-function RandomTilesGenerator(array, size) {
-    // Felhasználható képek
-    self.fruits = ["Apple", "Avocado", "Banana", "Blackberry", "Cherry"];
-
+function RandomTilesGenerator(self) {
     // Előző előtti és előző csempe x tengelyen
     let secondLastTileType_X;
     let firstLastTileType_X;
@@ -338,38 +337,38 @@ function RandomTilesGenerator(array, size) {
     let secondLastTileType_Y;
     let firstLastTileType_Y;
     // Jelenlegi csempe
-    let currentTileType;
+    let currentTile;
 
-    for (let y = 0; y < size; y++) {
-        array[y] = [];
-        for (let x = 0; x < size; x++) {
+    for (let y = 0; y < self.tableSize; y++) {
+        for (let x = 0; x < self.tableSize; x++) {
             if (x > 0) {
-                firstLastTileType_X = currentTileType;
+                firstLastTileType_X = self.tiles.find(tile => tile.row == y && tile.col == x - 1).type;
+                // console.log("X", x, y, firstLastTileType_X);
             }
             if (x > 1) {
-                secondLastTileType_X = currentTileType;
+                secondLastTileType_X = self.tiles.find(tile => tile.row == y && tile.col == x - 2).type;
                 // console.log("X", x, y, secondLastTileType_X);
             }
             if (y > 0) {
-                firstLastTileType_Y = array[y - 1][x].type;
+                firstLastTileType_Y = self.tiles.find(tile => tile.row == y - 1 && tile.col == x).type;
+                // console.log("Y", x, y, firstLastTileType_Y);
             }
             if (y > 1) {
-                secondLastTileType_Y = array[y - 2][x].type;
+                secondLastTileType_Y = self.tiles.find(tile => tile.row == y - 2 && tile.col == x).type;
                 // console.log("Y", x, y, secondLastTileType_Y);
             }
 
-            // legenerálunk egy random csempetípust, figyelünk arra, hogy ne alakuljon ki 3-as pár
+            // legenerálunk egy random csempét, figyelünk arra, hogy ne alakuljon ki 3-as pár
             do {
-                currentTileType = self.fruits[RandomNumber(0, self.fruits.length)];
+                currentTile = GetRandomTile(self, x, y);
             } while (
-                // Ha az előző kettő x tengelyen ugyan olyan 
-                (firstLastTileType_X == secondLastTileType_X && secondLastTileType_X == currentTileType) ||
-                // Ha az előző kettő y tengelyen ugyan olyan
-                (firstLastTileType_Y == secondLastTileType_Y && secondLastTileType_Y == currentTileType)
+                // Ha az előző kettő az X tengelyen ugyan olyan 
+                (firstLastTileType_X == secondLastTileType_X && secondLastTileType_X == currentTile.type) ||
+                // Ha az előző kettő az Y tengelyen ugyan olyan
+                (firstLastTileType_Y == secondLastTileType_Y && secondLastTileType_Y == currentTile.type)
             );
 
-            let csempe = new Tile(currentTileType, "./img/" + currentTileType + ".png", 50, x, y);
-            array[y][x] = csempe;
+            self.tiles.push(currentTile);
         }
     }
 }

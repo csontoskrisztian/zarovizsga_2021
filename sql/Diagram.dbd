@@ -52,8 +52,8 @@
               <Parent>0</Parent>
             </CustomProperties>
             <Location>
-              <X>-220 px</X>
-              <Y>230 px</Y>
+              <X>40 px</X>
+              <Y>212 px</Y>
             </Location>
             <Size>
               <Width>143 px</Width>
@@ -75,31 +75,8 @@
               <Parent>0</Parent>
             </CustomProperties>
             <Location>
-              <X>730 px</X>
-              <Y>20 px</Y>
-            </Location>
-            <Size>
-              <Width>136 px</Width>
-              <Height>107 px</Height>
-            </Size>
-            <DbOid>
-              <Path>match3.csempek</Path>
-              <TypeName>Table</TypeName>
-            </DbOid>
-            <Compartments>
-              <ConstraintsCollapsed>True</ConstraintsCollapsed>
-              <IndexesCollapsed>True</IndexesCollapsed>
-              <TriggersCollapsed>True</TriggersCollapsed>
-            </Compartments>
-          </Model>
-          <Model xsi:type="TableModel">
-            <CustomProperties>
-              <OID>3</OID>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <Location>
-              <X>140 px</X>
-              <Y>0 px</Y>
+              <X>304 px</X>
+              <Y>278 px</Y>
             </Location>
             <Size>
               <Width>200 px</Width>
@@ -115,18 +92,172 @@
               <TriggersCollapsed>True</TriggersCollapsed>
             </Compartments>
           </Model>
-          <Model xsi:type="TableModel">
+          <Model xsi:type="RelationLinkModel">
+            <CustomProperties>
+              <OID>3</OID>
+              <Comment>4</Comment>
+              <OutModel>1</OutModel>
+              <InModel>2</InModel>
+              <OutPort>5</OutPort>
+              <InPort>6</InPort>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port>
+                <Location>
+                  <X>135.272727272727 px</X>
+                  <Y>123.909090909091 px</Y>
+                </Location>
+                <Anchors>Left Right</Anchors>
+                <Align>Bottom</Align>
+                <CustomProperties>
+                  <OID>5</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+              <Port>
+                <Location>
+                  <X>-0.5 px</X>
+                  <Y>118.5 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Left</Align>
+                <CustomProperties>
+                  <OID>6</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+            </PortAnchors>
+            <BendPoints>
+              <PointD>
+                <X>175.272727272727 px</X>
+                <Y>396.5 px</Y>
+              </PointD>
+            </BendPoints>
+            <IsManuallyRouted>false</IsManuallyRouted>
+            <DbOid>
+              <Path>match3.baratok.FK_baratok_jatekosok_id</Path>
+              <TypeName>ForeignKey</TypeName>
+            </DbOid>
+          </Model>
+          <Model xsi:type="RelationCommentModel">
             <CustomProperties>
               <OID>4</OID>
+              <HolderModel>3</HolderModel>
+              <Port>7</Port>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port xsi:type="LinkPort">
+                <Location>
+                  <X>-64.3636252663352 px</X>
+                  <Y>-60.5 px</Y>
+                </Location>
+                <Anchors>None</Anchors>
+                <Align>Bottom</Align>
+                <CustomProperties>
+                  <OID>7</OID>
+                  <PortType>FixedAnchor</PortType>
+                </CustomProperties>
+                <LinkPortAnchor>OutPoint</LinkPortAnchor>
+              </Port>
+            </PortAnchors>
+            <CommentOffset>
+              <X>22 px</X>
+              <Y>2 px</Y>
+            </CommentOffset>
+          </Model>
+          <Model xsi:type="RelationLinkModel">
+            <CustomProperties>
+              <OID>8</OID>
+              <Comment>9</Comment>
+              <OutModel>1</OutModel>
+              <InModel>2</InModel>
+              <OutPort>10</OutPort>
+              <InPort>11</InPort>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port>
+                <Location>
+                  <X>142.318181818182 px</X>
+                  <Y>61.9090909090909 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Right</Align>
+                <CustomProperties>
+                  <OID>10</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+              <Port>
+                <Location>
+                  <X>-0.5 px</X>
+                  <Y>8.59090909090912 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Left</Align>
+                <CustomProperties>
+                  <OID>11</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+            </PortAnchors>
+            <BendPoints>
+              <PointD>
+                <X>242.909090909091 px</X>
+                <Y>273.909090909091 px</Y>
+              </PointD>
+              <PointD>
+                <X>242.909090909091 px</X>
+                <Y>286.590909090909 px</Y>
+              </PointD>
+            </BendPoints>
+            <IsManuallyRouted>false</IsManuallyRouted>
+            <DbOid>
+              <Path>match3.baratok.FK_baratok_jatekosok_id_2</Path>
+              <TypeName>ForeignKey</TypeName>
+            </DbOid>
+          </Model>
+          <Model xsi:type="RelationCommentModel">
+            <CustomProperties>
+              <OID>9</OID>
+              <HolderModel>8</HolderModel>
+              <Port>12</Port>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port xsi:type="LinkPort">
+                <Location>
+                  <X>-59.9090881347656 px</X>
+                  <Y>-6.34090909090907 px</Y>
+                </Location>
+                <Anchors>None</Anchors>
+                <Align>Right</Align>
+                <CustomProperties>
+                  <OID>12</OID>
+                  <PortType>FixedAnchor</PortType>
+                </CustomProperties>
+                <LinkPortAnchor>OutPoint</LinkPortAnchor>
+              </Port>
+            </PortAnchors>
+            <CommentOffset>
+              <X>22 px</X>
+              <Y>2 px</Y>
+            </CommentOffset>
+          </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>13</OID>
               <Parent>0</Parent>
             </CustomProperties>
             <Location>
-              <X>-230 px</X>
-              <Y>-10 px</Y>
+              <X>685 px</X>
+              <Y>278 px</Y>
             </Location>
             <Size>
               <Width>159 px</Width>
-              <Height>229 px</Height>
+              <Height>263 px</Height>
             </Size>
             <DbOid>
               <Path>match3.jatszmak</Path>
@@ -138,91 +269,50 @@
               <TriggersCollapsed>True</TriggersCollapsed>
             </Compartments>
           </Model>
-          <Model xsi:type="TableModel">
-            <CustomProperties>
-              <OID>5</OID>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <Location>
-              <X>410 px</X>
-              <Y>20 px</Y>
-            </Location>
-            <Size>
-              <Width>138 px</Width>
-              <Height>124 px</Height>
-            </Size>
-            <DbOid>
-              <Path>match3.jatszma_0</Path>
-              <TypeName>Table</TypeName>
-            </DbOid>
-            <Compartments>
-              <ConstraintsCollapsed>True</ConstraintsCollapsed>
-              <IndexesCollapsed>True</IndexesCollapsed>
-              <TriggersCollapsed>True</TriggersCollapsed>
-            </Compartments>
-          </Model>
-          <Model xsi:type="StoredProcModel">
-            <CustomProperties>
-              <OID>6</OID>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <Location>
-              <X>330 px</X>
-              <Y>280 px</Y>
-            </Location>
-            <Size>
-              <Width>151 px</Width>
-              <Height>46 px</Height>
-            </Size>
-            <DbOid>
-              <Path>match3.GenerateTeszt</Path>
-              <TypeName>Procedure</TypeName>
-            </DbOid>
-          </Model>
           <Model xsi:type="RelationLinkModel">
             <CustomProperties>
-              <OID>7</OID>
-              <Comment>8</Comment>
-              <OutModel>4</OutModel>
-              <InModel>3</InModel>
-              <OutPort>9</OutPort>
-              <InPort>10</InPort>
+              <OID>14</OID>
+              <Comment>15</Comment>
+              <OutModel>13</OutModel>
+              <InModel>2</InModel>
+              <OutPort>16</OutPort>
+              <InPort>17</InPort>
               <Parent>0</Parent>
             </CustomProperties>
             <PortAnchors>
               <Port>
                 <Location>
-                  <X>157.2 px</X>
-                  <Y>56.4 px</Y>
+                  <X>11.6363636363636 px</X>
+                  <Y>0.136363636363626 px</Y>
                 </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
+                <Anchors>Left Right</Anchors>
+                <Align>Top</Align>
                 <CustomProperties>
-                  <OID>9</OID>
-                  <PortType>FixedAnchor</PortType>
+                  <OID>16</OID>
+                  <PortType>FloatAnchor</PortType>
                 </CustomProperties>
               </Port>
               <Port>
                 <Location>
-                  <X>1.2 px</X>
-                  <Y>38.4 px</Y>
+                  <X>186.909090909091 px</X>
+                  <Y>0.136363636363626 px</Y>
                 </Location>
-                <Anchors>None</Anchors>
-                <Align>Left</Align>
+                <Anchors>Left Right</Anchors>
+                <Align>Top</Align>
                 <CustomProperties>
-                  <OID>10</OID>
-                  <PortType>FixedAnchor</PortType>
+                  <OID>17</OID>
+                  <PortType>FloatAnchor</PortType>
                 </CustomProperties>
               </Port>
             </PortAnchors>
             <BendPoints>
               <PointD>
-                <X>-51 px</X>
-                <Y>46.4 px</Y>
+                <X>696.636363636364 px</X>
+                <Y>217.545454545455 px</Y>
               </PointD>
               <PointD>
-                <X>-51 px</X>
-                <Y>38.4 px</Y>
+                <X>490.909090909091 px</X>
+                <Y>217.545454545455 px</Y>
               </PointD>
             </BendPoints>
             <IsManuallyRouted>false</IsManuallyRouted>
@@ -233,21 +323,21 @@
           </Model>
           <Model xsi:type="RelationCommentModel">
             <CustomProperties>
-              <OID>8</OID>
-              <HolderModel>7</HolderModel>
-              <Port>11</Port>
+              <OID>15</OID>
+              <HolderModel>14</HolderModel>
+              <Port>18</Port>
               <Parent>0</Parent>
             </CustomProperties>
             <PortAnchors>
               <Port xsi:type="LinkPort">
                 <Location>
-                  <X>-115.5 px</X>
-                  <Y>7.99999847412109 px</Y>
+                  <X>102.863658558239 px</X>
+                  <Y>60.4545440673828 px</Y>
                 </Location>
                 <Anchors>None</Anchors>
-                <Align>Right</Align>
+                <Align>Top</Align>
                 <CustomProperties>
-                  <OID>11</OID>
+                  <OID>18</OID>
                   <PortType>FixedAnchor</PortType>
                 </CustomProperties>
                 <LinkPortAnchor>OutPoint</LinkPortAnchor>
@@ -260,231 +350,63 @@
           </Model>
           <Model xsi:type="RelationLinkModel">
             <CustomProperties>
-              <OID>12</OID>
-              <Comment>13</Comment>
-              <OutModel>4</OutModel>
-              <InModel>3</InModel>
-              <OutPort>14</OutPort>
-              <InPort>15</InPort>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <PortAnchors>
-              <Port>
-                <Location>
-                  <X>154 px</X>
-                  <Y>74 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
-                <CustomProperties>
-                  <OID>14</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-              <Port>
-                <Location>
-                  <X>3.59999999999999 px</X>
-                  <Y>38.4 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Left</Align>
-                <CustomProperties>
-                  <OID>15</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-            </PortAnchors>
-            <BendPoints>
-              <PointD>
-                <X>-51 px</X>
-                <Y>64 px</Y>
-              </PointD>
-              <PointD>
-                <X>-51 px</X>
-                <Y>38.4 px</Y>
-              </PointD>
-            </BendPoints>
-            <IsManuallyRouted>false</IsManuallyRouted>
-            <DbOid>
-              <Path>match3.jatszmak.FK_jatszmak_jatekosok_id_2</Path>
-              <TypeName>ForeignKey</TypeName>
-            </DbOid>
-          </Model>
-          <Model xsi:type="RelationCommentModel">
-            <CustomProperties>
-              <OID>13</OID>
-              <HolderModel>12</HolderModel>
-              <Port>16</Port>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <PortAnchors>
-              <Port xsi:type="LinkPort">
-                <Location>
-                  <X>-115.5 px</X>
-                  <Y>25.5999984741211 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
-                <CustomProperties>
-                  <OID>16</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-                <LinkPortAnchor>OutPoint</LinkPortAnchor>
-              </Port>
-            </PortAnchors>
-            <CommentOffset>
-              <X>22 px</X>
-              <Y>2 px</Y>
-            </CommentOffset>
-          </Model>
-          <Model xsi:type="RelationLinkModel">
-            <CustomProperties>
-              <OID>17</OID>
-              <Comment>18</Comment>
-              <OutModel>5</OutModel>
+              <OID>19</OID>
+              <Comment>20</Comment>
+              <OutModel>13</OutModel>
               <InModel>2</InModel>
-              <OutPort>19</OutPort>
-              <InPort>20</InPort>
+              <OutPort>21</OutPort>
+              <InPort>22</InPort>
               <Parent>0</Parent>
             </CustomProperties>
             <PortAnchors>
               <Port>
                 <Location>
-                  <X>138 px</X>
-                  <Y>70.4 px</Y>
+                  <X>0.363636363636374 px</X>
+                  <Y>12.8181818181819 px</Y>
                 </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
-                <CustomProperties>
-                  <OID>19</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-              <Port>
-                <Location>
-                  <X>0.799999999999955 px</X>
-                  <Y>37.6 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
+                <Anchors>Top Bottom</Anchors>
                 <Align>Left</Align>
-                <CustomProperties>
-                  <OID>20</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-            </PortAnchors>
-            <BendPoints>
-              <PointD>
-                <X>568 px</X>
-                <Y>90.4 px</Y>
-              </PointD>
-              <PointD>
-                <X>568 px</X>
-                <Y>57.6 px</Y>
-              </PointD>
-            </BendPoints>
-            <IsManuallyRouted>false</IsManuallyRouted>
-            <DbOid>
-              <Path>match3.jatszma_0.FK_jatszma_0_csempek_id</Path>
-              <TypeName>ForeignKey</TypeName>
-            </DbOid>
-          </Model>
-          <Model xsi:type="RelationCommentModel">
-            <CustomProperties>
-              <OID>18</OID>
-              <HolderModel>17</HolderModel>
-              <Port>21</Port>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <PortAnchors>
-              <Port xsi:type="LinkPort">
-                <Location>
-                  <X>-101 px</X>
-                  <Y>32.8000015258789 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
                 <CustomProperties>
                   <OID>21</OID>
-                  <PortType>FixedAnchor</PortType>
+                  <PortType>FloatAnchor</PortType>
                 </CustomProperties>
-                <LinkPortAnchor>OutPoint</LinkPortAnchor>
               </Port>
-            </PortAnchors>
-            <CommentOffset>
-              <X>22 px</X>
-              <Y>-30.4 px</Y>
-            </CommentOffset>
-          </Model>
-          <Model xsi:type="RelationLinkModel">
-            <CustomProperties>
-              <OID>22</OID>
-              <Comment>23</Comment>
-              <OutModel>1</OutModel>
-              <InModel>3</InModel>
-              <OutPort>24</OutPort>
-              <InPort>25</InPort>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <PortAnchors>
               <Port>
                 <Location>
-                  <X>144 px</X>
-                  <Y>36.4 px</Y>
+                  <X>199.590909090909 px</X>
+                  <Y>12.8181818181819 px</Y>
                 </Location>
-                <Anchors>None</Anchors>
+                <Anchors>Top Bottom</Anchors>
                 <Align>Right</Align>
                 <CustomProperties>
-                  <OID>24</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-              <Port>
-                <Location>
-                  <X>7.19999999999999 px</X>
-                  <Y>37.6 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Left</Align>
-                <CustomProperties>
-                  <OID>25</OID>
-                  <PortType>FixedAnchor</PortType>
+                  <OID>22</OID>
+                  <PortType>FloatAnchor</PortType>
                 </CustomProperties>
               </Port>
             </PortAnchors>
-            <BendPoints>
-              <PointD>
-                <X>120 px</X>
-                <Y>266.4 px</Y>
-              </PointD>
-              <PointD>
-                <X>120 px</X>
-                <Y>37.6 px</Y>
-              </PointD>
-            </BendPoints>
             <IsManuallyRouted>false</IsManuallyRouted>
             <DbOid>
-              <Path>match3.baratok.FK_baratok_jatekosok_id</Path>
+              <Path>match3.jatszmak.FK_jatszmak_jatekosok_id2</Path>
               <TypeName>ForeignKey</TypeName>
             </DbOid>
           </Model>
           <Model xsi:type="RelationCommentModel">
             <CustomProperties>
-              <OID>23</OID>
-              <HolderModel>22</HolderModel>
-              <Port>26</Port>
+              <OID>20</OID>
+              <HolderModel>19</HolderModel>
+              <Port>23</Port>
               <Parent>0</Parent>
             </CustomProperties>
             <PortAnchors>
               <Port xsi:type="LinkPort">
                 <Location>
-                  <X>-197 px</X>
-                  <Y>114.4 px</Y>
+                  <X>90.5 px</X>
+                  <Y>5.54865061985765E-06 px</Y>
                 </Location>
                 <Anchors>None</Anchors>
-                <Align>Right</Align>
+                <Align>Left</Align>
                 <CustomProperties>
-                  <OID>26</OID>
+                  <OID>23</OID>
                   <PortType>FixedAnchor</PortType>
                 </CustomProperties>
                 <LinkPortAnchor>OutPoint</LinkPortAnchor>
@@ -495,77 +417,96 @@
               <Y>2 px</Y>
             </CommentOffset>
           </Model>
+          <Model xsi:type="TableModel">
+            <CustomProperties>
+              <OID>24</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>892 px</X>
+              <Y>40 px</Y>
+            </Location>
+            <Size>
+              <Width>158 px</Width>
+              <Height>178 px</Height>
+            </Size>
+            <DbOid>
+              <Path>match3.jatszmalepesek</Path>
+              <TypeName>Table</TypeName>
+            </DbOid>
+            <Compartments>
+              <ConstraintsCollapsed>True</ConstraintsCollapsed>
+              <IndexesCollapsed>True</IndexesCollapsed>
+              <TriggersCollapsed>True</TriggersCollapsed>
+            </Compartments>
+          </Model>
           <Model xsi:type="RelationLinkModel">
             <CustomProperties>
-              <OID>27</OID>
-              <Comment>28</Comment>
-              <OutModel>1</OutModel>
-              <InModel>3</InModel>
-              <OutPort>29</OutPort>
-              <InPort>30</InPort>
+              <OID>25</OID>
+              <Comment>26</Comment>
+              <OutModel>24</OutModel>
+              <InModel>13</InModel>
+              <OutPort>27</OutPort>
+              <InPort>28</InPort>
               <Parent>0</Parent>
             </CustomProperties>
             <PortAnchors>
               <Port>
                 <Location>
-                  <X>144.8 px</X>
-                  <Y>54.8 px</Y>
+                  <X>0.5 px</X>
+                  <Y>88.7727272727273 px</Y>
+                </Location>
+                <Anchors>Top Bottom</Anchors>
+                <Align>Left</Align>
+                <CustomProperties>
+                  <OID>27</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+              <Port>
+                <Location>
+                  <X>146.909090909091 px</X>
+                  <Y>0.136363636363626 px</Y>
+                </Location>
+                <Anchors>Left Right</Anchors>
+                <Align>Top</Align>
+                <CustomProperties>
+                  <OID>28</OID>
+                  <PortType>FloatAnchor</PortType>
+                </CustomProperties>
+              </Port>
+            </PortAnchors>
+            <BendPoints>
+              <PointD>
+                <X>831.909090909091 px</X>
+                <Y>128.772727272727 px</Y>
+              </PointD>
+            </BendPoints>
+            <IsManuallyRouted>false</IsManuallyRouted>
+            <DbOid>
+              <Path>match3.jatszmalepesek.FK_jatszmalepesek_jatszmak_id</Path>
+              <TypeName>ForeignKey</TypeName>
+            </DbOid>
+          </Model>
+          <Model xsi:type="RelationCommentModel">
+            <CustomProperties>
+              <OID>26</OID>
+              <HolderModel>25</HolderModel>
+              <Port>29</Port>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <PortAnchors>
+              <Port xsi:type="LinkPort">
+                <Location>
+                  <X>60.0908813476563 px</X>
+                  <Y>-74.6136252663352 px</Y>
                 </Location>
                 <Anchors>None</Anchors>
-                <Align>Right</Align>
+                <Align>Left</Align>
                 <CustomProperties>
                   <OID>29</OID>
                   <PortType>FixedAnchor</PortType>
                 </CustomProperties>
-              </Port>
-              <Port>
-                <Location>
-                  <X>6.40000000000001 px</X>
-                  <Y>38.4 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Left</Align>
-                <CustomProperties>
-                  <OID>30</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
-              </Port>
-            </PortAnchors>
-            <BendPoints>
-              <PointD>
-                <X>120 px</X>
-                <Y>284.8 px</Y>
-              </PointD>
-              <PointD>
-                <X>120 px</X>
-                <Y>38.4 px</Y>
-              </PointD>
-            </BendPoints>
-            <IsManuallyRouted>true</IsManuallyRouted>
-            <DbOid>
-              <Path>match3.baratok.FK_baratok_jatekosok_id_2</Path>
-              <TypeName>ForeignKey</TypeName>
-            </DbOid>
-          </Model>
-          <Model xsi:type="RelationCommentModel">
-            <CustomProperties>
-              <OID>28</OID>
-              <HolderModel>27</HolderModel>
-              <Port>31</Port>
-              <Parent>0</Parent>
-            </CustomProperties>
-            <PortAnchors>
-              <Port xsi:type="LinkPort">
-                <Location>
-                  <X>-197 px</X>
-                  <Y>123.199993896484 px</Y>
-                </Location>
-                <Anchors>None</Anchors>
-                <Align>Right</Align>
-                <CustomProperties>
-                  <OID>31</OID>
-                  <PortType>FixedAnchor</PortType>
-                </CustomProperties>
                 <LinkPortAnchor>OutPoint</LinkPortAnchor>
               </Port>
             </PortAnchors>
@@ -574,13 +515,31 @@
               <Y>2 px</Y>
             </CommentOffset>
           </Model>
+          <Model xsi:type="StoredProcModel">
+            <CustomProperties>
+              <OID>30</OID>
+              <Parent>0</Parent>
+            </CustomProperties>
+            <Location>
+              <X>1100 px</X>
+              <Y>40 px</Y>
+            </Location>
+            <Size>
+              <Width>151 px</Width>
+              <Height>46 px</Height>
+            </Size>
+            <DbOid>
+              <Path>match3.GenerateTeszt</Path>
+              <TypeName>Procedure</TypeName>
+            </DbOid>
+          </Model>
         </Children>
         <ViewPort>
           <ScaleMode>Free</ScaleMode>
-          <Scale>1</Scale>
+          <Scale>0.9061186</Scale>
           <Location>
-            <X>-318.799987792969 px</X>
-            <Y>-43 px</Y>
+            <X>-24.3767700195313 px</X>
+            <Y>29.3997802734375 px</Y>
           </Location>
         </ViewPort>
       </Model>

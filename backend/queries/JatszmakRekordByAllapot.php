@@ -1,18 +1,19 @@
 <?php
-//?query=jatszmakRekordById
+//?query=jatszmakRekordByAllapot
 
 namespace queries;
 
-class JatszmakRekordById extends \queries\ParentRekordById
+class JatszmakRekordByAllapot extends \queries\ParentRekordById
 {
     public function __construct($params)
     {
         parent::__construct($params);
-        $this->title = "Adott jatszma";
+        $this->title = "Futó jatszmák 2. játékos nélkül";
         $this->sql = "SELECT * FROM jatszmak
-                        WHERE id = ?";
+                        WHERE allapot = ? AND jatekos2_id IS NULL
+                        LIMIT 1";
         $this->typesString = "i";
-        $this->paramVariables = [$params["id"]];
+        $this->paramVariables = [1];
         $this->columns = [
             "id" => "id",
             "jatekos1_id" => "jatekos1_id",

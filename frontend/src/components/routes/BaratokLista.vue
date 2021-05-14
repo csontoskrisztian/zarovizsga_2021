@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       resData: [],
+      queryGetUser: "getUser",
       queryGet: "baratokTabla",
       queryDelete: "baratokDelete",
       title: "",
@@ -55,7 +56,7 @@ export default {
       axios
         .get(this.url, {
           params: {
-            query: this.queryGet,
+            query: this.queryGetUser,
           },
         })
         .then((res) => {
@@ -67,6 +68,8 @@ export default {
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
 
           this.getRows();
         });

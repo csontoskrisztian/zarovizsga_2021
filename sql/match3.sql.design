@@ -22,6 +22,7 @@
           <Parameter Name="Param2" Direction="Input" DbType="VarChar" />
           <Parameter Name="Param3" Direction="Input" DbType="VarChar" />
           <Parameter Name="Param4" Direction="Input" DbType="VarChar" />
+          <Parameter Name="Param5" Direction="Input" DbType="VarChar" />
         </Parameters>
       </Data>
     </View>

@@ -32,7 +32,7 @@
         <button
           type="button"
           class="btn btn-outline-success btn-sm my-p-button"
-          :class="{ disabled: row.online == 0 }"
+          :class="{ disabled: true }"
         >
           Meghívom játszani
         </button>

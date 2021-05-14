@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       resData: [],
-      queryGet: "jatszmakRekordById",
+      queryGet: "jatszmak10RekordById",
       title: "",
       columns: {},
       rows: [],
