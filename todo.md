@@ -1,7 +1,8 @@
 # Játék:
 - [x] Tile pozíciójának folyamatos újraszámolása
 - [x] Generálás adatbázisból
-- [ ] Ismétlődés nélküli véletlen generátor
+- [x] Ismétlődés nélküli véletlen generátor
+- [ ] Generálásnál vegye figyelembe a nehézségi szintet
 - [x] Párok felismerése
 - [ ] Lehetséges párok felismerése
 - [x] Párok törlése
@@ -9,21 +10,28 @@
 - [x] Üres helyek feltöltése
 - [x] Animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - [x] Animációk beszúrása (csere, csere-vissza, zuhanás)
-- Boostok:
+- Boostok (?????)
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
     - [ ] 5< pár -> egész tábla törlése
 - [ ] Pont számítás (1 tile = 1 pont)
 - [ ] Időzítő
 - [ ] 2 lépés / kör (3< pár -> +1 lépés)
-    - Vagy 1 lépés / kör??
 - [ ] 2 személyessé tétel
     - Csak akkor tud a játékos mozogni, ha az ő köre van
-    - Tile csere esetén jatszma_id update
-    - A másik játékos pedig reagál a változásra és ez után jatszma_id delete az ő részéről
+    - Tile csere esetén jatszmaLepes update
+    - A másik játékos pedig reagál a változásra és ez után jatszmaLepes delete az ő részéről
 - [ ] Kommunikálás az adatbázissal
+    - A nem 'kor'-ben lévő folyamatosan figyeli a jatszmaLepesek tablat (where jatszmaId = id) -> Ha talál valamit, akkor módosítja a   selected tile-eket és AfterMath()
+    - A 'kor'-ben levő pedig lépés esetén insert jatszmaLepesek
+    - Minden párosításnál frissítjük a pontokat -> update jatszma
+    - Ha megvoltak a lépések, akkor a másik játékos jön -> update jatszmak
+    - Ha az időzítő lejár a játék befejeződik -> update jatszmak
 
 # Weboldal: 
+- [ ] Csináld meg a főoldalt!
+- [ ] Felesleges GetUser kérések törlése, csak várjuk meg, míg betölt az oldal teljesen
+- [ ] Alert üzenetek lecserélése Modal-ra
 - [ ] Profil szerkesztése (e-mail, profilkép)
 - [ ] Más profiljának megtekintése
 - [ ] Profil törlése
@@ -35,17 +43,26 @@
     - offline
     - inGame
 - [ ] Ha játékban vagyunk a weboldal figyelmeztessen, ha elakarjuk hagyni az oldalt
-- [ ] Új játék indítás
+- [x] Új játék indítás
     - Adatok begyűjtése
     - jatszmak insert -> megkapjuk az id-t
-    - jatszma_id create
     - Felhasználó várakoztatás
         - Tábla legenárálása
         - Várakozás a 2. játékosra (timeout 1 perc)
     - Elindul a játék
-- [ ] Csatlakozás meglévő játékhoz
-    - Keresés (where jatekos2_id = -1) -> Ha nincs ilyen közöljük
+- [x] Nem csatlakozik senki a játékhoz
+    - jatszmak delete (Ne tároljunk felesleges adatot)
+- [x] Csatlakozás meglévő játékhoz
+    - Keresés (where jatekos2_id = null && allapot = 1) -> Ha nincs játék folyamatban közöljük
         - Megkapjuk az id-t
         - jatszmak update (jatekos2_id = felhasználó id)
         - Tábla generálás seed alapján
     - Elindul a játék
+- [ ] Szűrő a "Csatlakozás meglévő játékhoz" részhez
+    - '-' (Mindegy) kezelése
+- [ ] Game Over mutatása miután befejeződött a játék
+    - Zöld ha nyert a felhasználó
+    - Sárga ha döntetlen
+    - Piros ha vesztett a felhasználó
+    - Mutatja mennyi pontot nyert/vesztett
+    - Gombok: Főmenű és Új játék (Oldal frissítése)
