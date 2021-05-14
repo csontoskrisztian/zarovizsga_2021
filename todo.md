@@ -10,7 +10,7 @@
 - [x] Üres helyek feltöltése
 - [x] Animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - [x] Animációk beszúrása (csere, csere-vissza, zuhanás)
-- Boostok (?????)
+- [ ] Boostok (?????)
     - [ ] 4 pár -> sor/oszlop törlő
     - [ ] 5 pár -> robbanás
     - [ ] 5< pár -> egész tábla törlése
