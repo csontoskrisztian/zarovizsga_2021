@@ -19,16 +19,16 @@ function getUser(to, from, next) {
         .then((res) => {
             let loginAccessLevel = res.data.loginAccessLevel;
 
-            console.log(from);
-            console.log(to);
-            console.log(router.app.$root.loginAccessLevel);
+            // console.log(from);
+            // console.log(to);
+            // console.log(router.app.$root.loginAccessLevel);
             if (to.name !== 'bejelentkezes' && to.name !== 'regisztracio' && to.name != 'home' && loginAccessLevel == 0) {
-                console.log("If ág");
+                // console.log("If ág");
                 next({
                     name: 'bejelentkezes'
                 });
             } else {
-                console.log("Else ág");
+                // console.log("Else ág");
                 next();
             }
         });
