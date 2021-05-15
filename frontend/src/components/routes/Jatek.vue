@@ -204,6 +204,7 @@ export default {
   },
   mounted() {
     this.table = document.getElementById("Table");
+    this.testGame();
   },
   computed: {
     loginAccessLevel() {
@@ -217,6 +218,13 @@ export default {
     },
   },
   methods: {
+    testGame() {
+      let str = new Date().valueOf().toString();
+      this.gameSeed = parseInt(str.substr(str.length - 6));
+      this.gameId = 0;
+
+      this.gameObject = new game.Match3(this.table, this.images, this.gameSeed);
+    },
     findGame() {
       console.log("Finding Game!");
 
@@ -369,6 +377,8 @@ export default {
               this.images,
               this.gameSeed
             );
+
+            // Kor frissítés
           } else {
             // Játék törlése
             this.deleteJatszmak();

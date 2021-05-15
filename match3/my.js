@@ -2,7 +2,6 @@ export class Match3 {
     constructor(table, images, seed) {
         this.table = table;
         this.images = images;
-        console.log(this.images);
         this.seed = seed;
 
         Init(this);
@@ -208,7 +207,7 @@ function Update(self, dt) {
         // console.log("Formula: " + formula);
 
 
-        if (animation.time > animation.duration + 0.001) {
+        if (animation.time > animation.duration + 0.01) {
             // FAILSAFE
             // console.log("--- ANIMATION FAILSAFE ---");
             // console.log(animation);
@@ -216,8 +215,8 @@ function Update(self, dt) {
             animation.target[animation.property] = animation.value;
             animation.time = Math.round((animation.time + Number.EPSILON) * 1000) / 1000;
 
-            console.log("Idő: " + animation.time + " mp");
-            console.log("Érték: " + animation.target[animation.property]);
+            // console.log("Idő: " + animation.time + " mp");
+            // console.log("Érték: " + animation.target[animation.property]);
 
             let promise = animation.promise;
 
@@ -233,8 +232,8 @@ function Update(self, dt) {
             animation.target[animation.property] = Math.round(animation.target[animation.property]);
             animation.time = Math.round((animation.time + Number.EPSILON) * 1000) / 1000;
 
-            console.log("Idő: " + animation.time + " mp");
-            console.log("Érték: " + animation.target[animation.property]);
+            // console.log("Idő: " + animation.time + " mp");
+            // console.log("Érték: " + animation.target[animation.property]);
 
             let promise = animation.promise;
 
@@ -296,10 +295,13 @@ function Init(self) {
 
     self.tiles = [];
     // Tiles tömb létrehozása és feltöltése random csempékkel
-    // console.log("Majd itt jön a random tábla generálás!");
-    RandomTilesGenerator(self)
+    // Ha esetleg nem lenne benne egy pár sem, akkor újrageneráljuk
+    do {
+        self.tiles = [];
+        RandomTilesGenerator(self);
+    } while (FindPossibleMoves(self).length == 0);
 
-    console.log(self.tiles);
+    // console.log(self.tiles);
 
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
@@ -450,17 +452,17 @@ function CheckSelectedTiles(self) {
     }
 }
 
-function MatchFounder(self) {
+function MatchFounder(self, tilesArray) {
     let foundMatches = [];
 
     // Párok soronként (x tengely)
     // console.log("SORONKÉNT");
     for (let y = 0; y < self.tableSize; y++) {
         // Megkeressük a sor első csempéjét
-        let tArray = [self.tiles.find(tile => tile.row == y && tile.col == 0)];
+        let tArray = [tilesArray.find(tile => tile.row == y && tile.col == 0)];
         for (let x = 1; x < self.tableSize; x++) {
             // Jelenleg vizsgált csempe
-            let currentTile = self.tiles.find(tile => tile.row == y && tile.col == x)
+            let currentTile = tilesArray.find(tile => tile.row == y && tile.col == x)
             // console.log(currentTile, y, x);
             // Ha láthatatlan, akkor kihagyjuk
             if (!currentTile.visible) continue;
@@ -497,10 +499,10 @@ function MatchFounder(self) {
     // console.log("OSZLOPONKÉNT");
     for (let x = 0; x < self.tableSize; x++) {
         // Megkeressük az oszlop első csempéjét
-        let tArray = [self.tiles.find(tile => tile.row == 0 && tile.col == x)];
+        let tArray = [tilesArray.find(tile => tile.row == 0 && tile.col == x)];
         for (let y = 1; y < self.tableSize; y++) {
             // Jelenleg vizsgált csempe
-            let currentTile = self.tiles.find(tile => tile.row == y && tile.col == x)
+            let currentTile = tilesArray.find(tile => tile.row == y && tile.col == x)
             // console.log(currentTile);
             // Ha láthatatlan, akkor kihagyjuk
             if (!currentTile.visible) continue;
@@ -558,7 +560,7 @@ function AfterMath(self) {
     // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
 
     // Talált párok
-    let matches = MatchFounder(self);
+    let matches = MatchFounder(self, self.tiles);
     // console.log(matches);
     // return;
 
@@ -676,13 +678,15 @@ function Refill(self) {
     console.log("Feltöltés!")
 
     let animation_time = 0.25;
-
     let negative = -1;
+    let checkforpairs = true;
+
     for (let y = self.tableSize - 1; y >= 0; y--) {
         if (self.tiles.find(tile => tile.row == y && !tile.visible)) {
+            checkforpairs = false;
             negative -= 1;
             animation_time += 0.1;
-        }
+        } else continue;
 
         for (let x = 0; x < self.tableSize; x++) {
             const currentTile = self.tiles.find(tile => tile.row == y && tile.col == x);
@@ -709,4 +713,162 @@ function Refill(self) {
             );
         }
     }
+
+    if (checkforpairs && FindPossibleMoves(self).length == 0) Shuffle(self);
+}
+
+function FindPossibleMoves(self) {
+    // DeepCopy
+    // Az img tulajdonságon kívűl minden mást tökéletesen lemásol
+    let copyTiles = JSON.parse(JSON.stringify(self.tiles));
+    // console.log(copyTiles == self.tiles);
+    // console.log(copyTiles);
+    // console.log(self.tiles);
+
+    let possibleMoves = [];
+
+    for (let y = 0; y < self.tableSize; y++) {
+        for (let x = 0; x < self.tableSize; x++) {
+            const currentTile = copyTiles.find(tile => tile.row == y && tile.col == x);
+
+            // Mozdítható-e lefelé
+            if (y < self.tableSize - 1) {
+                let neighbourTile = copyTiles.find(tile => tile.col == x && tile.row == y + 1);
+
+                SwitchTiles(currentTile, neighbourTile);
+
+                // Ellenőrzés
+                let matches = MatchFounder(self, copyTiles);
+                // console.log(matches, x, y, x, y + 1);
+
+                if (matches.length > 0 && !(possibleMoves.includes(currentTile) && possibleMoves.includes(neighbourTile))) possibleMoves.push({
+                    tile_1: currentTile,
+                    tile_2: neighbourTile
+                });
+
+                SwitchTiles(currentTile, neighbourTile);
+            }
+
+            // Mozdítható-e felfelé
+            if (y > 0) {
+                let neighbourTile = copyTiles.find(tile => tile.col == x && tile.row == y - 1);
+
+                SwitchTiles(currentTile, neighbourTile);
+
+                // Ellenőrzés
+                let matches = MatchFounder(self, copyTiles);
+                // console.log(matches, x, y, x, y - 1);
+
+                if (matches.length > 0 && !(possibleMoves.includes(currentTile) && possibleMoves.includes(neighbourTile))) possibleMoves.push({
+                    tile_1: currentTile,
+                    tile_2: neighbourTile
+                });
+
+                SwitchTiles(currentTile, neighbourTile);
+            }
+
+            // Mozdítható-e jobbra
+            if (x < self.tableSize - 1) {
+                let neighbourTile = copyTiles.find(tile => tile.col == x + 1 && tile.row == y);
+
+                SwitchTiles(currentTile, neighbourTile);
+
+                // Ellenőrzés
+                let matches = MatchFounder(self, copyTiles);
+                // console.log(matches, x, y, x + 1, y);
+
+                if (matches.length > 0 && !(possibleMoves.includes(currentTile) && possibleMoves.includes(neighbourTile))) possibleMoves.push({
+                    tile_1: currentTile,
+                    tile_2: neighbourTile
+                });
+
+                SwitchTiles(currentTile, neighbourTile);
+            }
+
+            // Mozdítható-e balra
+            if (x > 0) {
+                let neighbourTile = copyTiles.find(tile => tile.col == x - 1 && tile.row == y);
+
+                SwitchTiles(currentTile, neighbourTile);
+
+                // Ellenőrzés
+                let matches = MatchFounder(self, copyTiles);
+                // console.log(matches, x, y, x - 1, y);
+
+                if (matches.length > 0 && !(possibleMoves.includes(currentTile) && possibleMoves.includes(neighbourTile))) possibleMoves.push({
+                    tile_1: currentTile,
+                    tile_2: neighbourTile
+                });
+
+                SwitchTiles(currentTile, neighbourTile);
+            }
+        }
+    }
+
+    console.log(`Lehetséges párok száma: ${possibleMoves.length}`);
+    return possibleMoves;
+}
+
+function SwitchTiles(tile_1, tile_2) {
+    // Adatok eltárolása
+    let tile_1_col = tile_1.col,
+        tile_1_row = tile_1.row;
+    let tile_2_col = tile_2.col,
+        tile_2_row = tile_2.row;
+
+    // Csere
+    tile_1.col = tile_2_col;
+    tile_1.row = tile_2_row;
+    tile_2.col = tile_1_col;
+    tile_2.row = tile_1_row;
+}
+
+function Shuffle(self) {
+    console.log("Felrázás!");
+
+    // Előző előtti és előző csempe x tengelyen
+    let secondLastTileType_X;
+    let firstLastTileType_X;
+    // Előző előtti és előző csempe y tengelyen
+    let secondLastTileType_Y;
+    let firstLastTileType_Y;
+    // Random index
+    let randomIndex;
+
+    for (let y = 0; y < self.tableSize; y++) {
+        for (let x = 0; x < self.tableSize; x++) {
+            const currentTile = self.tiles.find(tile => tile.row == y && tile.col == x);
+
+            if (x > 0) {
+                firstLastTileType_X = self.tiles.find(tile => tile.row == y && tile.col == x - 1).type;
+                // console.log("X", x, y, firstLastTileType_X);
+            }
+            if (x > 1) {
+                secondLastTileType_X = self.tiles.find(tile => tile.row == y && tile.col == x - 2).type;
+                // console.log("X", x, y, secondLastTileType_X);
+            }
+            if (y > 0) {
+                firstLastTileType_Y = self.tiles.find(tile => tile.row == y - 1 && tile.col == x).type;
+                // console.log("Y", x, y, firstLastTileType_Y);
+            }
+            if (y > 1) {
+                secondLastTileType_Y = self.tiles.find(tile => tile.row == y - 2 && tile.col == x).type;
+                // console.log("Y", x, y, secondLastTileType_Y);
+            }
+
+            // Legenerálunk egy random indexet, figyelünk arra, hogy ne alakuljon ki 3-as pár
+            do {
+                randomIndex = self.r.Next(0, self.tiles.length);
+            } while (
+                // Ha az előző kettő az X tengelyen ugyan olyan 
+                (firstLastTileType_X == secondLastTileType_X && secondLastTileType_X == self.tiles[randomIndex].type) ||
+                // Ha az előző kettő az Y tengelyen ugyan olyan
+                (firstLastTileType_Y == secondLastTileType_Y && secondLastTileType_Y == self.tiles[randomIndex].type)
+            );
+
+            SwitchTiles(currentTile, self.tiles[randomIndex]);
+        }
+    }
+
+    AfterMath(self);
 }
