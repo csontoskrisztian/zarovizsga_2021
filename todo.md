@@ -36,6 +36,7 @@
 - [ ] Más profiljának megtekintése
 - [ ] Profil törlése
 - [ ] Auto kijelentkezés
+- [x] Bizonyos oldalak való hozzáférés megakadályozása 
 - [ ] Notifikáció rendszer (????)
 - [ ] Játkos meghívása játékra
 - [ ] Játékos "online" mezőjének átnevezése "allapot"-ra

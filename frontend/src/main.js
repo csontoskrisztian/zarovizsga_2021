@@ -9,6 +9,31 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 const axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
+function getUser(to, from, next) {
+    axios
+        .get("http://localhost/zarovizsga_2021/backend/index.php", {
+            params: {
+                query: "getUser",
+            },
+        })
+        .then((res) => {
+            let loginAccessLevel = res.data.loginAccessLevel;
+
+            console.log(from);
+            console.log(to);
+            console.log(router.app.$root.loginAccessLevel);
+            if (to.name !== 'bejelentkezes' && to.name !== 'regisztracio' && to.name != 'home' && loginAccessLevel == 0) {
+                console.log("If ág");
+                next({
+                    name: 'bejelentkezes'
+                });
+            } else {
+                console.log("Else ág");
+                next();
+            }
+        });
+}
+
 //route konfiguráció importálása
 import RouteConfig from './config/routes.js'
 
@@ -16,6 +41,10 @@ import RouteConfig from './config/routes.js'
 const router = new VueRouter({
     routes: RouteConfig
 });
+router.beforeEach((to, from, next) => {
+    getUser(to, from, next);
+});
+
 
 //A VueResource, VueRouter használatba vétele
 Vue.use(VueRouter);
@@ -40,13 +69,5 @@ new Vue({
         loginUserName: null,
         loginProfilePicture: "",
         loginEmail: "",
-    },
-    created() {
-        router.beforeEach((to, from, next) => {
-            if (to.name !== 'bejelentkezes' && to.name !== 'regisztracio' && to.name != 'home' && this.loginAccessLevel == 0) next({
-                name: 'bejelentkezes'
-            })
-            else next()
-        });
-    },
+    }
 }).$mount('#app')
