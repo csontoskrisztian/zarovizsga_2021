@@ -1,10 +1,15 @@
 # Játék:
+- [ ] Tile ikonok lecserélése
 - [x] Tile pozíciójának folyamatos újraszámolása
 - [x] Generálás adatbázisból
 - [x] Ismétlődés nélküli véletlen generátor
 - [ ] Generálásnál vegye figyelembe a nehézségi szintet
+- [ ] Animáció mikor legenerálódott a tábla
 - [x] Párok felismerése
-- [ ] Lehetséges párok felismerése
+- [x] Lehetséges párok felismerése
+- [ ] Pár másodperc inaktivítás után jelezzen egy random lehetséges párt (animáció)
+- [x] Újrarendezés, ha nincs pár
+- [ ] Újrarendezés animálás
 - [x] Párok törlése
 - [x] Zuhanás
 - [x] Üres helyek feltöltése
