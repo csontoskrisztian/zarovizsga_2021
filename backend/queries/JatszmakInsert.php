@@ -26,7 +26,7 @@ class JatszmakInsert extends \queries\ParentInsert
             $params["maxido"],
             $params["nehezseg"],
             $params["seed"],
-            $params["jatekos1_id"]
+            $params["kor"]
         ];
     }
 }

@@ -1,9 +1,11 @@
 export class Match3 {
-    constructor(table, images, seed, difficulty) {
+    constructor(table, images, data, player_id) {
         this.table = table;
         this.images = images;
-        this.seed = seed;
-        this.difficulty = difficulty;
+        this.data = data;
+        this.player_id = player_id;
+        this.seed = data.seed;
+        this.difficulty = data.nehezseg;
 
         Init(this);
     }
@@ -198,10 +200,10 @@ function Update(self, dt) {
     let alreadyAnimated = [];
 
     self.Animations.forEach((animation, index) => {
-        let checkArray = alreadyAnimated.filter(obj => obj.index != index && obj.target == animation.target && obj.property == animation.property);
+        let checkArray = alreadyAnimated.filter(obj => obj.target == animation.target && obj.property == animation.property);
         if (checkArray.length != 0) {
             // Távolság frissítése azoknál az animációknál, amik még nem futhatnak le
-            animation.distance = checkArray.find(obj => obj.index != index && obj.target == animation.target && obj.property == animation.property).value - animation.value;
+            animation.distance = checkArray.find(obj => obj.target == animation.target && obj.property == animation.property).value - animation.value;
             // console.log(animation.distance);
             // console.log(alreadyAnimated.length);
             return;
@@ -210,6 +212,7 @@ function Update(self, dt) {
         // Animáció késleltetése
         if (animation.delay > 0) {
             animation.delay -= dt;
+
             if (animation.delay <= 0) {
                 animation.delay = 0;
             } else {
@@ -372,10 +375,8 @@ function Init(self) {
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
 
-    // Kattintásra kijelölünk
+    // Kattintásra kijelölünk és ellenőrzünk
     self.OnClickListeners.push(SelectTile);
-    // Majd megnézzük miket jelöltünk ki eddig
-    self.OnClickListeners.push(CheckSelectedTiles);
 
     // Segítség, ha nem talál párt a játékos pár másodpercenbelül
     // self.helpTimer = null;
@@ -452,8 +453,9 @@ function TileFromSourceGenerator(self) {
 }
 
 function SelectTile(self) {
-    // Egy tile kijelölése
+    if (self.data.kor != self.player_id) return;
 
+    // Egy tile kijelölése
     self.tiles.forEach(tile => {
         if (tile.isPositionMacthing(self.cursorX, self.cursorY)) {
             // console.log(tile.type);
@@ -477,14 +479,14 @@ function SelectTile(self) {
             return;
         };
     });
-}
 
-function CheckSelectedTiles(self) {
     // Ha 2 tile ki van jelölve, akkor cserélje meg őket
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
         // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
         // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
         console.log("Csere!")
+
+        self.OnPair(self.selectedTile_1.col, self.selectedTile_1.row, self.selectedTile_2.col, self.selectedTile_2.row);
 
         SwitchTiles(self, self.selectedTile_1, self.selectedTile_2, true, function () {
             AfterMath(self);
@@ -688,7 +690,7 @@ function AfterMath(self) {
         self.selectedTile_1 = null;
         self.selectedTile_2 = null;
 
-        HelpFindMatches(self);
+        // HelpFindMatches(self);
     } else {
         // Ha nincsenek párok és nincsen semmi sem kijelölve, akkor megkezdjük a feltöltést
         Refill(self);
@@ -912,18 +914,29 @@ function SwitchTiles(self, tile_1, tile_2, animate = false, promise = function (
     if (animate) {
         let animation_time = 0.35;
 
-        self.Animations.push(new Animation(
-            tile_1, "col", tile_2_col, animation_time, promise, delay
-        ));
-        self.Animations.push(new Animation(
-            tile_1, "row", tile_2_row, animation_time, promise, delay
-        ));
-        self.Animations.push(new Animation(
-            tile_2, "col", tile_1_col, animation_time, promise, delay
-        ));
-        self.Animations.push(new Animation(
-            tile_2, "row", tile_1_row, animation_time, promise, delay
-        ));
+        if (tile_1_col == tile_2_col) {
+            // console.log("Bejut ide: COL");
+            // console.log(tile_1_col, tile_1_row);
+            // console.log(tile_2_col, tile_2_row);
+
+            self.Animations.push(new Animation(
+                tile_1, "row", tile_2_row, animation_time, undefined, delay
+            ));
+            self.Animations.push(new Animation(
+                tile_2, "row", tile_1_row, animation_time, promise, delay
+            ));
+        } else if (tile_1_row == tile_2_row) {
+            // console.log("Bejut ide: ROW");
+            // console.log(tile_1_col, tile_1_row);
+            // console.log(tile_2_col, tile_2_row);
+
+            self.Animations.push(new Animation(
+                tile_1, "col", tile_2_col, animation_time, undefined, delay
+            ));
+            self.Animations.push(new Animation(
+                tile_2, "col", tile_1_col, animation_time, promise, delay
+            ));
+        }
     } else {
         tile_1.col = tile_2_col;
         tile_1.row = tile_2_row;

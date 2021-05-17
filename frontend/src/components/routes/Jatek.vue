@@ -5,7 +5,17 @@
       class="d-flex justify-content-center"
       :class="{ 'd-none': gameObject == null }"
     >
+      <h1>{{ loginId }}</h1>
       <canvas class="m-5" id="Table" width="400" height="400"></canvas>
+      <h1>
+        {{
+          rows.jatekos1_id
+            ? rows.jatekos1_id == loginId
+              ? rows.jatekos2_id
+              : rows.jatekos1_id
+            : ""
+        }}
+      </h1>
     </div>
     <!-- GAME -->
 
@@ -19,7 +29,7 @@
     </div>
     <!-- Töltő képrenyő -->
 
-    <!-- Eltűnik, ha sikeresen legenráltunk egy új játszmát vagy csatlakoztunk egy meglévőhőz -->
+    <!-- Eltűnik, ha sikeresen legenráltunk egy új játszmát vagy csatlakozunk egy meglévőhőz -->
     <div
       class="p-5 d-flex f-row justify-content-center"
       :class="{ 'd-none': gameId != null }"
@@ -163,6 +173,7 @@ export default {
       queryInsertJatszmak: "jatszmakInsert",
       queryUpdateJatszmak: "jatszmakUpdate",
       queryDeleteJatszmak: "jatszmakDelete",
+      queryInsertJatszmaLepesek: "jatszmaLepesekInsert",
       queryGetBaratok: "baratokTabla",
       title: "",
       columns: {},
@@ -209,6 +220,13 @@ export default {
   },
   mounted() {
     this.table = document.getElementById("Table");
+    // Ha nem a felhasználó köre van, akkor figyelmeztetjük, hogy nem az ő köre van
+    this.table.addEventListener("click", () => {
+      console.log(this.rows);
+      if (this.rows.kor != this.loginId) {
+        alert("Nem a te köröd van!");
+      }
+    });
     // this.testGame();
   },
   computed: {
@@ -228,7 +246,19 @@ export default {
       this.gameSeed = parseInt(str.substr(str.length - 6));
       this.gameId = 0;
 
-      this.gameObject = new game.Match3(this.table, this.images, this.gameSeed, 3);
+      this.gameObject = new game.Match3(this.table, this.images, {
+        allapot: 1,
+        id: 0,
+        jatekido: 0,
+        maxido: 300000,
+        jatekos1_id: this.loginId,
+        jatekos2_id: 0,
+        jatekos1_pont: 0,
+        jatekos2_pont: 0,
+        kor: this.loginId,
+        seed: this.gameSeed,
+        nehezseg: 3,
+      });
     },
     findGame() {
       console.log("Finding Game!");
@@ -288,6 +318,7 @@ export default {
         .post(this.url, params)
         .then((res) => {
           console.log(res.data);
+          this.rows.jatekos2_id = this.loginId;
 
           // Csak akkor fusson le ha sikerült frissíteni!
           if (res.data.status == "Ok") {
@@ -295,7 +326,8 @@ export default {
             this.gameObject = new game.Match3(
               this.table,
               this.images,
-              this.gameSeed
+              this.rows,
+              this.loginId
             );
           } else {
             this.gameId = null;
@@ -318,6 +350,7 @@ export default {
         maxido: this.selectedTime,
         nehezseg: this.selectedDifficulty,
         seed: this.gameSeed,
+        kor: this.loginId,
       };
       axios
         .post(this.url, params)
@@ -380,10 +413,11 @@ export default {
             this.gameObject = new game.Match3(
               this.table,
               this.images,
-              this.gameSeed
+              this.rows,
+              this.loginId
             );
 
-            // Kor frissítés
+            this.gameObject.OnPair = this.insertJatszmaLepesek;
           } else {
             // Játék törlése
             this.deleteJatszmak();
@@ -405,6 +439,26 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.gameId = null;
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    },
+    insertJatszmaLepesek(selected1_X, selected1_Y, selected2_X, selected2_Y) {
+      let query = this.queryInsertJatszmaLepesek;
+      let params = {
+        query: query,
+        jatszmakId: this.rows.id,
+        selected1_X,
+        selected1_Y,
+        selected2_X,
+        selected2_Y,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
         })
         .catch(function (error) {
           // handle error

@@ -28,12 +28,10 @@
 - [ ] Időzítő
 - [ ] 2 lépés / kör (3< pár -> +1 lépés)
 - [ ] 2 személyessé tétel
-    - [ ] Csak akkor tud a játékos mozogni, ha az ő köre van
-    - [ ] Tile csere esetén jatszmaLepes update
-    - [ ] A másik játékos pedig reagál a változásra és ez után jatszmaLepes delete az ő részéről
-- [ ] Kommunikálás az adatbázissal
+    - [ ] Időzítő indítás -> MySQL Event vagy helyileg az éppen kor-ben lévő játékos frissíti
+    - [x] Csak akkor tud a játékos mozogni, ha az ő köre van
+    - [x] A 'kor'-ben levő játkos lépése esetén insert jatszmaLepesek
     - [ ] A nem 'kor'-ben lévő folyamatosan figyeli a jatszmaLepesek tablat (where jatszmaId = id) -> Ha talál valamit, akkor módosítja a selected tile-eket és AfterMath()
-    - [ ] A 'kor'-ben levő pedig lépés esetén insert jatszmaLepesek
     - [ ] Minden párosításnál frissítjük a pontokat -> update jatszma
     - [ ] Ha megvoltak a lépések, akkor a másik játékos jön -> update jatszmak
     - [ ] Ha az időzítő lejár a játék befejeződik -> update jatszmak

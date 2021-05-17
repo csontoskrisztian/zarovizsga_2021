@@ -1,5 +1,8 @@
 <?php
 return [
+    "jatszmaLepesekInsert" => function ($params){
+        (new \queries\JatszmaLepesekInsert($params))->render();
+    },
     "baratokDelete" => function ($params){
         (new \queries\BaratokDelete($params))->render();
     },
