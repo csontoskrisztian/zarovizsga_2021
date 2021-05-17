@@ -1,37 +1,42 @@
 # Játék:
-- [ ] Tile ikonok lecserélése
+- ~~[ ] Tile ikonok lecserélése~~
 - [x] Tile pozíciójának folyamatos újraszámolása
 - [x] Generálás adatbázisból
 - [x] Ismétlődés nélküli véletlen generátor
-- [ ] Generálásnál vegye figyelembe a nehézségi szintet
-- [ ] Animáció mikor legenerálódott a tábla
+- [x] Generálásnál vegye figyelembe a nehézségi szintet
+    - könnyű - 6
+    - normál - 8
+    - nehéz - 10
+- [x] Animáció mikor legenerálódott a tábla
 - [x] Párok felismerése
 - [x] Lehetséges párok felismerése
-- [ ] Pár másodperc inaktivítás után jelezzen egy random lehetséges párt (animáció)
+- [x] Lehetséges pároknál ne vegye figyelembe az ismétlődést
+- ~~[ ] Pár másodperc inaktivítás után jelezzen egy random lehetséges párt (animáció)~~
 - [x] Újrarendezés, ha nincs pár
-- [ ] Újrarendezés animálás
+- ~~[ ] Újrarendezés animálás (Shuffle függvény probléma)~~
+- [x] Ha egyszerre többször próbáljuk meg animálni egy elem adott tulajdonságát, akkor várja meg, míg első befejeződőtt és csak akkor kezdje a következőt
 - [x] Párok törlése
 - [x] Zuhanás
 - [x] Üres helyek feltöltése
 - [x] Animációk (külön osztály?) -> animációk alatt nem fogad semmi bemenetet a canvas
 - [x] Animációk beszúrása (csere, csere-vissza, zuhanás)
-- [ ] Boostok (?????)
-    - [ ] 4 pár -> sor/oszlop törlő
-    - [ ] 5 pár -> robbanás
-    - [ ] 5< pár -> egész tábla törlése
+- ~~[ ] Boostok (?????)~~
+    - ~~[ ] 4 pár -> sor/oszlop törlő~~
+    - ~~[ ] 5 pár -> robbanás~~
+    - ~~[ ] 5< pár -> egész tábla törlése~~
 - [ ] Pont számítás (1 tile = 1 pont)
 - [ ] Időzítő
 - [ ] 2 lépés / kör (3< pár -> +1 lépés)
 - [ ] 2 személyessé tétel
-    - Csak akkor tud a játékos mozogni, ha az ő köre van
-    - Tile csere esetén jatszmaLepes update
-    - A másik játékos pedig reagál a változásra és ez után jatszmaLepes delete az ő részéről
+    - [ ] Csak akkor tud a játékos mozogni, ha az ő köre van
+    - [ ] Tile csere esetén jatszmaLepes update
+    - [ ] A másik játékos pedig reagál a változásra és ez után jatszmaLepes delete az ő részéről
 - [ ] Kommunikálás az adatbázissal
-    - A nem 'kor'-ben lévő folyamatosan figyeli a jatszmaLepesek tablat (where jatszmaId = id) -> Ha talál valamit, akkor módosítja a   selected tile-eket és AfterMath()
-    - A 'kor'-ben levő pedig lépés esetén insert jatszmaLepesek
-    - Minden párosításnál frissítjük a pontokat -> update jatszma
-    - Ha megvoltak a lépések, akkor a másik játékos jön -> update jatszmak
-    - Ha az időzítő lejár a játék befejeződik -> update jatszmak
+    - [ ] A nem 'kor'-ben lévő folyamatosan figyeli a jatszmaLepesek tablat (where jatszmaId = id) -> Ha talál valamit, akkor módosítja a selected tile-eket és AfterMath()
+    - [ ] A 'kor'-ben levő pedig lépés esetén insert jatszmaLepesek
+    - [ ] Minden párosításnál frissítjük a pontokat -> update jatszma
+    - [ ] Ha megvoltak a lépések, akkor a másik játékos jön -> update jatszmak
+    - [ ] Ha az időzítő lejár a játék befejeződik -> update jatszmak
 
 # Weboldal: 
 - [ ] Csináld meg a főoldalt!
@@ -42,9 +47,9 @@
 - [ ] Profil törlése
 - [ ] Auto kijelentkezés
 - [x] Bizonyos oldalak való hozzáférés megakadályozása 
-- [ ] Notifikáció rendszer (????)
-- [ ] Játkos meghívása játékra
-- [ ] Játékos "online" mezőjének átnevezése "allapot"-ra
+- ~~[ ] Notifikáció rendszer (????)~~
+- ~~[ ] Játkos meghívása játékra~~
+- ~~[ ] Játékos "online" mezőjének átnevezése "allapot"-ra~~
     - online
     - offline
     - inGame

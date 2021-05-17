@@ -193,7 +193,12 @@ export default {
       require("@/assets/game_tiles/Fig.png"),
       require("@/assets/game_tiles/Grapes.png"),
       require("@/assets/game_tiles/Kiwi.png"),
+      require("@/assets/game_tiles/Lemon.png"),
+      require("@/assets/game_tiles/Mango.png"),
     ];
+    // for (let i = 1; i < 11; i++) {
+    //     forrasok.push(require("@/assets/game_tiles/tile_"+i+".png"));
+    // }
     for (let i = 0; i < forrasok.length; i++) {
       let kep = new Image();
       kep.src = forrasok[i];
@@ -204,7 +209,7 @@ export default {
   },
   mounted() {
     this.table = document.getElementById("Table");
-    this.testGame();
+    // this.testGame();
   },
   computed: {
     loginAccessLevel() {
@@ -223,7 +228,7 @@ export default {
       this.gameSeed = parseInt(str.substr(str.length - 6));
       this.gameId = 0;
 
-      this.gameObject = new game.Match3(this.table, this.images, this.gameSeed);
+      this.gameObject = new game.Match3(this.table, this.images, this.gameSeed, 3);
     },
     findGame() {
       console.log("Finding Game!");
