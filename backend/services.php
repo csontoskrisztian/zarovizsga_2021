@@ -1,5 +1,11 @@
 <?php
 return [
+    "jatszmaLepesekDelete" => function ($params){
+        (new \queries\JatszmaLepesekDelete($params))->render();
+    },
+    "jatszmaLepesekRekordById" => function ($params){
+        (new \queries\JatszmaLepesekRekordById($params))->render();
+    },
     "jatszmaLepesekInsert" => function ($params){
         (new \queries\JatszmaLepesekInsert($params))->render();
     },

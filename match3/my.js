@@ -378,6 +378,13 @@ function Init(self) {
     // Kattintásra kijelölünk és ellenőrzünk
     self.OnClickListeners.push(SelectTile);
 
+    // Ha lép az ellenfél, azt jelenítsük meg a mi táblánkon is
+    self.OnOpponentMove = function(selected1_X, selected1_Y, selected2_X, selected2_Y) {
+        let doDelete = OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y);
+
+        return doDelete;
+    };
+
     // Segítség, ha nem talál párt a játékos pár másodpercenbelül
     // self.helpTimer = null;
 
@@ -452,6 +459,22 @@ function TileFromSourceGenerator(self) {
     });
 }
 
+function OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y) {
+    if (self.Animations.length > 0) return false;
+
+    console.log(selected1_X, selected1_Y, selected2_X, selected2_Y);
+    self.selectedTile_1 = self.tiles.find(tile => tile.col == selected1_X && tile.row == selected1_Y);
+    self.selectedTile_2 = self.tiles.find(tile => tile.col == selected2_X && tile.row == selected2_Y);
+    console.log(self.selectedTile_1, self.selectedTile_2);
+
+    console.log("Csere!");
+    SwitchTiles(self, self.selectedTile_1, self.selectedTile_2, true, function () {
+        AfterMath(self);
+    });
+
+    return true;
+}
+
 function SelectTile(self) {
     if (self.data.kor != self.player_id) return;
 
@@ -484,8 +507,9 @@ function SelectTile(self) {
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
         // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
         // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-        console.log("Csere!")
+        console.log("Csere!");
 
+        // Páralkotáskor elindítjuk a függvényt, ami frissíti az adatbázist
         self.OnPair(self.selectedTile_1.col, self.selectedTile_1.row, self.selectedTile_2.col, self.selectedTile_2.row);
 
         SwitchTiles(self, self.selectedTile_1, self.selectedTile_2, true, function () {

@@ -6,6 +6,15 @@
       :class="{ 'd-none': gameObject == null }"
     >
       <h1>{{ loginId }}</h1>
+      <h2>
+        {{
+          rows.jatekos1_id
+            ? rows.jatekos1_id != loginId
+              ? rows.jatekos2_pont
+              : rows.jatekos1_pont
+            : ""
+        }}
+      </h2>
       <canvas class="m-5" id="Table" width="400" height="400"></canvas>
       <h1>
         {{
@@ -16,6 +25,15 @@
             : ""
         }}
       </h1>
+      <h2>
+        {{
+          rows.jatekos1_id
+            ? rows.jatekos1_id == loginId
+              ? rows.jatekos2_pont
+              : rows.jatekos1_pont
+            : ""
+        }}
+      </h2>
     </div>
     <!-- GAME -->
 
@@ -174,6 +192,8 @@ export default {
       queryUpdateJatszmak: "jatszmakUpdate",
       queryDeleteJatszmak: "jatszmakDelete",
       queryInsertJatszmaLepesek: "jatszmaLepesekInsert",
+      queryGetJatszmaLepesek: "jatszmaLepesekRekordById",
+      queryDeleteJatszmaLepesek: "jatszmaLepesekDelete",
       queryGetBaratok: "baratokTabla",
       title: "",
       columns: {},
@@ -191,6 +211,8 @@ export default {
       gameSeed: null,
       timeoutObject: null,
       timeoutTime: 0,
+      timeoutGetJatszmaLepesek: null,
+      timeGetJatszmaLepesek: 500,
     };
   },
   created() {
@@ -220,6 +242,7 @@ export default {
   },
   mounted() {
     this.table = document.getElementById("Table");
+
     // Ha nem a felhasználó köre van, akkor figyelmeztetjük, hogy nem az ő köre van
     this.table.addEventListener("click", () => {
       console.log(this.rows);
@@ -227,6 +250,7 @@ export default {
         alert("Nem a te köröd van!");
       }
     });
+
     // this.testGame();
   },
   computed: {
@@ -329,6 +353,10 @@ export default {
               this.rows,
               this.loginId
             );
+
+            this.gameObject.OnPair = this.insertJatszmaLepesek;
+
+            this.timeoutGetJatszmaLepesek = setTimeout(this.getJatszmaLepesek, this.timeGetJatszmaLepesek);
           } else {
             this.gameId = null;
             this.gameSeed = null;
@@ -371,7 +399,7 @@ export default {
                 clearInterval(this.timeoutObject);
                 this.timeoutObject = null;
               }
-            }, 1000);
+            }, 500);
 
             // Lekérjük a játszmánk adatait
             this.getJatszmak();
@@ -459,6 +487,52 @@ export default {
         .post(this.url, params)
         .then((res) => {
           console.log(res.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    },
+    getJatszmaLepesek() {
+      axios
+        .get(this.url, {
+          params: {
+            query: this.queryGetJatszmaLepesek,
+            jatszmakId: this.gameId,
+          },
+        })
+        .then((res) => {
+          if (res.data.rows.length > 0) {
+            clearInterval(this.timeoutGetJatszmaLepesek);
+            console.log(res.data);
+
+            let row = res.data.rows[0];
+
+            if (this.gameObject.OnOpponentMove(
+              row.selected1_X,
+              row.selected1_Y,
+              row.selected2_X,
+              row.selected2_Y
+            )) {
+              this.deleteJatszmaLepesek(row.id);
+            }
+          } else {
+            this.timeoutGetJatszmaLepesek = setTimeout(this.getJatszmaLepesek, this.timeGetJatszmaLepesek);
+          }
+        });
+    },
+    deleteJatszmaLepesek(id) {
+      let query = this.queryDeleteJatszmaLepesek;
+      let params = {
+        query: query,
+        id: id,
+        jatszmakId: this.gameId,
+      };
+      axios
+        .post(this.url, params)
+        .then((res) => {
+          console.log(res.data);
+          this.timeoutGetJatszmaLepesek = setTimeout(this.getJatszmaLepesek, this.timeGetJatszmaLepesek);
         })
         .catch(function (error) {
           // handle error
