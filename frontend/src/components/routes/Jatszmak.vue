@@ -32,7 +32,7 @@
               'bg-warning': row['pont'] - row['ellenfel_pont'] == 0,
             }"
           >
-            {{ indexD == 5 ? getNehezseg(cell) : cell }}
+            {{ indexD == 5 ? getNehezseg(cell) : indexD == 4 ? cell / 60000 : cell }}
           </td>
         </tr>
       </tbody>
