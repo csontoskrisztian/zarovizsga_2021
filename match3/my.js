@@ -7,6 +7,8 @@ export class Match3 {
         this.seed = data.seed;
         this.difficulty = data.nehezseg;
 
+        this.debug = false;
+
         Init(this);
     }
 }
@@ -375,15 +377,22 @@ function Init(self) {
     self.selectedTile_1 = null;
     self.selectedTile_2 = null;
 
+    // Lépés számláló
+    self.round = 2;
+
     // Kattintásra kijelölünk és ellenőrzünk
     self.OnClickListeners.push(SelectTile);
 
     // Ha lép az ellenfél, azt jelenítsük meg a mi táblánkon is
-    self.OnOpponentMove = function(selected1_X, selected1_Y, selected2_X, selected2_Y) {
-        let doDelete = OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y);
+    self.OnOpponentMove = function (selected1_X, selected1_Y, selected2_X, selected2_Y) {
+        OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y);
 
-        return doDelete;
+        // Körszámláló
+        RoundCounter(self);
     };
+
+    // Körszámláló
+    self.OnInsert = function () { RoundCounter(self); };
 
     // Segítség, ha nem talál párt a játékos pár másodpercenbelül
     // self.helpTimer = null;
@@ -460,19 +469,31 @@ function TileFromSourceGenerator(self) {
 }
 
 function OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y) {
-    if (self.Animations.length > 0) return false;
-
-    console.log(selected1_X, selected1_Y, selected2_X, selected2_Y);
+    // console.log(selected1_X, selected1_Y, selected2_X, selected2_Y);
     self.selectedTile_1 = self.tiles.find(tile => tile.col == selected1_X && tile.row == selected1_Y);
     self.selectedTile_2 = self.tiles.find(tile => tile.col == selected2_X && tile.row == selected2_Y);
-    console.log(self.selectedTile_1, self.selectedTile_2);
+    // console.log(self.selectedTile_1, self.selectedTile_2);
 
-    console.log("Csere!");
+    if (self.debug) console.log("Csere!");
     SwitchTiles(self, self.selectedTile_1, self.selectedTile_2, true, function () {
         AfterMath(self);
     });
+}
 
-    return true;
+function RoundCounter(self) {
+    // Körszámlálóból kivonunk egyet
+    self.round -= 1;
+    // Ellenőrzés: Ha leteltek a körök, akkor a másik játékos jön
+    if (self.round == 0) {
+        self.data.kor = self.data.kor == self.data.jatekos1_id ? self.data.jatekos2_id : self.data.jatekos1_id;
+        console.log("Kinek a köre: " + self.data.kor);
+
+        self.OnRoundChange();
+
+        self.round = 2;
+    }
+
+    console.log("Maradék lépések száma: " + self.round);
 }
 
 function SelectTile(self) {
@@ -507,7 +528,7 @@ function SelectTile(self) {
     if (self.selectedTile_1 != null && self.selectedTile_2 != null) {
         // console.log(self.selectedTile_1.getX(), self.selectedTile_1.getY());
         // console.log(self.selectedTile_2.getX(), self.selectedTile_2.getY());
-        console.log("Csere!");
+        if (self.debug) console.log("Csere!");
 
         // Páralkotáskor elindítjuk a függvényt, ami frissíti az adatbázist
         self.OnPair(self.selectedTile_1.col, self.selectedTile_1.row, self.selectedTile_2.col, self.selectedTile_2.row);
@@ -643,7 +664,7 @@ function AfterMath(self) {
     // Aftermath letíltása, míg animációk folynak
     if (self.Animations.length > 0) return;
 
-    console.log("Pár keresés!")
+    if (self.debug) console.log("Pár keresés!")
     // Array pozíciók felcserélés
     // console.log(self.tiles[tile_1_row][tile_1_col]);
     // self.tiles[tile_1_row][tile_1_col] = self.selectedTile_2;
@@ -665,7 +686,7 @@ function AfterMath(self) {
     // return;
 
     if (matches.length > 0) {
-        console.log("Párok törlése!")
+        if (self.debug) console.log("Párok törlése!")
 
         // Láthatatlanná teszük a párokat
         matches.forEach(pairs => {
@@ -678,11 +699,37 @@ function AfterMath(self) {
         self.selectedTile_1 = null;
         self.selectedTile_2 = null;
 
+        // Pont hozzáadás, a self.data külső objektumra hivatkozik, szóval amit itt változtatunk az kint is látszik
+        matches.forEach(pairs => {
+            if (self.data.kor == self.data.jatekos1_id && self.round != 2 || self.data.kor == self.data.jatekos2_id && self.round == 2) {
+                if (pairs.tiles.length % 3 == 0) {
+                    self.data.jatekos1_pont += 100;
+                } else if (pairs.tiles.length % 4 == 0) {
+                    self.data.jatekos1_pont += 200;
+                } else if (pairs.tiles.length % 5 == 0) {
+                    self.data.jatekos1_pont += 300;
+                } else {
+                    self.data.jatekos1_pont += 1000;
+                }
+            }
+            if (self.data.kor == self.data.jatekos2_id && self.round != 2 || self.data.kor == self.data.jatekos1_id && self.round == 2) {
+                if (pairs.tiles.length % 3 == 0) {
+                    self.data.jatekos2_pont += 100;
+                } else if (pairs.tiles.length % 4 == 0) {
+                    self.data.jatekos2_pont += 200;
+                } else if (pairs.tiles.length % 5 == 0) {
+                    self.data.jatekos2_pont += 300;
+                } else {
+                    self.data.jatekos2_pont += 1000;
+                }
+            }
+        });
+
         // Lebegő csempék leesése
-        if (matches.length > 0) Falldown(self);
+        Falldown(self);
 
     } else if (self.selectedTile_1 && self.selectedTile_2) {
-        console.log("Csere vissza!")
+        if (self.debug) console.log("Csere vissza!")
         // Visszacseréljük, mert nincsenek párok
 
         // // Adatok eltárolása
@@ -722,7 +769,7 @@ function AfterMath(self) {
 }
 
 function Falldown(self) {
-    console.log("Leesés!");
+    if (self.debug) console.log("Leesés!");
 
     for (let y = self.tableSize - 1; y >= 1; y--) {
         for (let x = 0; x < self.tableSize; x++) {
@@ -778,7 +825,7 @@ function Falldown(self) {
 }
 
 function Refill(self) {
-    console.log("Feltöltés!")
+    if (self.debug) console.log("Feltöltés!")
 
     let animation_time = 0.25;
     let negative = -1;
@@ -923,7 +970,7 @@ function FindPossibleMoves(self) {
         possibleMoves[i].tile_2 = oTile_2;
     }
 
-    console.log(`Lehetséges párok száma: ${possibleMoves.length}`);
+    if (self.debug) console.log(`Lehetséges párok száma: ${possibleMoves.length}`);
     return possibleMoves;
 }
 
@@ -971,7 +1018,7 @@ function SwitchTiles(self, tile_1, tile_2, animate = false, promise = function (
 
 function Shuffle(self) {
     if (self.Animations.length > 0) return;
-    console.log("Felrázás!");
+    if (self.debug) console.log("Felrázás!");
 
     // Előző előtti és előző csempe x tengelyen
     let secondLastTileType_X;
