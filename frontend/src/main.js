@@ -31,6 +31,13 @@ function getUser(to, from, next) {
                 // console.log("Else ág");
                 next();
             }
+        }).catch(function (error) {
+            // handle error
+            console.log(error);
+
+            next({
+                name: 'bejelentkezes'
+            });
         });
 }
 
@@ -44,7 +51,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     getUser(to, from, next);
 });
-
 
 //A VueResource, VueRouter használatba vétele
 Vue.use(VueRouter);
@@ -70,4 +76,4 @@ new Vue({
         loginProfilePicture: "",
         loginEmail: "",
     }
-}).$mount('#app')
+}).$mount('#app');
