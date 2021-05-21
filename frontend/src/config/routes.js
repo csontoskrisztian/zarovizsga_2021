@@ -21,78 +21,57 @@ import Toplista from "../components/routes/Toplista.vue"
 const routes = [{
         name: "home",
         path: "/",
-        component: Home
+        component: Home,
+        meta: { requiresAuth: false }
     },
     {
         name: "profil",
         path: "/profil/",
-        component: Profil
+        component: Profil,
+        meta: { requiresAuth: true }
     },
     {
         name: "baratokLista",
         path: "/baratok/lista",
-        component: BaratokLista
+        component: BaratokLista,
+        meta: { requiresAuth: true }
     },
     {
         name: "baratokKereses",
         path: "/baratok/kereses",
-        component: BaratokKereses
+        component: BaratokKereses,
+        meta: { requiresAuth: true }
     },
     {
         name: "jatszmak",
         path: "/jatszmak/",
-        component: Jatszmak
+        component: Jatszmak,
+        meta: { requiresAuth: true }
     },
     {
         name: "jatek",
         path: "/jatek/",
-        component: Jatek
+        component: Jatek,
+        meta: { requiresAuth: true }
     },
     {
         name: "bejelentkezes",
         path: "/bejelentkezes/",
-        component: Bejelentkezes
+        component: Bejelentkezes,
+        meta: { requiresAuth: false }
     },
     {
         name: "regisztracio",
         path: "/regisztracio/",
-        component: Regisztracio
+        component: Regisztracio,
+        meta: { requiresAuth: false }
     },
     {
         name: "toplista",
         path: "/toplista/",
-        component: Toplista
-    },
-    // {
-    //     name: "alapadatokAutok",
-    //     path: "/alapadatok/autok/",
-    //     component: AlapadatokAutok
-    // },
-    // {
-    //     name: "alapadatokBerlok",
-    //     path: "/alapadatok/berlok/",
-    //     component: AlapadatokBerlok
-    // },
-    // {
-    //     name: "kolcsonzes",
-    //     path: "/kolcsonzes/",
-    //     component: Kolcsonzes
-    // },
-    // {
-    //     name: "kimutatasok",
-    //     path: "/kimutatasok/",
-    //     component: Kimutatasok
-    // },
-    // {
-    //     name: "kapcsolat",
-    //     path: "/kapcsolat/",
-    //     component: Kapcsolat
-    // },
-    // {
-    //     name: "modalValidate",
-    //     path: "/modalValidate/",
-    //     component: ModalValidate
-    // }
+        component: Toplista,
+        meta: { requiresAuth: true }
+    }
 ];
 
 //3. Export, hogy kívülről elérhető legyen

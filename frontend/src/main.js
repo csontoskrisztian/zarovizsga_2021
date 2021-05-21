@@ -9,47 +9,12 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 const axios = require("axios").default;
 axios.defaults.withCredentials = true;
 
-function getUser(to, from, next) {
-    axios
-        .get("http://localhost/zarovizsga_2021/backend/index.php", {
-            params: {
-                query: "getUser",
-            },
-        })
-        .then((res) => {
-            let loginAccessLevel = res.data.loginAccessLevel;
-
-            // console.log(from);
-            // console.log(to);
-            // console.log(router.app.$root.loginAccessLevel);
-            if (to.name !== 'bejelentkezes' && to.name !== 'regisztracio' && to.name != 'home' && loginAccessLevel == 0) {
-                // console.log("If ág");
-                next({
-                    name: 'bejelentkezes'
-                });
-            } else {
-                // console.log("Else ág");
-                next();
-            }
-        }).catch(function (error) {
-            // handle error
-            console.log(error);
-
-            next({
-                name: 'bejelentkezes'
-            });
-        });
-}
-
 //route konfiguráció importálása
 import RouteConfig from './config/routes.js'
 
 //route indítása
 const router = new VueRouter({
     routes: RouteConfig
-});
-router.beforeEach((to, from, next) => {
-    getUser(to, from, next);
 });
 
 //A VueResource, VueRouter használatba vétele
@@ -75,5 +40,46 @@ new Vue({
         loginUserName: null,
         loginProfilePicture: "",
         loginEmail: "",
+    },
+    created() {
+        this.getUser();
+    },
+    methods: {
+        getUser() {
+            axios
+                .get(this.url, {
+                    params: {
+                        query: "getUser",
+                    },
+                })
+                .then((res) => {
+                    this.loginAccessLevel = res.data.loginAccessLevel;
+                    this.loginUserName = res.data.loginUserName;
+                    this.loginId = res.data.loginId;
+                    this.loginProfilePicture = res.data.loginProfilePicture;
+                    this.loginEmail = res.data.loginEmail;
+                }).catch(function (error) {
+                    // handle error
+                    console.log(error);
+                });
+        }
     }
 }).$mount('#app');
+
+router.beforeEach(async (to, from, next) => {
+    await Vue.nextTick();
+    // console.log(from);
+    // console.log(to);
+    // console.log(router.app.$root.loginAccessLevel);
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (router.app.$root.loginAccessLevel == 0) {
+            // console.log("If ág");
+            next({
+                name: 'bejelentkezes'
+            });
+        } else {
+            // console.log("Else ág");
+            next();
+        }
+    } else next();
+});
