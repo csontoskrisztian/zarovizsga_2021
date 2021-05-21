@@ -24,17 +24,27 @@
     - ~~[ ] 4 pár -> sor/oszlop törlő~~
     - ~~[ ] 5 pár -> robbanás~~
     - ~~[ ] 5< pár -> egész tábla törlése~~
-- [ ] Pont számítás (1 tile = 1 pont)
-- [ ] Időzítő
-- [ ] 2 lépés / kör (3< pár -> +1 lépés)
+- [x] Pont számítás (3 tile = 100 pont, 4 - 200, 5 - 300, 5< - 1000)
+- [x] Időzítő
+- ~~[ ] 2 lépés / kör (3< pár -> +1 lépés)~~
 - [ ] 2 személyessé tétel
-    - [ ] Időzítő indítás -> MySQL Event vagy helyileg az éppen kor-ben lévő játékos frissíti
+    - [x] Időzítő indítás -> MySQL Event vagy helyileg az éppen kor-ben lévő játékos frissíti
     - [x] Csak akkor tud a játékos mozogni, ha az ő köre van
     - [x] A 'kor'-ben levő játkos lépése esetén insert jatszmaLepesek
     - [x] A nem 'kor'-ben lévő folyamatosan figyeli a jatszmaLepesek tablat (where jatszmaId = id) -> Ha talál valamit, akkor módosítja a selected tile-eket és AfterMath()
-    - [ ] Minden párosításnál frissítjük a pontokat -> update jatszma
-    - [ ] Ha megvoltak a lépések, akkor a másik játékos jön -> update jatszmak
-    - [ ] Ha az időzítő lejár a játék befejeződik -> update jatszmak
+    - [x] Minden párosításnál frissítjük a pontokat
+    - [x] Ha megvoltak a lépések, akkor a másik játékos jön
+    - [x] Ha az időzítő lejár a játék befejeződik -> update jatszmak
+    - [x] Körváltásnál nem a megfelelő játékos kap pontot
+    - [x] Körváltásnál updateJatszmak
+    - [ ] Néha összezavarodik (???)
+        - Meghívja az insertJatszmaLepesek-et és utána a getJatszmaLepesek-et, mikor csak az utóbbit kéne
+        - A lépések száma csökken egyet
+        - Emiatt azt hiszi, hogy nem az ő köre van, mikor még igen
+        - Sikerült eljutnom 10100-ig pntszámban és nem jött elő a hiba újra
+        - kinek a lépése bevezetése
+    - [ ] Körváltáskor értesítés, hogy ki jön
+- [ ] kor kivétele a Jatszmak táblából (???)
 
 # Weboldal: 
 - [ ] Csináld meg a főoldalt!
@@ -42,6 +52,7 @@
 - [ ] Alert üzenetek lecserélése Modal-ra
 - [ ] Profil szerkesztése (e-mail, profilkép)
 - [ ] Más profiljának megtekintése
+- [ ] Profilképek
 - [ ] Profil törlése
 - [ ] Auto kijelentkezés
 - [x] Bizonyos oldalak való hozzáférés megakadályozása 
@@ -69,9 +80,10 @@
     - Elindul a játék
 - [ ] Szűrő a "Csatlakozás meglévő játékhoz" részhez
     - '-' (Mindegy) kezelése
-- [ ] Game Over mutatása miután befejeződött a játék
+- [x] Game Over mutatása miután befejeződött a játék
     - Zöld ha nyert a felhasználó
     - Sárga ha döntetlen
     - Piros ha vesztett a felhasználó
     - Mutatja mennyi pontot nyert/vesztett
     - Gombok: Főmenű és Új játék (Oldal frissítése)
+- [ ] Függvények kiszortírozása
