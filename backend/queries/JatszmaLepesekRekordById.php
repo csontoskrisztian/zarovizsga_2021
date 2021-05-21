@@ -16,6 +16,7 @@ class JatszmaLepesekRekordById extends \queries\ParentRekordById
         $this->columns = [
             "id" => "id",
             "jatszmakId" => "jatszmakId",
+            "jatekosId" => "jatekosId",
             "selected1_X" => "selected1_X",
             "selected1_Y" => "selected1_Y",
             "selected2_X" => "selected2_X",

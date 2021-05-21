@@ -31,6 +31,7 @@ CREATE TABLE match3.baratok (
 CREATE TABLE match3.jatszmaLepesek (
   id INT(11) NOT NULL AUTO_INCREMENT,
   jatszmakId INT(11) NOT NULL,
+  jatekosId INT(11) NOT NULL,
   selected1_X INT(11) NOT NULL,
   selected1_Y INT(11) NOT NULL,
   selected2_X INT(11) NOT NULL,
@@ -81,8 +82,6 @@ ALTER TABLE match3.jatszmak
 
 # Teszt adatok --- START ---
 
-  call GenerateTeszt();
-
   # Adatok törlése
   DELETE FROM jatekosok;
   DELETE FROM baratok;
@@ -122,30 +121,32 @@ ALTER TABLE match3.jatszmak
   # jatszmak
   INSERT INTO jatszmak (jatekos1_id, jatekos2_id, jatekos1_pont, jatekos2_pont, allapot, jatekido, maxido, nehezseg)
     VALUES
-    (1,2,800,500,0,240,240,1),
-    (1,7,300,100,0,240,240,3),
-    (1,3,400,300,0,240,240,2),
-    (1,6,1200,700,0,240,240,1),
-    (1,4,1000,1100,0,240,240,2),
-    (1,2,1300,1300,0,240,240,3),
-    (1,7,100,600,0,240,240,1),
-    (1,4,900,1000,0,240,240,1),
-    (1,5,200,100,0,240,240,1),
-    (1,3,500,800,0,240,240,3),
-    (3,7,800,300,0,240,240,2),
-    (3,5,1100,1000,0,240,240,2),
-    (3,1,300,1000,0,240,240,3),
-    (3,1,600,200,0,240,240,1),
-    (3,2,600,1300,0,240,240,2),
-    (3,5,1500,500,0,240,240,2),
-    (5,7,1000,800,0,240,240,1),
-    (7,2,700,1100,0,240,240,2),
-    (2,7,1000,1200,0,240,240,1),
-    (5,6,500,1400,0,240,240,1);
+    (1,2,800,500,0,120000,120000,1),
+    (1,7,300,100,0,300000,300000,3),
+    (1,3,400,300,0,180000,180000,2),
+    (1,6,1200,700,0,120000,120000,1),
+    (1,4,1000,1100,0,180000,180000,2),
+    (1,2,1300,1300,0,300000,300000,3),
+    (1,7,100,600,0,120000,120000,1),
+    (1,4,900,1000,0,120000,120000,1),
+    (1,5,200,100,0,120000,120000,1),
+    (1,3,500,800,0,300000,300000,3),
+    (3,7,800,300,0,180000,180000,2),
+    (3,5,1100,1000,0,180000,180000,2),
+    (3,1,300,1000,0,300000,300000,3),
+    (3,1,600,200,0,120000,120000,1),
+    (3,2,600,1300,0,180000,180000,2),
+    (3,5,1500,500,0,180000,180000,2),
+    (5,7,1000,800,0,120000,120000,1),
+    (7,2,700,1100,0,180000,180000,2),
+    (2,7,1000,1200,0,120000,120000,1),
+    (5,6,500,1400,0,120000,120000,1);
   
 
 
 # Teszt adatok --- END ---
+
+call GenerateTeszt();
 
 # Lekérdezések
   SELECT * FROM jatekosok;
@@ -160,6 +161,10 @@ ALTER TABLE match3.jatszmak
   # Futó játszmák, ahol még nincs 2. játékos
     SELECT * FROM jatszmak
       WHERE allapot = 1 AND jatekos2_id IS NULL;
+
+  # Adott játszma lépés keresése jatszmaId alapján
+    SELECT * FROM jatszmaLepesek
+      WHERE jatszmakId = 38; 
 
   #Toplista
   SELECT j.id, j.felhasznalonev, SUM(tbl.pont)  as 'Rangsor pontszám' FROM
@@ -226,6 +231,7 @@ ALTER TABLE match3.jatszmak
   SELECT jatszmak.id, felhasznalonev as ellenfel, jatekos2_pont as pont, jatekos1_pont as ellenfel_pont, jatekido, nehezseg FROM jatszmak
     INNER JOIN jatekosok ON jatekos1_id = jatekosok.id
     WHERE jatekos2_id = @jatekos) as tabla
+  ORDER BY tabla.id DESC
   LIMIT 10;
 
   # Bejelentkezés
@@ -287,3 +293,7 @@ ALTER TABLE match3.jatszmak
   #Játszma törlés jatszmak táblából
     DELETE FROM jatszmak
       WHERE id = ?;
+
+  #Lépés törlése
+    DELETE FROM jatszmaLepesek
+      WHERE jatszmakId = 38; 
