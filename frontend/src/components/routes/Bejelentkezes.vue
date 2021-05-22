@@ -1,37 +1,39 @@
 <template>
-  <div class="p-5">
-    <h2>Bejelentkezés</h2>
-    <form @submit.prevent="login">
-      <div class="form-group">
-        <label for="felhasznalonevInput">Felhasználónév</label>
-        <input
-          type="text"
-          class="form-control"
-          id="felhasznalonevInput"
-          placeholder="Felhasználónév"
-          v-model="felhasznalonev"
-        />
-      </div>
-      <div class="form-group">
-        <label for="jelszoInput">Jelszó</label>
-        <input
-          type="password"
-          class="form-control"
-          id="jelszoInput"
-          placeholder="Jelszó"
-          v-model="jelszo"
-        />
-      </div>
-      <small id="jelszoHelp" class="form-text text-muted"
-        >Ne oszd meg senkivel sem a jelszavad!</small
-      >
-      <!-- <div class="form-check">
+  <div class="w3-text-theme w3-theme-light p-5">
+    <div class="mx-auto text-center">
+      <h2>Bejelentkezés</h2>
+      <form @submit.prevent="login">
+        <div class="col-sm-4 mx-auto mb-2">
+          <input
+            type="text"
+            class="form-control rounded-pill text-center mx-auto"
+            id="felhasznalonevInput"
+            placeholder="Felhasználónév"
+            v-model="felhasznalonev"
+          />
+        </div>
+        <div class="col-sm-4 mx-auto">
+          <input
+            type="password"
+            class="form-control rounded-pill text-center mx-auto"
+            id="jelszoInput"
+            placeholder="Jelszó"
+            v-model="jelszo"
+          />
+        </div>
+        <small id="jelszoHelp" class="form-text text-muted"
+          >Ne oszd meg senkivel sem a jelszavad!</small
+        >
+        <!-- <div class="form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div> -->
-      <br />
-      <button type="submit" class="mt-5 btn btn-primary">Bejelentkezés</button>
-    </form>
+        <br />
+        <button type="submit" class="mt-3 btn btn-primary">
+          Bejelentkezés
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -136,4 +138,14 @@ export default {
 </script>
 
 <style>
+input[type="text"], input[type="password"], input[type="email"] {
+  border: 2px solid #673ab7 !important;
+  width: 75% !important;
+  transition: width 0.25s !important;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+  width: 100% !important;
+  border-width: 5px !important;
+}
 </style>
