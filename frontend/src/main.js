@@ -31,7 +31,7 @@ Vue.mixin({
     },
 });
 
-new Vue({
+const app = new Vue({
     router: router,
     render: h => h(App),
     data: {
@@ -64,10 +64,12 @@ new Vue({
                 });
         }
     }
-}).$mount('#app');
+});
 
-router.beforeEach(async (to, from, next) => {
-    await Vue.nextTick();
+router.onReady(() => app.$mount('#app'));
+
+router.beforeEach((to, from, next) => {
+    // await Vue.nextTick();
     // console.log(from);
     // console.log(to);
     // console.log(router.app.$root.loginAccessLevel);
