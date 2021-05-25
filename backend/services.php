@@ -1,5 +1,8 @@
 <?php
 return [
+    "jatekosFelhasznalonevById" => function ($params){
+        (new \queries\JatekosFelhasznalonevById($params))->render();
+    },
     "jatszmaLepesekDelete" => function ($params){
         (new \queries\JatszmaLepesekDelete($params))->render();
     },
@@ -24,8 +27,8 @@ return [
     "jatekosJelszoUpdate" => function ($params){
         (new \queries\JatekosJelszoUpdate($params))->render();
     },
-    "jatekosFelhasznalonevUpdate" => function ($params){
-        (new \queries\JatekosFelhasznalonevUpdate($params))->render();
+    "jatekosUpdate" => function ($params){
+        (new \queries\JatekosUpdate($params))->render();
     },
     "jatszmaTabla" => function ($params){
         (new \queries\JatszmaTabla($params))->render();

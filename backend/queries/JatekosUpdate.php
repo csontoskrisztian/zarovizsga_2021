@@ -1,21 +1,21 @@
 <?php
-//?query=jatekosJelszoUpdate&id=1
+//?query=jatekosUpdate&id=1
 
 namespace queries;
 
-class JatekosJelszoUpdate extends ParentUpdate
+class JatekosUpdate extends ParentUpdate
 {
-
     public function __construct($params)
     {
         parent::__construct($params);
         $this->title = "Játékos update";
         $this->sql = "UPDATE jatekosok SET
-                    jelszo = ?
-                    WHERE id = ?";
-        $this->typesString = "si";
+                        felhasznalonev = ?, email = ?
+                        WHERE id = ?";
+        $this->typesString = "ssi";
         $this->paramVariables = [
-            password_hash($params["jelszo"], PASSWORD_BCRYPT),
+            $params["felhasznalonev"],
+            $params["email"],
             $params["id"]
         ];
         $this->columns = [];
