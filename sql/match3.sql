@@ -8,17 +8,13 @@ CREATE DATABASE match3
 # jatekosok
 CREATE TABLE match3.jatekosok (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  felhasznalonev VARCHAR(50) NOT NULL,
+  felhasznalonev VARCHAR(50) DEFAULT 'Törölt Felhasználó',
   jelszo VARCHAR(100) DEFAULT NULL,
   email VARCHAR(50) DEFAULT NULL,
   profilkep VARCHAR(255) DEFAULT 'logo.png',
   online TINYINT(1) DEFAULT 0,
   PRIMARY KEY (id)
-)
-ALTER TABLE match3.jatekosok 
-  ADD UNIQUE INDEX felhasznalonev(felhasznalonev)
-ALTER TABLE match3.jatekosok 
-  ADD UNIQUE INDEX email(email);
+);
 
 # barátok
 CREATE TABLE match3.baratok (
@@ -59,23 +55,23 @@ CREATE TABLE match3.jatszmak (
 # Összekapcsolás
     ALTER TABLE match3.baratok 
   ADD CONSTRAINT FK_baratok_jatekosok_id FOREIGN KEY (jatekos1_id)
-    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES match3.jatekosok(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE match3.baratok 
   ADD CONSTRAINT FK_baratok_jatekosok_id_2 FOREIGN KEY (jatekos2_id)
-    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES match3.jatekosok(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
   ALTER TABLE match3.jatszmak 
   ADD CONSTRAINT FK_jatszmak_jatekosok_id FOREIGN KEY (jatekos1_id)
-    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES match3.jatekosok(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE match3.jatszmak 
   ADD CONSTRAINT FK_jatszmak_jatekosok_id2 FOREIGN KEY (jatekos2_id)
-    REFERENCES match3.jatekosok(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES match3.jatekosok(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
   ALTER TABLE match3.jatszmalepesek 
   ADD CONSTRAINT FK_jatszmalepesek_jatszmak_id FOREIGN KEY (jatszmakId)
-    REFERENCES match3.jatszmak(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    REFERENCES match3.jatszmak(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 # Táblák létrehozása --- END ---
@@ -89,15 +85,16 @@ ALTER TABLE match3.jatszmak
   DELETE FROM jatszmaLepesek;
 
   # jatekosok
-  INSERT INTO jatekosok (felhasznalonev, jelszo, email)
+  INSERT INTO jatekosok (felhasznalonev, jelszo, email, profilkep)
     VALUES 
-    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S', 'lysander13@example.com'),
-    ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Mario_1105@example.com'),
-    ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'pillebogar@example.com'),
-    ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ambuss@example.com'),
-    ('JGabor', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'JGabor@example.com'),
-    ('Ardect', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ardect@example.com'),
-    ('Cintia', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Cintia@example.com');
+    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S', 'lysander13@example.com', 'Lysander13.png'),
+    ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Mario_1105@example.com', 'Mario_1105.png'),
+    ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'pillebogar@example.com', 'pillebogar.jpg'),
+    ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ambuss@example.com', 'Ambuss.jpg'),
+    ('JGabor', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'JGabor@example.com', 'JGabor.jpg'),
+    ('Ardect', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ardect@example.com', default),
+    ('Backender', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Backender@example.com', 'Backender.jpg'),
+    ('Cintia', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Cintia@example.com', 'Cintia.jpg');
 
   # baratok
   INSERT INTO baratok (jatekos1_id, jatekos2_id)
@@ -211,6 +208,10 @@ call GenerateTeszt();
     INNER JOIN jatekosok j ON j.id = b.jatekos1_id
     WHERE b.jatekos2_id = 1;
 
+  # Játékos név by id
+    SELECT felhasznalonev FROM jatekosok
+      WHERE id = 2;
+
   # Rangsor Pontszam
   SET @jatekos = 5;
   SELECT tbl.jatekos_id, SUM(tbl.pont) as 'Rangsor pontszám' FROM
@@ -258,9 +259,9 @@ call GenerateTeszt();
       VALUE (1, 300000, 2, 123456);
 
 # Update
-  # Felhasználónév változtatás
+  # Jatekos update
   UPDATE jatekosok SET
-    felhasznalonev = 'value'
+    felhasznalonev = 'value', email = ''
     WHERE id = 'value';
 
   # Jelszó változtatás
@@ -287,7 +288,7 @@ call GenerateTeszt();
   DELETE FROM baratok
     WHERE jatekos1_id = ? OR jatekos2_id = ?;
   UPDATE jatekosok
-    SET felhasznalonev = 'Törölt felhasználó', jelszo = null, email = null, profilkep = 'logo.png', online = 0
+    SET felhasznalonev = DEFAULT(felhasznalonev), jelszo = null, email = null, profilkep = 'logo.png', online = 0
     WHERE id = 'value';
 
   #Játszma törlés jatszmak táblából
