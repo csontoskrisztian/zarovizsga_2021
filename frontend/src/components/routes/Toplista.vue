@@ -1,72 +1,79 @@
 <template>
-  <div class="w3-text-theme p-5">
-    <h2>Toplista</h2>
-    <table
-      class="table my-table-fit table-sm my-table-text-sm"
-      v-if="rows_T.length > 0"
-    >
-      <thead class="table-dark">
-        <tr>
-          <th>Helyezés</th>
-          <th
-            v-for="(column, columKey, indexH) in columns_T"
-            :key="indexH"
-            :class="{ 'd-none': indexH == 0 }"
-          >
-            {{ column }}
-          </th>
-        </tr>
-      </thead>
+  <div class="w3-text-theme w3-theme-light p-5">
+    <div class="row text-center">
+      <div class="col">
+        <h2>A Toplista legteteje</h2>
+        <table
+          class="table table-hover bg-green table-sm my-table-text-sm mx-auto"
+          v-if="rows_T.length > 0"
+        >
+          <thead>
+            <tr>
+              <th class="w3-theme-d1">Helyezés</th>
+              <th
+                class="w3-theme-d1"
+                v-for="(column, columKey, indexH) in columns_T"
+                :key="indexH"
+                :class="{ 'd-none': indexH == 0 }"
+              >
+                {{ column }}
+              </th>
+            </tr>
+          </thead>
 
-      <tbody>
-        <tr v-for="(row, indexR) in rows_T" :key="indexR">
-          <td>#{{ indexR + 1 }}</td>
-          <td
-            v-for="(cell, key, indexD) in row"
-            :key="indexD"
-            :class="{
-              'd-none': indexD == 0,
-            }"
-          >
-            {{ cell }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tbody>
+            <tr v-for="(row, indexR) in rows_T" :key="indexR">
+              <td>#{{ indexR + 1 }}</td>
+              <td
+                v-for="(cell, key, indexD) in row"
+                :key="indexD"
+                :class="{
+                  'd-none': indexD == 0,
+                }"
+              >
+                {{ cell }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <h2>A Toplista legalja</h2>
+        <table
+          class="table table-hover bg-red table-sm my-table-text-sm text-center mx-auto"
+          v-if="rows_B.length > 0"
+        >
+          <thead>
+            <tr>
+              <th class="w3-theme-d1">Helyezés</th>
+              <th
+                class="w3-theme-d1"
+                v-for="(column, columKey, indexH) in columns_B"
+                :key="indexH"
+                :class="{ 'd-none': indexH == 0 }"
+              >
+                {{ column }}
+              </th>
+            </tr>
+          </thead>
 
-    <h2>BottomLista</h2>
-    <table
-      class="table my-table-fit table-sm my-table-text-sm"
-      v-if="rows_B.length > 0"
-    >
-      <thead class="table-dark">
-        <tr>
-          <th>Helyezés</th>
-          <th
-            v-for="(column, columKey, indexH) in columns_B"
-            :key="indexH"
-            :class="{ 'd-none': indexH == 0 }"
-          >
-            {{ column }}
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="(row, indexR) in rows_B" :key="indexR">
-          <td>#{{ indexR + 1 }}</td>
-          <td
-            v-for="(cell, key, indexD) in row"
-            :key="indexD"
-            :class="{
-              'd-none': indexD == 0,
-            }"
-          >
-            {{ cell }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tbody>
+            <tr v-for="(row, indexR) in rows_B" :key="indexR">
+              <td>#{{ indexR + 1 }}</td>
+              <td
+                v-for="(cell, key, indexD) in row"
+                :key="indexD"
+                :class="{
+                  'd-none': indexD == 0,
+                }"
+              >
+                {{ cell }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 

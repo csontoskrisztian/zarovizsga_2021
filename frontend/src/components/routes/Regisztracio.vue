@@ -1,73 +1,60 @@
 <template>
-  <div class="p-5">
-    <h2>Regisztráció</h2>
-    <form
-      class="row g-3 needs-validation"
-      novalidate
-      @submit.prevent="onClickRegist"
-    >
-      <div class="col-12">
-        <label for="felhasznalonev" class="form-label">Felhasználónév</label>
-        <div class="input-group has-validation">
+  <div class="w3-text-theme w3-theme-light p-5">
+    <div class="mx-auto text-center regisztracio">
+      <h2>Regisztráció</h2>
+      <form class="needs-validation" novalidate @submit.prevent="onClickRegist">
+        <div class="col-sm-4 mx-auto mb-2 has-validation">
           <input
             type="text"
-            class="form-control"
+            class="form-control rounded-pill text-center mx-auto"
             id="felhasznalonev"
             aria-describedby="inputGroupPrepend"
+            placeholder="Felhasználónév"
             v-model="felhasznalonev"
             required
           />
           <div class="invalid-feedback">A felhasználónév kötelező!</div>
         </div>
-      </div>
-      <div class="col-12">
-        <label for="email" class="form-label">Email</label>
-        <div class="input-group has-validation">
+        <div class="col-sm-4 mx-auto mb-2 has-validation">
           <input
             type="email"
-            class="form-control"
+            class="form-control rounded-pill text-center mx-auto"
             id="email"
             aria-describedby="inputGroupPrepend"
+            placeholder="E-mail"
             v-model="email"
             required
           />
           <div class="invalid-feedback">Az email cím kötelező!</div>
         </div>
-      </div>
-      <div class="col-12">
-        <label for="jelszo" class="form-label">Jelszó</label>
-        <div class="input-group has-validation">
+        <div class="col-sm-4 mx-auto mb-2 has-validation">
           <input
             type="password"
-            class="form-control"
+            class="form-control rounded-pill text-center mx-auto"
             id="jelszo"
             aria-describedby="inputGroupPrepend"
+            placeholder="Jelszó"
             v-model="jelszo"
             required
           />
           <div class="invalid-feedback">A jelszó kötelező!</div>
         </div>
-      </div>
-      <div class="col-12">
-        <label for="jelszoE" class="form-label">Jelszó Ellenőrzés</label>
-        <div class="input-group has-validation">
+        <div class="col-sm-4 mx-auto mb-2 has-validation">
           <input
             type="password"
-            class="form-control"
+            class="form-control rounded-pill text-center mx-auto"
             id="jelszoE"
             aria-describedby="inputGroupPrepend"
+            placeholder="Jelszó Ellenőrzés"
             v-model="jelszoEllenorzes"
             required
           />
           <div class="invalid-feedback">A jelszó ellenőrzése kötelező!</div>
         </div>
-      </div>
-      <div class="col-12">
-        <div class="form-check">
+        <div class="col-sm-4 mx-auto mb-2">
           <input
-            class="form-check-input"
+            class="form-check-input me-1"
             type="checkbox"
-            value=""
             id="feltelek"
             required
           />
@@ -78,11 +65,11 @@
             A Felhasználói Feltételek elfogadása kötelező!
           </div>
         </div>
-      </div>
-      <div class="col-12">
-        <button class="btn btn-primary" type="submit">Regisztráció</button>
-      </div>
-    </form>
+        <div class="col-sm-4 mx-auto mb-2">
+          <button class="btn btn-primary" type="submit">Regisztráció</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -202,7 +189,7 @@ export default {
         });
     },
     handleValidation(status) {
-        console.log(status);
+      console.log(status);
       if (
         status == "Ok" &&
         this.form.checkValidity() &&
@@ -224,4 +211,15 @@ export default {
 </script>
 
 <style>
+.regisztracio input[type="text"], .regisztracio input[type="password"], .regisztracio input[type="email"] {
+  border: 2px solid #673ab7 !important;
+  width: 75% !important;
+  transition: 0.25s !important;
+}
+
+.regisztracio input[type="text"]:focus, .regisztracio input[type="password"]:focus, .regisztracio input[type="email"]:focus {
+  width: 100% !important;
+  border-width: 5px !important;
+  border-color: #ffeb3b !important;
+}
 </style>

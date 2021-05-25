@@ -1,9 +1,9 @@
 <template>
-  <div class="w3-text-theme p-5">
-    <h1>Barátok Keresése</h1>
-    <nav class="navbar navbar-light bg-light sticky-top">
+  <div class="w3-text-theme w3-theme-light p-5">
+    <h1 class="text-center">Barátok Keresése</h1>
+    <nav class="navbar bg-yellow sticky-top w-100 w-sm-50 mx-auto rounded-bottom">
       <div class="container-fluid">
-        <form class="d-flex" @submit.prevent="jatekosSearch()">
+        <form class="d-flex mx-auto" @submit.prevent="jatekosSearch()">
           <input
             class="form-control me-2"
             type="search"
@@ -11,7 +11,7 @@
             aria-label="Felhasználónév"
             v-model="kereses"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-outline-yellow" type="submit"><i class="bi bi-search"></i></button>
         </form>
       </div>
     </nav>
@@ -101,4 +101,24 @@ export default {
 </script>
 
 <style>
+.bg-yellow {
+  background-color: #fff38b;
+}
+
+.btn-outline-yellow {
+  border: 1px solid black;
+  background-color: #ffeb3b;
+}
+
+.btn-outline-yellow:hover {
+  background-color: #9e8e00;
+  color: #ffeb3b;
+  border: 1px solid #ffeb3b;
+}
+
+@media (min-width: 576px) {
+  .w-sm-50 {
+    width: 50% !important;
+  }
+}
 </style>

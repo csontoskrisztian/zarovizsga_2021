@@ -1,7 +1,6 @@
 <template>
-  <div class="w3-text-theme p-5">
-    <h1>{{ title }}</h1>
-    <br />
+  <div class="w3-text-theme w3-theme-light p-5">
+    <h1>Barátaim:</h1>
     <div v-if="rows.length == 0">
       <p>
         Sajnos nincsenek barátaid! :c

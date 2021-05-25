@@ -1,12 +1,12 @@
 <template>
   <div>
     <ul
-      class="list-group list-group-horizontal"
+      class="list-group list-group-horizontal-sm mb-3 mb-sm-0"
       v-for="(row, indexR) in rows"
       :key="indexR"
     >
       <li
-        class="list-group-item d-flex justify-content-between align-items-center"
+        class="list-group-item d-flex justify-content-sm-start justify-content-center align-items-center w3-theme-l4"
       >
         <span class="badge bg-danger rounded-pill" v-if="row.online == 0"
           >offline</span
@@ -19,7 +19,7 @@
         >
       </li>
       <li
-        class="list-group-item d-flex justify-content-between align-items-center flex-fill"
+        class="list-group-item d-flex justify-content-sm-start justify-content-center align-items-center flex-fill w3-theme-l4"
         v-for="(cell, key, indexD) in row"
         :key="indexD"
         :class="{ 'd-none': indexD < 2 }"
@@ -27,7 +27,7 @@
         {{ cell }}
       </li>
       <li
-        class="list-group-item d-flex justify-content-between align-items-center"
+        class="list-group-item d-flex justify-content-sm-start justify-content-center align-items-center list-group-item-warning"
       >
         <button
           type="button"
@@ -38,7 +38,7 @@
         </button>
       </li>
       <li
-        class="list-group-item d-flex justify-content-between align-items-center"
+        class="list-group-item d-flex justify-content-sm-start justify-content-center align-items-center list-group-item-danger"
         v-if="mode == 'list'"
       >
         <button
@@ -50,7 +50,7 @@
         </button>
       </li>
       <li
-        class="list-group-item d-flex justify-content-between align-items-center"
+        class="list-group-item d-flex justify-content-sm-start justify-content-center align-items-center w3-theme-d2"
         v-if="mode == 'search'"
       >
         <button

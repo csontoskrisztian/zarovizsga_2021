@@ -17,11 +17,12 @@
           <!-- Profil -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{ active: this.$route.name == 'profil' }"
               to="/profil/"
-              >{{ loginUserName }}</router-link
             >
+              <i class="bi bi-person-circle"></i> {{ loginUserName }}
+            </router-link>
           </li>
 
           <!-- Barátok -->
@@ -41,14 +42,16 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <li>
-                <router-link class="dropdown-item" to="/baratok/lista/"
-                  >Lista</router-link
-                >
+                <router-link class="dropdown-item" to="/baratok/lista/">
+                  Barátaim
+                  <i class="bi bi-emoji-sunglasses-fill"></i>
+                </router-link>
               </li>
               <li>
-                <router-link class="dropdown-item" to="/baratok/kereses/"
-                  >Keresés</router-link
-                >
+                <router-link class="dropdown-item" to="/baratok/kereses/">
+                  Barátok Keresése
+                  <i class="bi bi-search"></i>
+                </router-link>
               </li>
             </ul>
           </li>
@@ -56,44 +59,52 @@
           <!-- Toplista -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{
                 active: this.$route.name == 'toplista',
               }"
               to="/toplista/"
-              >Toplista</router-link
             >
+              <i class="bi bi-trophy-fill"></i>
+              Toplista
+            </router-link>
           </li>
 
           <!-- Játszmáim -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{
-                active: this.$route.name == 'jatszmaim',
+                active: this.$route.name == 'jatszmak',
               }"
               to="/jatszmak/"
-              >Játszmáim</router-link
+              >
+              <i class="bi bi-list-stars"></i>
+              Játszmáim</router-link
             >
           </li>
 
           <!-- Játék -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 1 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{
                 active: this.$route.name == 'jatek',
               }"
               to="/jatek/"
-              >Játék</router-link
+              >
+              <i class="bi bi-joystick"></i>
+              Játék</router-link
             >
           </li>
         </ul>
 
         <ul class="nav navbar-nav ms-auto w-100 justify-content-end">
           <!-- Kijelentkezés -->
-          <li class="nav-item" :class="{ 'd-none': loginAccessLevel < 1 }">
+          <li class="nav-item text-nowrap" :class="{ 'd-none': loginAccessLevel < 1 }">
             <button class="nav-link btn btn-white" @click="logout()">
+              <i class="bi bi-door-open-fill my-showHover"></i>
+              <i class="bi bi-door-closed-fill my-hideHover"></i>
               Kijelentkezés
             </button>
           </li>
@@ -101,22 +112,26 @@
           <!-- Bejelentkezés -->
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 0 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{
                 active: this.$route.name == 'bejelentkezes',
               }"
               to="/bejelentkezes/"
-              >Bejelentkezes</router-link
+              >
+              <i class="bi bi-file-lock2-fill"></i>
+              Bejelentkezes</router-link
             >
           </li>
           <li class="nav-item" :class="{ 'd-none': loginAccessLevel != 0 }">
             <router-link
-              class="nav-link"
+              class="nav-link text-nowrap"
               :class="{
                 active: this.$route.name == 'regisztracio',
               }"
               to="/regisztracio/"
-              >Regisztráció</router-link
+              >
+              <i class="bi bi-clipboard-check"></i>
+              Regisztráció</router-link
             >
           </li>
         </ul>
@@ -195,6 +210,8 @@ export default {
           this.$root.$data.loginAccessLevel = this.resData.loginAccessLevel;
           this.$root.$data.loginUserName = this.resData.loginUserName;
           this.$root.$data.loginId = this.resData.loginId;
+          this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
+          this.$root.$data.loginEmail = this.resData.loginEmail;
 
           if (this.$route.name != "bejelentkezes")
             this.$router.push({ name: "bejelentkezes" });
@@ -221,4 +238,14 @@ export default {
 </script>
 
 <style>
+button > .my-showHover {
+  display: none;
+}
+
+button:hover > .my-showHover{
+  display: inline-block;
+}
+button:hover > .my-hideHover{
+  display: none;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="w3-text-theme w3-theme-light p-5">
-    <div class="mx-auto text-center">
+    <div class="mx-auto text-center bejelentkezes">
       <h2>Bejelentkezés</h2>
       <form @submit.prevent="login">
         <div class="col-sm-4 mx-auto mb-2">
@@ -138,14 +138,15 @@ export default {
 </script>
 
 <style>
-input[type="text"], input[type="password"], input[type="email"] {
+.bejelentkezes input[type="text"], .bejelentkezes input[type="password"], .bejelentkezes input[type="email"] {
   border: 2px solid #673ab7 !important;
   width: 75% !important;
-  transition: width 0.25s !important;
+  transition: 0.25s !important;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+.bejelentkezes input[type="text"]:focus, .bejelentkezes input[type="password"]:focus, .bejelentkezes input[type="email"]:focus {
   width: 100% !important;
   border-width: 5px !important;
+  border-color: #ffeb3b !important;
 }
 </style>
