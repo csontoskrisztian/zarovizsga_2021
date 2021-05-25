@@ -117,10 +117,9 @@ export default {
         .then((res) => {
           console.log(res.data);
 
-          this.login();
+          this.login(); // Bejelentkezés megindítása
         })
         .catch(function (error) {
-          // handle error
           console.log(error);
         });
     },
@@ -150,7 +149,7 @@ export default {
           if (this.$root.$data.loginAccessLevel == 0) {
             alert("Sikertelen bejelentkezés!");
           } else {
-            this.setOnline();
+            this.setOnline(); // Felhasználó állapotának átállítása online-ra
           }
         });
     },
@@ -173,9 +172,9 @@ export default {
         });
     },
     onClickRegist() {
-      this.checkUsername();
+      this.checkUsernameEmail();
     },
-    checkUsername() {
+    checkUsernameEmail() {
       axios
         .get(this.url, {
           params: {
@@ -189,17 +188,19 @@ export default {
         });
     },
     handleValidation(status) {
-      console.log(status);
+      // console.log(status);
       if (
-        status == "Ok" &&
-        this.form.checkValidity() &&
-        this.jelszo == this.jelszoEllenorzes
+        status == "Ok" && // Ha nincs az adatbázisban ilyen felhasználónév és email cím
+        this.form.checkValidity() && // És helyesen vannak kitöltve az adatok
+        this.jelszo == this.jelszoEllenorzes // És a jelszavak is egyeznek
       ) {
-        //jó kitöltöttség
-
+        // Jó kitöltöttség esetén elindítjuk a regsztrációt
         this.regist();
+
+        // Ha valami nem stimmel, azt közöljük a felhasználóval 
       } else if (status != "Ok") {
         alert("A felhaználónév és/vagy email cím foglalt!");
+
       } else if (this.jelszo != this.jelszoEllenorzes) {
         alert("A jelszavak nem egyeznek!");
       }
