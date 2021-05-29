@@ -13,13 +13,14 @@ class BaratokDelete extends \queries\ParentDelete {
         parent::__construct($params);
         $this->title = "Barát Törlés";
         $this->sql = "DELETE FROM baratok
-                        WHERE (jatekos1_id = ? AND jatekos2_id = ?) OR (jatekos2_id = ? AND jatekos1_id = ?)";
+                        WHERE (jatekos1_id = ? AND jatekos2_id = ?) 
+                        OR (jatekos2_id = ? AND jatekos1_id = ?)";
         $this->typesString = "iiii";
         $this->paramVariables = [
             $params["jatekos1_id"],
             $params["jatekos2_id"],
-            $params["jatekos2_id"],
             $params["jatekos1_id"],
+            $params["jatekos2_id"],
         ];
     }
 }
