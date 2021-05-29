@@ -87,7 +87,7 @@ ALTER TABLE match3.jatszmak
   # jatekosok
   INSERT INTO jatekosok (felhasznalonev, jelszo, email, profilkep)
     VALUES 
-    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S', 'lysander13@example.com', 'Lysander13.png'),
+    ('Lysander13', '$2y$10$lhjNktYlWbQn42Q6dfIQBOJwGm5gsfdExQpKK1R6w247WQ/sQK48S', 'Lysander13@example.com', 'Lysander13.png'),
     ('Mario_1105', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Mario_1105@example.com', 'Mario_1105.png'),
     ('pillebogar', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'pillebogar@example.com', 'pillebogar.jpg'),
     ('Ambuss', '$2y$10$9nRBnT1QjllaAY0oG.uJPeL5ZRLWMBQwZ.s746SbxN/RA58iURLvK', 'Ambuss@example.com', 'Ambuss.jpg'),
@@ -282,7 +282,8 @@ call GenerateTeszt();
 # Delete
   # Barát törlése
   DELETE FROM baratok
-    WHERE jatekos1_id = ? AND jatekos2_id = ?;
+    WHERE (jatekos1_id = 1 AND jatekos2_id = 3) 
+    OR (jatekos2_id = 1 AND jatekos1_id = 3);
 
   #Fiók törlése
   DELETE FROM baratok
