@@ -120,7 +120,9 @@ export default {
           this.login(); // Bejelentkezés megindítása
         })
         .catch(function (error) {
-          console.log(error);
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     login() {
@@ -151,6 +153,10 @@ export default {
           } else {
             this.setOnline(); // Felhasználó állapotának átállítása online-ra
           }
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     setOnline() {
@@ -168,7 +174,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     onClickRegist() {
@@ -185,6 +192,10 @@ export default {
         })
         .then((res) => {
           this.handleValidation(res.data.status);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     handleValidation(status) {

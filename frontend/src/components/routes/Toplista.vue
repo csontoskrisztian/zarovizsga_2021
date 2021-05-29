@@ -115,6 +115,10 @@ export default {
           this.columns_T = this.resData_T.columns;
           this.rows_T = this.resData_T.rows;
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getBottom() {
@@ -131,6 +135,10 @@ export default {
           this.columns_B = this.resData_B.columns;
           this.rows_B = this.resData_B.rows;
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
   },

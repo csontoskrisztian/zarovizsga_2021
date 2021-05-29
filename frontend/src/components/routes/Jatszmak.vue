@@ -107,6 +107,10 @@ export default {
           this.$root.$data.loginId = this.resData.loginId;
 
           this.getRows();
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getRows() {
@@ -124,6 +128,10 @@ export default {
           this.columns = this.resData.columns;
           this.rows = this.resData.rows;
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getNehezseg(nehezseg) {

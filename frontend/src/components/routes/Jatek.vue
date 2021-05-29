@@ -445,6 +445,10 @@ export default {
             // Frissítsük a rekordot, így jelezve, hogy csatlakoztunk a játékhoz
             this.updateJatszmak();
           }
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     updateJatszmak() {
@@ -488,7 +492,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     insertJatszmak() {
@@ -537,7 +542,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getJatszmak() {
@@ -573,7 +579,6 @@ export default {
             this.timeoutObject = null;
 
             this.rows.jatekido -= this.gameTimerKeses;
-            this.rows.maxido -= this.gameTimerKeses;
 
             this.getUsername();
 
@@ -590,6 +595,10 @@ export default {
               "Nem csatlakozott senki a játékodhoz! Kérjük próbáld meg később!"
             );
           }
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     deleteJatszmak() {
@@ -611,7 +620,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     insertJatszmaLepesek(selected1_X, selected1_Y, selected2_X, selected2_Y) {
@@ -636,7 +646,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getJatszmaLepesek() {
@@ -669,6 +680,10 @@ export default {
           } else {
             this.watchLepesek();
           }
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     deleteJatszmaLepesek(id) {
@@ -688,7 +703,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getUser() {
@@ -711,6 +727,10 @@ export default {
           this.$root.$data.loginEmail = this.resData.loginEmail;
 
           this.getFriends();
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getFriends() {
@@ -727,6 +747,10 @@ export default {
           this.title = this.resData.title;
           this.friendsRow = res.data.rows;
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getUsername() {
@@ -752,6 +776,10 @@ export default {
           this.title = this.resData.title;
           this.opponentUsername = res.data.rows[0].felhasznalonev;
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     startGame() {

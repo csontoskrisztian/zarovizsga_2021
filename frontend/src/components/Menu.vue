@@ -78,7 +78,7 @@
                 active: this.$route.name == 'jatszmak',
               }"
               to="/jatszmak/"
-              >
+            >
               <i class="bi bi-list-stars"></i>
               Játszmáim</router-link
             >
@@ -92,7 +92,7 @@
                 active: this.$route.name == 'jatek',
               }"
               to="/jatek/"
-              >
+            >
               <i class="bi bi-joystick"></i>
               Játék</router-link
             >
@@ -101,7 +101,10 @@
 
         <ul class="nav navbar-nav ms-auto w-100 justify-content-end">
           <!-- Kijelentkezés -->
-          <li class="nav-item text-nowrap" :class="{ 'd-none': loginAccessLevel < 1 }">
+          <li
+            class="nav-item text-nowrap"
+            :class="{ 'd-none': loginAccessLevel < 1 }"
+          >
             <button class="nav-link btn btn-white" @click="logout()">
               <i class="bi bi-door-open-fill my-showHover"></i>
               <i class="bi bi-door-closed-fill my-hideHover"></i>
@@ -117,7 +120,7 @@
                 active: this.$route.name == 'bejelentkezes',
               }"
               to="/bejelentkezes/"
-              >
+            >
               <i class="bi bi-file-lock2-fill"></i>
               Bejelentkezes</router-link
             >
@@ -129,7 +132,7 @@
                 active: this.$route.name == 'regisztracio',
               }"
               to="/regisztracio/"
-              >
+            >
               <i class="bi bi-clipboard-check"></i>
               Regisztráció</router-link
             >
@@ -190,6 +193,10 @@ export default {
           this.$root.$data.loginId = this.resData.loginId;
           this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
           this.$root.$data.loginEmail = this.resData.loginEmail;
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     logout() {
@@ -215,6 +222,10 @@ export default {
 
           if (this.$route.name != "bejelentkezes")
             this.$router.push({ name: "bejelentkezes" });
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     setOnline() {
@@ -230,7 +241,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
   },
@@ -242,10 +254,10 @@ button > .my-showHover {
   display: none;
 }
 
-button:hover > .my-showHover{
+button:hover > .my-showHover {
   display: inline-block;
 }
-button:hover > .my-hideHover{
+button:hover > .my-hideHover {
   display: none;
 }
 </style>

@@ -24,10 +24,6 @@
         <small id="jelszoHelp" class="form-text text-muted"
           >Ne oszd meg senkivel sem a jelszavad!</small
         >
-        <!-- <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div> -->
         <br />
         <button type="submit" class="mt-3 btn btn-primary">
           Bejelentkezés
@@ -83,6 +79,10 @@ export default {
           this.$root.$data.loginId = this.resData.loginId;
           this.$root.$data.loginProfilePicture = this.resData.loginProfilePicture;
           this.$root.$data.loginEmail = this.resData.loginEmail;
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     login() {
@@ -115,6 +115,10 @@ export default {
 
             this.$router.push({ name: "home" });
           }
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     setOnline() {
@@ -130,7 +134,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
   },

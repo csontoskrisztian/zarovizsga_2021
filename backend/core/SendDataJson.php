@@ -14,6 +14,8 @@ class SendDataJson
     private $loginAccessLevel;
     private $loginUserName;
     private $loginId;
+    private $loginProfilePicture;
+    private $loginEmail;
 
     public function __construct(array $params, string $status, string $title = "", array $rows = [], array $columns = [])
     {
@@ -38,10 +40,6 @@ class SendDataJson
         ];
     }
 
-    //A bejelentkezés állapotának kódja
-    //0: senki nincs bejelentkezve
-    //1: admin van bejelentkezve
-    //2: guest van bejelentkezve
     public function loginStatus()
     {
         $status = 0;

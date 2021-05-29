@@ -76,6 +76,10 @@ export default {
           this.$root.$data.loginId = this.resData.loginId;
 
           // console.log(res.data);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     insertRow(row) {
@@ -93,7 +97,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
   },

@@ -353,6 +353,10 @@ export default {
           this.ujemail = this.loginEmail;
 
           this.getRows();
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getRows() {
@@ -370,6 +374,10 @@ export default {
           this.columns = this.resData.columns;
           this.rows = this.resData.rows[0];
           // console.log(this.resData);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     updateJatekos() {
@@ -388,7 +396,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     deleteJatekos() {
@@ -405,7 +414,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     updateJelszo() {
@@ -422,7 +432,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     checkPassword() {
@@ -436,6 +447,10 @@ export default {
         })
         .then((res) => {
           this.handleValidation(res.data.status);
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     getProfilePicture() {
@@ -464,6 +479,10 @@ export default {
 
           if (this.$route.name != "bejelentkezes")
             this.$router.push({ name: "bejelentkezes" });
+        }).catch(function (error) {
+          // handle error
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
     setOnline() {
@@ -480,7 +499,8 @@ export default {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          // console.log(error);
+          this.$router.push({name: "error_500", params: {error: error}});
         });
     },
   },

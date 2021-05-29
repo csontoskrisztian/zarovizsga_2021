@@ -17,9 +17,33 @@ const router = new VueRouter({
     routes: RouteConfig
 });
 
+router.beforeEach(async (to, from, next) => {
+    await getUser();
+    // await Vue.nextTick();
+    // console.log(from);
+    // console.log(to);
+    // console.log(router.app.$root);
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (router.app.$root.loginAccessLevel == 0) {
+            next({
+                name: 'bejelentkezes'
+            });
+        } else {
+            next();
+        }
+    } else if (to.matched.some(record => record.meta.logedInInvisible)) {
+        if (router.app.$root.loginAccessLevel > 0) {
+            next({
+                name: 'home'
+            });
+        } else {
+            next();
+        }
+    } else next();
+});
+
 //A VueResource, VueRouter használatba vétele
 Vue.use(VueRouter);
-
 
 Vue.config.productionTip = false
 
@@ -40,48 +64,26 @@ const app = new Vue({
         loginUserName: null,
         loginProfilePicture: "",
         loginEmail: "",
-    },
-    created() {
-        this.getUser();
-    },
-    methods: {
-        getUser() {
-            axios
-                .get(this.url, {
-                    params: {
-                        query: "getUser",
-                    },
-                })
-                .then((res) => {
-                    this.loginAccessLevel = res.data.loginAccessLevel;
-                    this.loginUserName = res.data.loginUserName;
-                    this.loginId = res.data.loginId;
-                    this.loginProfilePicture = res.data.loginProfilePicture;
-                    this.loginEmail = res.data.loginEmail;
-                }).catch(function (error) {
-                    // handle error
-                    console.log(error);
-                });
-        }
     }
-});
+})
+
+async function getUser() {
+    await axios
+        .get("http://localhost/zarovizsga_2021/backend/index.php", {
+            params: {
+                query: "getUser",
+            },
+        })
+        .then((res) => {
+            // console.log(res);
+            app.loginAccessLevel = res.data.loginAccessLevel;
+            app.loginUserName = res.data.loginUserName;
+            app.loginId = res.data.loginId;
+            app.loginProfilePicture = res.data.loginProfilePicture;
+            app.loginEmail = res.data.loginEmail;
+        }).catch(function (error) {
+            router.push({name: "error_500", params: {error: error}});
+        });
+}
 
 router.onReady(() => app.$mount('#app'));
-
-router.beforeEach((to, from, next) => {
-    // await Vue.nextTick();
-    // console.log(from);
-    // console.log(to);
-    // console.log(router.app.$root.loginAccessLevel);
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (router.app.$root.loginAccessLevel == 0) {
-            // console.log("If ág");
-            next({
-                name: 'bejelentkezes'
-            });
-        } else {
-            // console.log("Else ág");
-            next();
-        }
-    } else next();
-});

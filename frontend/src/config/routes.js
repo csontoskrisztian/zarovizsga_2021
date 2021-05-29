@@ -8,6 +8,8 @@ import Jatek from "../components/routes/Jatek.vue";
 import Bejelentkezes from "../components/routes/Bejelentkezes.vue"
 import Regisztracio from "../components/routes/Regisztracio.vue"
 import Toplista from "../components/routes/Toplista.vue"
+import _404 from "../components/routes/404.vue"
+import _500 from "../components/routes/500.vue"
 
 // import AlapadatokAutok from "../components/routes/AlapadatokAutok.vue";
 // import AlapadatokBerlok from "../components/routes/AlapadatokBerlok.vue";
@@ -22,55 +24,101 @@ const routes = [{
         name: "home",
         path: "/",
         component: Home,
-        meta: { requiresAuth: false }
+        meta: {
+            requiresAuth: false,
+            logedInInvisible: false
+        }
     },
     {
         name: "profil",
         path: "/profil/",
         component: Profil,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
     },
     {
         name: "baratokLista",
         path: "/baratok/lista",
         component: BaratokLista,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
     },
     {
         name: "baratokKereses",
         path: "/baratok/kereses",
         component: BaratokKereses,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
     },
     {
         name: "jatszmak",
         path: "/jatszmak/",
         component: Jatszmak,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
     },
     {
         name: "jatek",
         path: "/jatek/",
         component: Jatek,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
     },
     {
         name: "bejelentkezes",
         path: "/bejelentkezes/",
         component: Bejelentkezes,
-        meta: { requiresAuth: false }
+        meta: {
+            requiresAuth: false,
+            logedInInvisible: true
+        }
     },
     {
         name: "regisztracio",
         path: "/regisztracio/",
         component: Regisztracio,
-        meta: { requiresAuth: false }
+        meta: {
+            requiresAuth: false,
+            logedInInvisible: true
+        }
     },
     {
         name: "toplista",
         path: "/toplista/",
         component: Toplista,
-        meta: { requiresAuth: true }
+        meta: {
+            requiresAuth: true,
+            logedInInvisible: false
+        }
+    },
+    {
+        name: "error_404",
+        path: "*",
+        component: _404,
+        meta: {
+            requiresAuth: false,
+            logedInInvisible: false
+        }
+    },
+    {
+        name: "error_500",
+        path: "/error",
+        component: _500,
+        meta: {
+            requiresAuth: false,
+            logedInInvisible: false
+        },
+        props: true
     }
 ];
 
