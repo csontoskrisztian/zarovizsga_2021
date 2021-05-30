@@ -299,9 +299,6 @@ function Init(self) {
     // Animációkat tartalmazó tömb
     self.Animations = [];
 
-    // Kattintásra lefutó függvények tömbje
-    self.OnClickListeners = [];
-
     // x y pozíció
     self.cursorX = 0;
     self.cursorY = 0;
@@ -322,12 +319,11 @@ function Init(self) {
         // console.log("Kattintás!");
         // console.log(self.OnClickListeners);
 
-        self.OnClickListeners.forEach(element => {
-            element(self);
-        });
+        // Kattintásra kijelölünk és ellenőrzünk
+        SelectTile(self);
     }
 
-    // Canvas 2d contectus
+    // Canvas 2d contextus
     self.tableC = self.table.getContext('2d');
 
     // Hányszor hanyas csempékből álljon
@@ -373,9 +369,6 @@ function Init(self) {
     // Lépés számláló
     self.round = 2;
 
-    // Kattintásra kijelölünk és ellenőrzünk
-    self.OnClickListeners.push(SelectTile);
-
     // Ha lép az ellenfél, azt jelenítsük meg a mi táblánkon is
     self.OnOpponentMove = function (selected1_X, selected1_Y, selected2_X, selected2_Y) {
         OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y);
@@ -388,9 +381,6 @@ function Init(self) {
     self.OnInsert = function () {
         RoundCounter(self);
     };
-
-    // Segítség, ha nem talál párt a játékos pár másodpercenbelül
-    // self.helpTimer = null;
 
     // Folyamatos frissítés
     let lastUpdate = Date.now();
@@ -482,9 +472,9 @@ function OpponentMove(self, selected1_X, selected1_Y, selected2_X, selected2_Y) 
 }
 
 function RoundCounter(self) {
-    // Körszámlálóból kivonunk egyet
+    // Lépésszámlálóból kivonunk egyet
     self.round -= 1;
-    // Ellenőrzés: Ha leteltek a körök, akkor a másik játékos jön
+    // Ellenőrzés: Ha leteltek a lépések, akkor a másik játékos jön
     if (self.round == 0) {
         self.data.kor = self.data.kor == self.data.jatekos1_id ? self.data.jatekos2_id : self.data.jatekos1_id;
         console.log("Kinek a köre: " + self.data.kor);
@@ -624,7 +614,7 @@ function MatchFounder(self, tilesArray) {
 function AfterMath(self) {
     // Aftermath letíltása, míg animációk folynak
     if (self.Animations.length > 0) return;
-    if (self.debug) console.log("Pár keresés!")
+    if (self.debug) console.log("Pár keresés!");
 
     // Talált párok
     let matches = MatchFounder(self, self.tiles);
@@ -702,7 +692,7 @@ function Falldown(self) {
 
             let i = 1;
             while (i < currentTile.row + 1) {
-                // "Amíg az i kisebb, mint a jelenlegi magasság + 1", hogy a (y - i) sose legyen kisebb, mint 0
+                // "Amíg az i kisebb, mint a jelenlegi magasság + 1", hogy a (magasság - i) sose legyen kisebb, mint 0
 
                 // Fölötte lévő csempe
                 const upperTile = self.tiles.find(tile => tile.row == currentTile.row - i && tile.col == currentTile.col);
@@ -739,7 +729,7 @@ function Falldown(self) {
     }
 
     // Ha nincs mi leessen, akkor nem indul el az AfterMath függvény sem
-    // Tehát ha nem fut animáció, akkor manuálisan indítjuk el
+    // Tehát ha nem fut animáció, akkor manuálisan kell elindítani, hogy feltöltsük az üres helyeket
     if (self.Animations.length == 0) AfterMath(self);
 }
 
@@ -754,7 +744,7 @@ function Refill(self) {
         if (self.tiles.find(tile => tile.row == y && !tile.visible)) {
             // Ha ebben a sorban van láthatatlan Tile (tehát egy pár része a Tile)
             checkforpairs = false; //Találtunk párt
-            negative -= 1; // A köbetkező sor láthatatlan Tile-jei egyel feljebb mennek
+            negative -= 1; // A köbetkező sor láthatatlan Tile-jei eggyel feljebb mennek
             animation_time += 0.1; // Animáció idő növelése
         } else continue; // Ha nincs ebben a sorban "üres hely", menjen a következőre
         for (let x = 0; x < self.tableSize; x++) { // Végig megyünk a sor elemein
@@ -780,7 +770,7 @@ function Refill(self) {
         }
     }
 
-    // Ha nem talált párt egyáltalán és nincsenek lehetséges lépések sem, akkor rázzuk fel a táblát
+    // Ha nem talált üres helyet egyáltalán és nincsenek lehetséges lépések sem, akkor rázzuk fel a táblát
     if (checkforpairs && FindPossibleMoves(self).length == 0) Shuffle(self);
 }
 

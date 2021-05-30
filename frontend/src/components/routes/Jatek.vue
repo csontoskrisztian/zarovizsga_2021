@@ -403,6 +403,9 @@ export default {
       if (this.test) return;
       console.log("Finding Game!");
 
+      // Megjelnési mód megváltoztatása
+      this.mode = "Load";
+
       this.findJatszmak();
     },
     createNewGame() {
@@ -410,7 +413,7 @@ export default {
       console.log("New game!");
 
       // A random szám generátor nem bír el túl nagy seed-et, szóval le kell vágni egy részét :I
-      // Csak a mostani idő milliszekundum részét hadjuk meg
+      // Csak a mostani idő milliszekundum részét adjuk meg
       let str = new Date().valueOf().toString();
       this.gameSeed = parseInt(str.substr(str.length - 6));
       // console.log(`seed: ${this.gameSeed}`);
@@ -435,20 +438,19 @@ export default {
 
           if (this.rows.length == 0) {
             alert("Nem találtunk futó játékot! Kérjük próbáld meg később!");
+            this.mode = "NewGame";
           } else {
-            // Megjelnési mód megváltoztatása
-            this.mode = "Load";
-
             this.gameId = this.rows.id;
             this.gameSeed = this.rows.seed;
 
             // Frissítsük a rekordot, így jelezve, hogy csatlakoztunk a játékhoz
             this.updateJatszmak();
           }
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     updateJatszmak() {
@@ -488,12 +490,13 @@ export default {
             this.gameSeed = null;
 
             alert("Nem sikerült csatlakozni a játékhoz!");
+            this.mode = "NewGame";
           }
         })
         .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     insertJatszmak() {
@@ -543,7 +546,7 @@ export default {
         .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     getJatszmak() {
@@ -595,10 +598,11 @@ export default {
               "Nem csatlakozott senki a játékodhoz! Kérjük próbáld meg később!"
             );
           }
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     deleteJatszmak() {
@@ -621,7 +625,7 @@ export default {
         .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     insertJatszmaLepesek(selected1_X, selected1_Y, selected2_X, selected2_Y) {
@@ -647,7 +651,7 @@ export default {
         .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     getJatszmaLepesek() {
@@ -680,10 +684,11 @@ export default {
           } else {
             this.watchLepesek();
           }
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     deleteJatszmaLepesek(id) {
@@ -704,7 +709,7 @@ export default {
         .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     getUser() {
@@ -727,10 +732,11 @@ export default {
           this.$root.$data.loginEmail = this.resData.loginEmail;
 
           this.getFriends();
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     getFriends() {
@@ -747,10 +753,11 @@ export default {
           this.title = this.resData.title;
           this.friendsRow = res.data.rows;
           // console.log(this.resData);
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     getUsername() {
@@ -776,10 +783,11 @@ export default {
           this.title = this.resData.title;
           this.opponentUsername = res.data.rows[0].felhasznalonev;
           // console.log(this.resData);
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           // console.log(error);
-          this.$router.push({name: "error_500", params: {error: error}});
+          this.$router.push({ name: "error_500", params: { error: error } });
         });
     },
     startGame() {
@@ -805,6 +813,7 @@ export default {
         if (this.rows.jatekido <= 0) {
           clearInterval(this.gameTimer);
 
+          this.rows.jatekido = 0;
           this.rows.allapot = 0;
           this.updateJatszmak();
           // for (const prop in this.gameObject) {
