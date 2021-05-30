@@ -447,7 +447,7 @@ export default {
             this.updateJatszmak();
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -493,7 +493,7 @@ export default {
             this.mode = "NewGame";
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -543,7 +543,7 @@ export default {
             );
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -599,7 +599,7 @@ export default {
             );
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -622,7 +622,7 @@ export default {
           this.gameId = null;
           this.gameSeed = null;
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -648,7 +648,7 @@ export default {
           this.gameObject.OnInsert();
           this.watchLepesek();
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -685,7 +685,7 @@ export default {
             this.watchLepesek();
           }
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -706,7 +706,7 @@ export default {
           console.log(res.data);
           this.watchLepesek();
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -733,7 +733,7 @@ export default {
 
           this.getFriends();
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -754,7 +754,7 @@ export default {
           this.friendsRow = res.data.rows;
           // console.log(this.resData);
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
@@ -784,7 +784,7 @@ export default {
           this.opponentUsername = res.data.rows[0].felhasznalonev;
           // console.log(this.resData);
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           // console.log(error);
           this.$router.push({ name: "error_500", params: { error: error } });
